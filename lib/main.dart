@@ -523,6 +523,7 @@ WEEK 4: Form & Validation
 - Validation strategies
 - Client vs Server validation
 - SharedPreferences
+- Validation Libraries (Bonus)
 - Weekly Task: Profile Form
 
 UPCOMING WEEKS:
