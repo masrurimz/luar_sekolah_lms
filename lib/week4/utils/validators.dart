@@ -8,6 +8,28 @@
 // 3. Consistent error messages
 // 4. Easy to maintain dan extend
 // 5. Type-safe validation patterns
+//
+// 📚 CATATAN UNTUK PEMBELAJARAN:
+// File ini mengimplementasikan CUSTOM validators untuk tujuan edukasi.
+// Tujuan utama adalah agar siswa memahami:
+// - Bagaimana validation bekerja di balik layar
+// - Logika regex patterns untuk format validation
+// - Cara membuat validation functions yang reusable
+// - Full control terhadap error messages dan validation rules
+//
+// 🎁 ALTERNATIF: VALIDATION LIBRARIES
+// Setelah memahami konsep di file ini, siswa dapat menggunakan libraries seperti:
+// - form_validator: ^2.1.1 (builder pattern, mudah digunakan)
+// - form_builder_validators: ^9.0.0 (extensive validators)
+// - reactive_forms: ^17.0.0 (advanced, reactive approach)
+//
+// ✨ BEST PRACTICE untuk Production Apps:
+// - Gunakan LIBRARY untuk common validations (email, URL, etc.)
+// - Gunakan CUSTOM untuk business-specific rules (Indonesian phone, etc.)
+// - Hybrid approach memberikan balance antara speed dan customization
+//
+// 📖 Lihat: lib/week4/README.md - "Alternative: Validation Libraries" section
+// 🎓 Try: lib/week4_simple.dart - Lesson 11 untuk hands-on comparison
 // ==========================================
 
 // ==========================================

@@ -633,6 +633,307 @@ class _Week4SimpleScreenState extends State<Week4SimpleScreen> {
             */
 
             // ==========================================
+            // LESSON 11 (BONUS): VALIDATION LIBRARY (Uncomment untuk belajar)
+            // ==========================================
+            // Setelah belajar custom validators, kita bisa explore validation libraries
+            //
+            // PREREQUISITES:
+            // 1. Uncomment form_validator di pubspec.yaml
+            // 2. Run: flutter pub get
+            // 3. Uncomment import: import 'package:form_validator/form_validator.dart';
+            /*
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.purple.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.purple.shade200),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '🎁 LESSON 11 (BONUS): Library vs Custom',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.purple.shade700,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Compare: form_validator library vs custom validators',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.purple.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Comparison Side-by-Side
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // LEFT: Custom Validators (What we learned)
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.blue.shade200),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '✍️ Custom Validators',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue.shade700,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          '✅ Full control\n'
+                          '✅ Learn how it works\n'
+                          '✅ Indonesian phone\n'
+                          '❌ More code to write',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // RIGHT: Library Approach
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.green.shade200),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '📦 form_validator',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green.shade700,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          '✅ Less code\n'
+                          '✅ Battle-tested\n'
+                          '✅ Quick setup\n'
+                          '❌ Less customization',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Example: Custom vs Library
+            Form(
+              child: Column(
+                children: [
+                  // Email with Custom Validator
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: '📧 Email (Custom Validator)',
+                      hintText: 'Uses our Validators.email',
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    validator: Validators.email, // Our custom validator
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Email with Library Validator
+                  // UNCOMMENT AFTER ADDING form_validator DEPENDENCY:
+                  /*
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: '📦 Email (Library Validator)',
+                      hintText: 'Uses ValidationBuilder().email()',
+                      prefixIcon: const Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    validator: ValidationBuilder().email().build(),
+                  ),
+                  const SizedBox(height: 12),
+                  */
+
+                  // Password with Custom Validator
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: '🔒 Password (Custom)',
+                      hintText: 'Min 6 chars - our validator',
+                      prefixIcon: const Icon(Icons.lock_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    validator: Validators.password, // Our custom validator
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Password with Library Validator
+                  // UNCOMMENT AFTER ADDING form_validator DEPENDENCY:
+                  /*
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: '📦 Password (Library)',
+                      hintText: 'Builder pattern validation',
+                      prefixIcon: const Icon(Icons.lock),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    validator: ValidationBuilder()
+                        .minLength(6, 'Minimum 6 characters')
+                        .maxLength(20, 'Maximum 20 characters')
+                        .build(),
+                  ),
+                  const SizedBox(height: 12),
+                  */
+
+                  // Phone with Custom Validator (Indonesian specific!)
+                  TextFormField(
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      labelText: '📱 Phone (Indonesian Format)',
+                      hintText: '08xxx - custom for Indonesia',
+                      prefixIcon: const Icon(Icons.phone_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    validator: Validators.phoneNumber, // Indonesian specific!
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Generic Phone with Library
+                  // UNCOMMENT AFTER ADDING form_validator DEPENDENCY:
+                  /*
+                  TextFormField(
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      labelText: '📦 Phone (Generic)',
+                      hintText: 'Generic phone validation',
+                      prefixIcon: const Icon(Icons.phone),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    validator: ValidationBuilder().phone().build(),
+                  ),
+                  */
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Explanation Card
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade50,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.orange.shade200),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '💡 WHEN TO USE WHICH?',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange.shade900,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    '🎓 Learning Phase: Use CUSTOM validators\n'
+                    '   → Understand how validation works\n'
+                    '   → Full control over logic\n\n'
+                    '🚀 Production Apps: Consider LIBRARY\n'
+                    '   → Faster development\n'
+                    '   → Community tested\n'
+                    '   → BUT: Custom still needed for specific cases!\n\n'
+                    '✨ Best Approach: Mix Both!\n'
+                    '   → Library for common cases (email, URL)\n'
+                    '   → Custom for business-specific rules\n'
+                    '   → Example: Indonesian phone, custom formats',
+                    style: TextStyle(fontSize: 13, height: 1.5),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Code Comparison
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey.shade300),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    '📝 CODE COMPARISON',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Custom Validators:\n'
+                    'validator: Validators.compose([\n'
+                    '  Validators.required("Email"),\n'
+                    '  Validators.email,\n'
+                    '])\n\n'
+                    'form_validator Library:\n'
+                    'validator: ValidationBuilder()\n'
+                    '  .required()\n'
+                    '  .email()\n'
+                    '  .build()\n\n'
+                    '→ Both achieve the same result!\n'
+                    '→ Choose based on project needs',
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 12,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            */
+
+            // ==========================================
             // TUGAS SISWA
             // ==========================================
             const SizedBox(height: 40),

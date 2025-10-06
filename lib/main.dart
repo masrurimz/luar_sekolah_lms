@@ -22,6 +22,7 @@ import 'week4/concepts/01_form_basics.dart';
 import 'week4/concepts/02_input_validation.dart';
 import 'week4/concepts/03_validation_types.dart';
 import 'week4/concepts/04_shared_preferences.dart';
+import 'week4/concepts/05_validation_libraries.dart';
 import 'week4/screens/profile_form_screen.dart';
 import 'week4/utils/storage_helper.dart';
 import 'week4_simple.dart';
@@ -146,6 +147,8 @@ class MyApp extends StatelessWidget {
         '/week4/validation': (context) => const InputValidationDemo(),
         '/week4/validation-types': (context) => const ValidationTypesDemo(),
         '/week4/shared-prefs': (context) => const SharedPreferencesDemo(),
+        '/week4/validation-libraries': (context) =>
+            const ValidationLibrariesDemo(),
         '/week4/profile-form': (context) => const ProfileFormScreen(),
       },
 
@@ -322,6 +325,14 @@ class MainMenuScreen extends StatelessWidget {
                   icon: Icons.save,
                   color: Colors.purple,
                   route: '/week4/shared-prefs',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '🎁 Validation Libraries (Bonus)',
+                  subtitle: 'Library alternatives vs custom validators',
+                  icon: Icons.library_books,
+                  color: Colors.amber,
+                  route: '/week4/validation-libraries',
                 ),
                 _buildMenuCard(
                   context: context,

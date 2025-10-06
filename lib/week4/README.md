@@ -280,6 +280,125 @@ await storage.saveString(StorageKeys.userName, 'John');
 11. Form with file upload
 12. Implement form state persistence across navigation
 
+## 🎁 Alternative: Validation Libraries (Bonus)
+
+After learning how validators work under the hood with our custom `Validators` utility, you might want to explore popular validation libraries for real-world projects.
+
+### Popular Flutter Validation Libraries
+
+#### 1. **form_validator** (Recommended for beginners)
+```yaml
+dependencies:
+  form_validator: ^2.1.1
+```
+
+**Features:**
+- Builder pattern API
+- Easy to compose validations
+- Pre-built validators (email, phone, URL, etc.)
+- Custom validation support
+
+**Example:**
+```dart
+import 'package:form_validator/form_validator.dart';
+
+TextFormField(
+  validator: ValidationBuilder()
+    .email()
+    .minLength(5)
+    .maxLength(50)
+    .build(),
+)
+
+// Composing multiple validators
+validator: ValidationBuilder()
+  .required()
+  .email()
+  .add((value) => value!.contains('@company.com')
+      ? null
+      : 'Must be company email')
+  .build(),
+```
+
+#### 2. **form_builder_validators**
+```yaml
+dependencies:
+  form_builder_validators: ^9.0.0
+```
+
+**Features:**
+- Works great with `flutter_form_builder`
+- Extensive validator collection
+- Localization support
+- Type-safe validators
+
+**Example:**
+```dart
+import 'package:form_builder_validators/form_builder_validators.dart';
+
+FormBuilderTextField(
+  name: 'email',
+  validator: FormBuilderValidators.compose([
+    FormBuilderValidators.required(),
+    FormBuilderValidators.email(),
+  ]),
+)
+```
+
+#### 3. **reactive_forms** (Advanced)
+```yaml
+dependencies:
+  reactive_forms: ^17.0.0
+```
+
+**Features:**
+- Reactive programming approach
+- Complex form handling
+- Built-in validators
+- Cross-field validation
+
+### When to Use Custom vs Library?
+
+| Scenario | Custom Validators | Library Validators |
+|----------|------------------|-------------------|
+| **Learning** | ✅ Understand the logic | ❌ Black box |
+| **Production** | ⚠️ More code | ✅ Faster development |
+| **Localization** | ✅ Full control (Indonesian phone) | ⚠️ Generic patterns |
+| **Maintenance** | ⚠️ You maintain | ✅ Community maintained |
+| **Flexibility** | ✅ Unlimited customization | ⚠️ Limited to builder pattern |
+
+### Best Practice: Hybrid Approach
+
+**Recommendation for production apps:**
+```dart
+// Use library for common validations
+validator: ValidationBuilder().email().build(),
+
+// Use custom for business-specific rules
+validator: Validators.phoneNumber, // Indonesian format
+validator: Validators.companyEmail, // Custom business rule
+```
+
+### Try the Bonus Lesson
+
+📚 **Check out Lesson 11 in `lib/week4_simple.dart`** for hands-on comparison between custom validators and `form_validator` library!
+
+**To enable:**
+1. Uncomment `form_validator` in `pubspec.yaml`
+2. Run `flutter pub get`
+3. Uncomment Lesson 11 in `week4_simple.dart`
+4. Compare side-by-side with our custom validators
+
+### Why We Teach Custom First?
+
+1. **Educational Value** - Understand how validation works
+2. **Full Control** - Learn regex patterns and validation logic
+3. **No Dependencies** - Zero external packages needed
+4. **Customization** - Build exactly what you need (Indonesian phone format!)
+5. **Foundation** - Better understand what libraries do behind the scenes
+
+**Then** explore libraries for faster production development! 🚀
+
 ## 🔗 Dependencies
 
 ```yaml
