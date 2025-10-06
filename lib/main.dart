@@ -24,6 +24,7 @@ import 'week4/concepts/03_validation_types.dart';
 import 'week4/concepts/04_shared_preferences.dart';
 import 'week4/screens/profile_form_screen.dart';
 import 'week4/utils/storage_helper.dart';
+import 'week4_simple.dart';
 
 // ==========================================
 // MAIN FUNCTION
@@ -140,6 +141,7 @@ class MyApp extends StatelessWidget {
         '/week3/home': (context) => const HomeScreen(),
 
         // Week 4 routes
+        '/week4/simple': (context) => const Week4SimpleScreen(),
         '/week4/form-basics': (context) => const FormBasicsDemo(),
         '/week4/validation': (context) => const InputValidationDemo(),
         '/week4/validation-types': (context) => const ValidationTypesDemo(),
@@ -281,6 +283,14 @@ class MainMenuScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
 
+                _buildMenuCard(
+                  context: context,
+                  title: '🎓 Simple Learning (Start Here!)',
+                  subtitle: 'Progressive lessons - uncomment to learn',
+                  icon: Icons.school,
+                  color: Colors.green,
+                  route: '/week4/simple',
+                ),
                 _buildMenuCard(
                   context: context,
                   title: 'Form Basics',
