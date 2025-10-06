@@ -1,17 +1,15 @@
 // ==========================================
-// WEEK 3 - MAIN APP ENTRY POINT
+// LUARSEKOLAH LMS - MAIN ENTRY POINT
 // ==========================================
 //
-// PEMBELAJARAN UTAMA:
-// 1. MaterialApp configuration
-// 2. Navigation dengan named routes
-// 3. Theme configuration
-// 4. App structure organization
+// Week 3: Widget & Layout
+// Week 4: Form & Validation
+//
 // ==========================================
 
 import 'package:flutter/material.dart';
 
-// Import semua screens dan widgets Week 3
+// Week 3 imports
 import 'week3/concepts/01_widget_basics.dart';
 import 'week3/concepts/02_stateless_widget.dart';
 import 'week3/concepts/03_stateful_widget.dart';
@@ -19,12 +17,23 @@ import 'week3/screens/login_screen.dart';
 import 'week3/screens/register_screen.dart';
 import 'week3/screens/home_screen.dart';
 
+// Week 4 imports
+import 'week4/concepts/01_form_basics.dart';
+import 'week4/concepts/02_input_validation.dart';
+import 'week4/concepts/03_validation_types.dart';
+import 'week4/concepts/04_shared_preferences.dart';
+import 'week4/screens/profile_form_screen.dart';
+import 'week4/utils/storage_helper.dart';
+
 // ==========================================
-// MAIN FUNCTION - Entry Point
+// MAIN FUNCTION
 // ==========================================
-// main() adalah fungsi pertama yang dipanggil saat app dimulai
-void main() {
-  // runApp() memulai Flutter app dengan widget root
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize SharedPreferences for Week 4
+  await StorageHelper.getInstance();
+
   runApp(const MyApp());
 }
 
@@ -42,9 +51,7 @@ class MyApp extends StatelessWidget {
       // ==========================================
       // APP CONFIGURATION
       // ==========================================
-      title: 'Week 3 - Widget dan Layout',
-
-      // debugShowCheckedModeBanner: false untuk hide debug banner
+      title: 'Luarsekolah LMS - Flutter Course',
       debugShowCheckedModeBanner: false,
 
       // ==========================================
@@ -120,18 +127,24 @@ class MyApp extends StatelessWidget {
       // ==========================================
       // NAVIGATION ROUTES
       // ==========================================
-      // Initial route - screen pertama yang ditampilkan
       initialRoute: '/',
-
-      // Named routes untuk navigation
       routes: {
-        '/': (context) => const Week3MenuScreen(),
-        '/concepts/basics': (context) => const WidgetBasicsDemo(),
-        '/concepts/stateless': (context) => const StatelessWidgetDemo(),
-        '/concepts/stateful': (context) => const StatefulWidgetDemo(),
-        '/login': (context) => const LoginScreen(),
-        '/register': (context) => const RegisterScreen(),
-        '/home': (context) => const HomeScreen(),
+        '/': (context) => const MainMenuScreen(),
+
+        // Week 3 routes
+        '/week3/basics': (context) => const WidgetBasicsDemo(),
+        '/week3/stateless': (context) => const StatelessWidgetDemo(),
+        '/week3/stateful': (context) => const StatefulWidgetDemo(),
+        '/week3/login': (context) => const LoginScreen(),
+        '/week3/register': (context) => const RegisterScreen(),
+        '/week3/home': (context) => const HomeScreen(),
+
+        // Week 4 routes
+        '/week4/form-basics': (context) => const FormBasicsDemo(),
+        '/week4/validation': (context) => const InputValidationDemo(),
+        '/week4/validation-types': (context) => const ValidationTypesDemo(),
+        '/week4/shared-prefs': (context) => const SharedPreferencesDemo(),
+        '/week4/profile-form': (context) => const ProfileFormScreen(),
       },
 
       // Route generator untuk dynamic routing (optional)
@@ -148,20 +161,16 @@ class MyApp extends StatelessWidget {
 }
 
 // ==========================================
-// WEEK 3 MENU SCREEN - Main Menu
+// MAIN MENU SCREEN
 // ==========================================
-// Screen utama yang menampilkan menu untuk semua materi Week 3
-class Week3MenuScreen extends StatelessWidget {
-  const Week3MenuScreen({super.key});
+class MainMenuScreen extends StatelessWidget {
+  const MainMenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // ==========================================
-      // APP BAR
-      // ==========================================
       appBar: AppBar(
-        title: const Text('Week 3 - Widget & Layout'),
+        title: const Text('Luarsekolah LMS'),
         elevation: 0,
       ),
 
@@ -206,7 +215,7 @@ class Week3MenuScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        '📚 Selamat Datang di Week 3',
+                        '📚 Luarsekolah Flutter Course',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -214,8 +223,8 @@ class Week3MenuScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Pelajari konsep Widget dan Layout di Flutter. '
-                        'Mulai dari dasar hingga implementasi praktis.',
+                        'Interactive Flutter learning materials. '
+                        'Select a week to start learning!',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey.shade600,
@@ -228,76 +237,89 @@ class Week3MenuScreen extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 // ==========================================
-                // KONSEP SECTION
+                // WEEK 3 SECTION
                 // ==========================================
                 const Text(
-                  '📖 Materi Konsep',
+                  '📘 Week 3: Widget & Layout',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
 
-                // Konsep cards
                 _buildMenuCard(
                   context: context,
-                  title: '1. Widget Basics',
-                  subtitle:
-                      'Pengenalan dasar widget, hierarchy, dan properties',
+                  title: 'Widget Basics',
+                  subtitle: 'Hierarchy, properties & composition',
                   icon: Icons.widgets,
                   color: Colors.blue,
-                  route: '/concepts/basics',
+                  route: '/week3/basics',
                 ),
                 _buildMenuCard(
                   context: context,
-                  title: '2. Stateless Widget',
-                  subtitle: 'Widget immutable yang tidak memiliki state',
+                  title: 'Stateless Widget',
+                  subtitle: 'Immutable widgets',
                   icon: Icons.crop_square,
                   color: Colors.green,
-                  route: '/concepts/stateless',
+                  route: '/week3/stateless',
                 ),
                 _buildMenuCard(
                   context: context,
-                  title: '3. Stateful Widget',
-                  subtitle: 'Widget dengan state yang dapat berubah',
+                  title: 'Stateful Widget',
+                  subtitle: 'Widgets with mutable state',
                   icon: Icons.refresh,
                   color: Colors.orange,
-                  route: '/concepts/stateful',
+                  route: '/week3/stateful',
                 ),
 
                 const SizedBox(height: 24),
 
                 // ==========================================
-                // PRAKTIK SECTION
+                // WEEK 4 SECTION
                 // ==========================================
                 const Text(
-                  '💻 Implementasi Praktis',
+                  '📗 Week 4: Form & Validation',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
 
-                // Praktik cards
                 _buildMenuCard(
                   context: context,
-                  title: 'Login Screen',
-                  subtitle: 'Form validation dan input handling',
-                  icon: Icons.login,
-                  color: Colors.purple,
-                  route: '/login',
+                  title: 'Form Basics',
+                  subtitle: 'Form widget, GlobalKey & FormState',
+                  icon: Icons.article,
+                  color: Colors.indigo,
+                  route: '/week4/form-basics',
                 ),
                 _buildMenuCard(
                   context: context,
-                  title: 'Register Screen',
-                  subtitle: 'Complex form dengan multiple inputs',
-                  icon: Icons.person_add,
+                  title: 'Input Validation',
+                  subtitle: 'Validation patterns & strategies',
+                  icon: Icons.check_circle,
                   color: Colors.teal,
-                  route: '/register',
+                  route: '/week4/validation',
                 ),
                 _buildMenuCard(
                   context: context,
-                  title: 'Home Dashboard',
-                  subtitle: 'Layout kompleks dengan GridView dan ListView',
-                  icon: Icons.dashboard,
+                  title: 'Validation Types',
+                  subtitle: 'Client vs Server-side validation',
+                  icon: Icons.compare_arrows,
+                  color: Colors.deepPurple,
+                  route: '/week4/validation-types',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'SharedPreferences',
+                  subtitle: 'Local data persistence',
+                  icon: Icons.save,
+                  color: Colors.purple,
+                  route: '/week4/shared-prefs',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '⭐ Profile Form (Task)',
+                  subtitle: 'Week 4 weekly task',
+                  icon: Icons.assignment,
                   color: Colors.red,
-                  route: '/home',
+                  route: '/week4/profile-form',
                 ),
 
                 const SizedBox(height: 24),
@@ -321,7 +343,7 @@ class Week3MenuScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Tips Belajar',
+                              'Learning Tips',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.amber.shade900,
@@ -329,10 +351,10 @@ class Week3MenuScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '1. Mulai dari konsep dasar\n'
-                              '2. Praktikkan setiap contoh\n'
-                              '3. Modifikasi code untuk eksperimen\n'
-                              '4. Baca komentar dengan teliti',
+                              '• Start with concepts, then practice\n'
+                              '• Read inline comments carefully\n'
+                              '• Experiment with the code\n'
+                              '• Complete weekly tasks',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.amber.shade800,
@@ -466,42 +488,27 @@ class ErrorScreen extends StatelessWidget {
 }
 
 // ==========================================
-// KEY LEARNING POINTS
+// COURSE STRUCTURE
 // ==========================================
 /*
-YANG DIPELAJARI DI MAIN.DART:
-1. MaterialApp Configuration
-   - title, theme, routes
-   - debugShowCheckedModeBanner
-   - themeMode
+WEEK 3: Widget & Layout
+- Widget basics, hierarchy, properties
+- Stateless vs Stateful widgets
+- Layout patterns
+- Practical implementations
 
-2. Theme Configuration
-   - ThemeData properties
-   - Color schemes
-   - Widget default styling
+WEEK 4: Form & Validation
+- Form widget ecosystem
+- Validation strategies
+- Client vs Server validation
+- SharedPreferences
+- Weekly Task: Profile Form
 
-3. Navigation Setup
-   - Named routes
-   - Route generator
-   - Unknown route handler
-
-4. App Structure
-   - Root widget organization
-   - Screen hierarchy
-   - Navigation flow
-
-5. Menu Design
-   - Grid/List layout
-   - Navigation cards
-   - Visual hierarchy
-
-TUGAS SISWA:
-1. Tambahkan dark theme toggle
-2. Implement bottom navigation
-3. Add splash screen
-4. Create onboarding flow
-5. Implement deep linking
-6. Add internationalization (i18n)
+UPCOMING WEEKS:
+- Week 5: Navigation & Routing
+- Week 6: API Integration
+- Week 7-8: State Management (GetX)
+- Week 9-10: Firebase Integration
+- Week 11: Testing
+- Week 12: Final Project
 */
-
-// ==========================================

@@ -16,20 +16,9 @@ import 'package:flutter/material.dart';
 // ==========================================
 // BUTTON VARIANTS ENUM
 // ==========================================
-enum ButtonVariant {
-  primary,
-  secondary,
-  outline,
-  ghost,
-  danger,
-  success,
-}
+enum ButtonVariant { primary, secondary, outline, ghost, danger, success }
 
-enum ButtonSize {
-  small,
-  medium,
-  large,
-}
+enum ButtonSize { small, medium, large }
 
 // ==========================================
 // CUSTOM BUTTON - Main Reusable Button
@@ -98,13 +87,9 @@ class _CustomButtonState extends State<CustomButton>
       duration: const Duration(milliseconds: 100),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -226,7 +211,8 @@ class _CustomButtonState extends State<CustomButton>
     final border = _getBorder(context);
 
     // Build button content
-    Widget buttonContent = widget.child ??
+    Widget buttonContent =
+        widget.child ??
         Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -249,17 +235,14 @@ class _CustomButtonState extends State<CustomButton>
             if (widget.icon != null && !widget.iconOnRight && !widget.isLoading)
               Padding(
                 padding: const EdgeInsets.only(right: 8),
-                child: Icon(
-                  widget.icon,
-                  size: fontSize + 2,
-                  color: textColor,
-                ),
+                child: Icon(widget.icon, size: fontSize + 2, color: textColor),
               ),
 
             // Text
             Text(
               widget.text,
-              style: widget.textStyle ??
+              style:
+                  widget.textStyle ??
                   TextStyle(
                     fontSize: fontSize,
                     fontWeight: FontWeight.w600,
@@ -271,11 +254,7 @@ class _CustomButtonState extends State<CustomButton>
             if (widget.icon != null && widget.iconOnRight && !widget.isLoading)
               Padding(
                 padding: const EdgeInsets.only(left: 8),
-                child: Icon(
-                  widget.icon,
-                  size: fontSize + 2,
-                  color: textColor,
-                ),
+                child: Icon(widget.icon, size: fontSize + 2, color: textColor),
               ),
           ],
         );
@@ -312,7 +291,8 @@ class _CustomButtonState extends State<CustomButton>
                 color: buttonColor,
                 borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
                 border: border,
-                boxShadow: widget.variant != ButtonVariant.ghost &&
+                boxShadow:
+                    widget.variant != ButtonVariant.ghost &&
                         widget.variant != ButtonVariant.outline &&
                         !widget.isDisabled
                     ? [
@@ -330,8 +310,7 @@ class _CustomButtonState extends State<CustomButton>
                   onTap: widget.isDisabled || widget.isLoading
                       ? null
                       : widget.onPressed,
-                  borderRadius:
-                      widget.borderRadius ?? BorderRadius.circular(8),
+                  borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
                   splashColor: textColor.withOpacity(0.1),
                   highlightColor: textColor.withOpacity(0.05),
                   child: Container(
@@ -416,10 +395,7 @@ class CustomIconButton extends StatelessWidget {
 
     // Add tooltip if provided
     if (tooltip != null) {
-      return Tooltip(
-        message: tooltip!,
-        child: button,
-      );
+      return Tooltip(message: tooltip!, child: button);
     }
 
     return button;
@@ -539,11 +515,7 @@ class SocialButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  platformIcon,
-                  color: platformColor,
-                  size: 20,
-                ),
+                Icon(platformIcon, color: platformColor, size: 20),
                 const SizedBox(width: 12),
                 Text(
                   text,
