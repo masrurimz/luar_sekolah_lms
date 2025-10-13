@@ -232,7 +232,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const AnimationBasicsExample(),
+                builder: (context) => AnimationBasicsExample(),
               ),
             );
           },
@@ -273,7 +273,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ImplicitAnimationsExample(),
+                builder: (context) => ImplicitAnimationsExample(),
               ),
             );
           },
@@ -311,7 +311,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ExplicitAnimationsExample(),
+                builder: (context) => ExplicitAnimationsExample(),
               ),
             );
           },
@@ -349,7 +349,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HeroPageTransitionsExample(),
+                builder: (context) => HeroPageTransitionsExample(),
               ),
             );
           },

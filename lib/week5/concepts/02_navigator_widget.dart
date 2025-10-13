@@ -587,7 +587,7 @@ Navigator.pop(context, "returned data");
         style: TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w500,
-          color: color.shade700,
+          color: color,
         ),
       ),
     );

@@ -558,7 +558,7 @@ class _AnimationBasicsDemoState extends State<AnimationBasicsDemo> {
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 11,
-          color: color.shade900,
+          color: color,
         ),
       ),
     );

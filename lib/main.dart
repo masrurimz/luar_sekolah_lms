@@ -16,7 +16,7 @@ import 'week3/concepts/02_stateless_widget.dart';
 import 'week3/concepts/03_stateful_widget.dart';
 import 'week3/screens/login_screen.dart';
 import 'week3/screens/register_screen.dart';
-import 'week3/screens/home_screen.dart';
+import 'week3/screens/home_screen.dart' as week3;
 
 // Week 4 imports
 import 'week4/concepts/01_form_basics.dart';
@@ -155,7 +155,7 @@ class MyApp extends StatelessWidget {
         '/week3/stateful': (context) => const StatefulWidgetDemo(),
         '/week3/login': (context) => const LoginScreen(),
         '/week3/register': (context) => const RegisterScreen(),
-        '/week3/home': (context) => const HomeScreen(),
+        '/week3/home': (context) => const week3.HomeScreen(),
 
         // Week 4 routes
         '/week4/simple': (context) => const Week4SimpleScreen(),
@@ -432,7 +432,7 @@ class MainMenuScreen extends StatelessWidget {
                   context: context,
                   title: 'Bottom Navigation',
                   subtitle: 'Tab-based navigation',
-                  icon: Icons.bottom_navigation,
+                  icon: Icons.view_carousel,
                   color: Colors.cyan,
                   route: '/week5/bottom-nav',
                 ),

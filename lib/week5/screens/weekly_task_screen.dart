@@ -24,6 +24,7 @@
 // 8. Combining multiple animation types
 // ==========================================
 
+import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../week4/utils/validators.dart';
 
@@ -983,8 +984,8 @@ class AnimatedProfileScreen extends StatelessWidget {
           },
           child: _InfoCard(
             icon: entry.value['icon'] as IconData,
-            label: entry.value['label']!,
-            value: entry.value['value']!,
+            label: entry.value['label'] as String,
+            value: entry.value['value'] as String,
           ),
         );
       }).toList(),
@@ -1924,10 +1925,6 @@ class _StatDashboardCard extends StatelessWidget {
 // ==========================================
 // HELPER FUNCTIONS
 // ==========================================
-import 'dart:math';
-
-double sin(num value) => (value as num).toDouble();
-const double pi = 3.14159265359;
 
 // ==========================================
 // WEEKLY TASK COMPLETION CHECKLIST
