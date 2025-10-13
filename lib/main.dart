@@ -4,6 +4,7 @@
 //
 // Week 3: Widget & Layout
 // Week 4: Form & Validation
+// Week 5: Navigation, Routing & Animations
 //
 // ==========================================
 
@@ -26,6 +27,21 @@ import 'week4/concepts/05_validation_libraries.dart';
 import 'week4/screens/profile_form_screen.dart';
 import 'week4/utils/storage_helper.dart';
 import 'week4_simple.dart';
+
+// Week 5 imports
+import 'week5/concepts/01_navigation_basics.dart';
+import 'week5/concepts/02_navigator_widget.dart';
+import 'week5/concepts/03_named_routes.dart';
+import 'week5/concepts/04_drawer_navigation.dart';
+import 'week5/concepts/05_bottom_navigation.dart';
+import 'week5/concepts/06_animation_basics.dart';
+import 'week5/concepts/07_implicit_animations.dart';
+import 'week5/concepts/08_explicit_animations.dart';
+import 'week5/concepts/09_hero_page_transitions.dart';
+import 'week5/screens/navigation_demo_screen.dart';
+import 'week5/screens/animation_demo_screen.dart';
+import 'week5/screens/weekly_task_screen.dart';
+import 'week5_simple.dart';
 
 // ==========================================
 // MAIN FUNCTION
@@ -150,6 +166,24 @@ class MyApp extends StatelessWidget {
         '/week4/validation-libraries': (context) =>
             const ValidationLibrariesDemo(),
         '/week4/profile-form': (context) => const ProfileFormScreen(),
+
+        // Week 5 routes
+        '/week5/simple': (context) => const Week5SimpleScreen(),
+        '/week5/navigation-basics': (context) => const NavigationBasicsDemo(),
+        '/week5/navigator': (context) => const NavigatorWidgetDemo(),
+        '/week5/named-routes': (context) => const NamedRoutesDemo(),
+        '/week5/drawer': (context) => const DrawerNavigationDemo(),
+        '/week5/bottom-nav': (context) => const BottomNavigationDemo(),
+        '/week5/animation-basics': (context) => const AnimationBasicsDemo(),
+        '/week5/implicit-animations': (context) =>
+            const ImplicitAnimationsDemo(),
+        '/week5/explicit-animations': (context) =>
+            const ExplicitAnimationsDemo(),
+        '/week5/hero-transitions': (context) =>
+            const HeroAndTransitionsDemo(),
+        '/week5/navigation-demo': (context) => const NavigationDemoScreen(),
+        '/week5/animation-demo': (context) => const AnimationDemoScreen(),
+        '/week5/weekly-task': (context) => const WeeklyTaskScreen(),
       },
 
       // Route generator untuk dynamic routing (optional)
@@ -346,6 +380,122 @@ class MainMenuScreen extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 // ==========================================
+                // WEEK 5 SECTION
+                // ==========================================
+                const Text(
+                  '📙 Week 5: Navigation, Routing & Animations',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMenuCard(
+                  context: context,
+                  title: '🎓 Simple Learning (Start Here!)',
+                  subtitle: 'Progressive lessons - 12 interactive examples',
+                  icon: Icons.school,
+                  color: Colors.green,
+                  route: '/week5/simple',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Navigation Basics',
+                  subtitle: 'Stack model, routes & terminology',
+                  icon: Icons.compare_arrows,
+                  color: Colors.blue,
+                  route: '/week5/navigation-basics',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Navigator Widget',
+                  subtitle: 'Push/Pop & data passing',
+                  icon: Icons.navigation,
+                  color: Colors.indigo,
+                  route: '/week5/navigator',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Named Routes',
+                  subtitle: 'Scalable navigation patterns',
+                  icon: Icons.label,
+                  color: Colors.deepPurple,
+                  route: '/week5/named-routes',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Drawer Navigation',
+                  subtitle: 'Side menu navigation',
+                  icon: Icons.menu,
+                  color: Colors.teal,
+                  route: '/week5/drawer',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Bottom Navigation',
+                  subtitle: 'Tab-based navigation',
+                  icon: Icons.bottom_navigation,
+                  color: Colors.cyan,
+                  route: '/week5/bottom-nav',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Animation Basics',
+                  subtitle: 'Principles, curves & lifecycle',
+                  icon: Icons.animation,
+                  color: Colors.orange,
+                  route: '/week5/animation-basics',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Implicit Animations',
+                  subtitle: 'AnimatedContainer & more',
+                  icon: Icons.auto_awesome,
+                  color: Colors.pink,
+                  route: '/week5/implicit-animations',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Explicit Animations',
+                  subtitle: 'AnimationController & Tween',
+                  icon: Icons.settings_applications,
+                  color: Colors.deepOrange,
+                  route: '/week5/explicit-animations',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Hero & Transitions',
+                  subtitle: 'Shared elements & custom transitions',
+                  icon: Icons.panorama_horizontal,
+                  color: Colors.purple,
+                  route: '/week5/hero-transitions',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '🎯 Navigation Demo',
+                  subtitle: 'All navigation patterns combined',
+                  icon: Icons.dashboard,
+                  color: Colors.blueGrey,
+                  route: '/week5/navigation-demo',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '🎨 Animation Demo',
+                  subtitle: 'Animation playground',
+                  icon: Icons.palette,
+                  color: Colors.pinkAccent,
+                  route: '/week5/animation-demo',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '⭐ Weekly Task',
+                  subtitle: 'Animated multi-screen app',
+                  icon: Icons.assignment,
+                  color: Colors.red,
+                  route: '/week5/weekly-task',
+                ),
+
+                const SizedBox(height: 24),
+
+                // ==========================================
                 // INFO SECTION
                 // ==========================================
                 Container(
@@ -526,8 +676,15 @@ WEEK 4: Form & Validation
 - Validation Libraries (Bonus)
 - Weekly Task: Profile Form
 
+WEEK 5: Navigation, Routing & Animations
+- Navigation patterns (Push/Pop, Named Routes)
+- Drawer & Bottom Navigation
+- Animation fundamentals
+- Implicit & Explicit animations
+- Hero animations & page transitions
+- Weekly Task: Animated multi-screen app
+
 UPCOMING WEEKS:
-- Week 5: Navigation & Routing
 - Week 6: API Integration
 - Week 7-8: State Management (GetX)
 - Week 9-10: Firebase Integration
