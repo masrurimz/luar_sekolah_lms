@@ -63,7 +63,7 @@ class _Week4SimpleScreenState extends State<Week4SimpleScreen> {
   final _passwordController = TextEditingController();
 
   // State variables
-  bool _isPasswordVisible = false;
+  final bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -966,10 +966,7 @@ class _Week4SimpleScreenState extends State<Week4SimpleScreen> {
                   Text(
                     '💡 TIP: Mulai dari Lesson 1, pahami konsepnya, '
                     'lalu lanjut ke lesson berikutnya.',
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 13),
                   ),
                 ],
               ),

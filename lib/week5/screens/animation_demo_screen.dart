@@ -85,9 +85,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
         gradient: LinearGradient(
           colors: [Colors.purple.shade50, Colors.blue.shade50],
         ),
-        border: Border(
-          bottom: BorderSide(color: Colors.grey.shade300),
-        ),
+        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,9 +97,9 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
               Text(
                 'Animation Playground',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple.shade900,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.purple.shade900,
+                ),
               ),
             ],
           ),
@@ -142,7 +140,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
                     ),
                     const SizedBox(height: 4),
                     DropdownButtonFormField<Curve>(
-                      value: _playgroundCurve,
+                      initialValue: _playgroundCurve,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.symmetric(
@@ -180,13 +178,11 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
                   height: _isAnimating ? 200 : 100,
                   decoration: BoxDecoration(
                     color: _isAnimating ? Colors.purple : Colors.blue,
-                    borderRadius: BorderRadius.circular(_isAnimating ? 100 : 20),
+                    borderRadius: BorderRadius.circular(
+                      _isAnimating ? 100 : 20,
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.star,
-                    color: Colors.white,
-                    size: 40,
-                  ),
+                  child: const Icon(Icons.star, color: Colors.white, size: 40),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
@@ -226,7 +222,8 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
         const SizedBox(height: 16),
         _buildConceptCard(
           title: 'Interactive Basics Demo',
-          description: 'Explore AnimationController, Tween, and AnimatedBuilder',
+          description:
+              'Explore AnimationController, Tween, and AnimatedBuilder',
           icon: Icons.school,
           onTap: () {
             Navigator.push(
@@ -283,7 +280,11 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
           _AnimationItem('AnimatedContainer', Icons.crop_square, Colors.blue),
           _AnimationItem('AnimatedOpacity', Icons.opacity, Colors.purple),
           _AnimationItem('AnimatedPositioned', Icons.open_with, Colors.green),
-          _AnimationItem('AnimatedDefaultTextStyle', Icons.text_fields, Colors.orange),
+          _AnimationItem(
+            'AnimatedDefaultTextStyle',
+            Icons.text_fields,
+            Colors.orange,
+          ),
           _AnimationItem('AnimatedCrossFade', Icons.compare, Colors.red),
           _AnimationItem('TweenAnimationBuilder', Icons.build, Colors.teal),
         ]),
@@ -305,7 +306,8 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
         const SizedBox(height: 16),
         _buildConceptCard(
           title: 'Interactive Explicit Animations',
-          description: 'Master AnimationController, custom animations, and curves',
+          description:
+              'Master AnimationController, custom animations, and curves',
           icon: Icons.tune,
           onTap: () {
             Navigator.push(
@@ -403,10 +405,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey.shade700,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
                 ),
               ],
             ),
@@ -479,18 +478,12 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
           children: [
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
             Text(
               description,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
             ),
             const SizedBox(height: 12),
             Center(child: demo),
@@ -556,10 +549,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             '$type Animations Catalog',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         const SizedBox(height: 12),
@@ -617,10 +607,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
                 const SizedBox(width: 8),
                 const Text(
                   'Performance Tips',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -650,17 +637,18 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
                 SizedBox(width: 8),
                 Text(
                   'Implicit vs Explicit',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
             const SizedBox(height: 12),
             _buildComparisonRow('Setup', 'Simple', 'Complex'),
             _buildComparisonRow('Control', 'Limited', 'Full'),
-            _buildComparisonRow('Use Case', 'Simple UI changes', 'Complex sequences'),
+            _buildComparisonRow(
+              'Use Case',
+              'Simple UI changes',
+              'Complex sequences',
+            ),
             _buildComparisonRow('Code', 'Less boilerplate', 'More code'),
           ],
         ),
@@ -682,10 +670,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
                 SizedBox(width: 8),
                 Text(
                   'When to Use Explicit Animations',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -715,10 +700,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
                 const SizedBox(width: 8),
                 const Text(
                   'Hero Animation Best Practices',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -741,12 +723,7 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('• ', style: TextStyle(fontSize: 16)),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 14))),
         ],
       ),
     );
@@ -764,12 +741,8 @@ class _AnimationDemoScreenState extends State<AnimationDemoScreen>
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          Expanded(
-            child: Text(implicit, style: const TextStyle(fontSize: 14)),
-          ),
-          Expanded(
-            child: Text(explicit, style: const TextStyle(fontSize: 14)),
-          ),
+          Expanded(child: Text(implicit, style: const TextStyle(fontSize: 14))),
+          Expanded(child: Text(explicit, style: const TextStyle(fontSize: 14))),
         ],
       ),
     );

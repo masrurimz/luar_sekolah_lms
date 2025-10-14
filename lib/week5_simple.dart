@@ -63,13 +63,13 @@ class _Week5SimpleScreenState extends State<Week5SimpleScreen> {
   // STATE VARIABLES
   // ==========================================
   // For animations
-  double _containerWidth = 100;
-  double _containerHeight = 100;
-  Color _containerColor = Colors.teal;
-  double _opacity = 1.0;
+  final double _containerWidth = 100;
+  final double _containerHeight = 100;
+  final Color _containerColor = Colors.teal;
+  final double _opacity = 1.0;
 
   // For navigation
-  int _currentIndex = 0;
+  final int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -643,10 +643,7 @@ class _Week5SimpleScreenState extends State<Week5SimpleScreen> {
                   Text(
                     '💡 TIP: Mulai dari Lesson 1, pahami konsep navigation stack, '
                     'lalu explore animations.',
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 13),
                   ),
                 ],
               ),
@@ -701,11 +698,7 @@ class DataScreen extends StatelessWidget {
   final String title;
   final String description;
 
-  const DataScreen({
-    super.key,
-    required this.title,
-    required this.description,
-  });
+  const DataScreen({super.key, required this.title, required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -807,11 +800,7 @@ class HeroDetailScreen extends StatelessWidget {
               color: Colors.blue,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(
-              Icons.image,
-              size: 150,
-              color: Colors.white,
-            ),
+            child: const Icon(Icons.image, size: 150, color: Colors.white),
           ),
         ),
       ),
@@ -823,10 +812,7 @@ class HeroDetailScreen extends StatelessWidget {
 class TransitionDemoScreen extends StatelessWidget {
   final String title;
 
-  const TransitionDemoScreen({
-    super.key,
-    required this.title,
-  });
+  const TransitionDemoScreen({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -836,12 +822,7 @@ class TransitionDemoScreen extends StatelessWidget {
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
       ),
-      body: Center(
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 24),
-        ),
-      ),
+      body: Center(child: Text(title, style: const TextStyle(fontSize: 24))),
     );
   }
 }
@@ -850,10 +831,7 @@ class TransitionDemoScreen extends StatelessWidget {
 class ProductDetailScreen extends StatelessWidget {
   final int productIndex;
 
-  const ProductDetailScreen({
-    super.key,
-    required this.productIndex,
-  });
+  const ProductDetailScreen({super.key, required this.productIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -873,7 +851,8 @@ class ProductDetailScreen extends StatelessWidget {
                 width: 200,
                 height: 200,
                 decoration: BoxDecoration(
-                  color: Colors.primaries[productIndex % Colors.primaries.length],
+                  color:
+                      Colors.primaries[productIndex % Colors.primaries.length],
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -886,10 +865,7 @@ class ProductDetailScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               'Product ${productIndex + 1}',
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(

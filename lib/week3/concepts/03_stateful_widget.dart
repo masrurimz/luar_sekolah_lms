@@ -301,9 +301,7 @@ class _StatefulWidgetDemoState extends State<StatefulWidgetDemo> {
                 },
                 icon: const Icon(Icons.remove),
                 label: const Text('Kurang'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               ),
 
               // Reset button
@@ -316,9 +314,7 @@ class _StatefulWidgetDemoState extends State<StatefulWidgetDemo> {
                 },
                 icon: const Icon(Icons.refresh),
                 label: const Text('Reset'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
               ),
 
               // Increment button
@@ -331,9 +327,7 @@ class _StatefulWidgetDemoState extends State<StatefulWidgetDemo> {
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Tambah'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               ),
             ],
           ),
@@ -461,7 +455,7 @@ class _StatefulWidgetDemoState extends State<StatefulWidgetDemo> {
                 _switchValue = value;
               });
             },
-            activeColor: Colors.green,
+            activeThumbColor: Colors.green,
           ),
         ],
       ),
@@ -681,10 +675,7 @@ class _StatefulWidgetDemoState extends State<StatefulWidgetDemo> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Text(
-                  'FLOW:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                Text('FLOW:', style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 8),
                 Text('1. Widget created → createState()'),
                 Text('2. State initialized → initState()'),
@@ -820,8 +811,7 @@ class _TodoListWidgetState extends State<TodoListWidget> {
                 title: Text(
                   todo.title,
                   style: TextStyle(
-                    decoration:
-                        todo.isDone ? TextDecoration.lineThrough : null,
+                    decoration: todo.isDone ? TextDecoration.lineThrough : null,
                     color: todo.isDone ? Colors.grey : Colors.black,
                   ),
                 ),

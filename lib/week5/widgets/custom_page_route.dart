@@ -42,16 +42,12 @@
 ///   CustomTransitions.slideLeft(SettingsScreen()),
 /// );
 /// ```
+library;
 
 import 'package:flutter/material.dart';
 
 /// Direction for slide transitions
-enum SlideDirection {
-  left,
-  right,
-  up,
-  down,
-}
+enum SlideDirection { left, right, up, down }
 
 /// Fade transition - Simple opacity animation
 ///
@@ -72,17 +68,15 @@ class FadePageRoute<T> extends PageRouteBuilder<T> {
     Duration duration = const Duration(milliseconds: 300),
     Curve curve = Curves.easeInOut,
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionDuration: duration,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation.drive(
-                CurveTween(curve: curve),
-              ),
-              child: child,
-            );
-          },
-        );
+         pageBuilder: (context, animation, secondaryAnimation) => page,
+         transitionDuration: duration,
+         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+           return FadeTransition(
+             opacity: animation.drive(CurveTween(curve: curve)),
+             child: child,
+           );
+         },
+       );
 }
 
 /// Slide transition - Page slides in from specified direction
@@ -110,37 +104,38 @@ class SlidePageRoute<T> extends PageRouteBuilder<T> {
     Duration duration = const Duration(milliseconds: 300),
     Curve curve = Curves.easeInOut,
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionDuration: duration,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            Offset begin;
-            switch (direction) {
-              case SlideDirection.left:
-                begin = const Offset(-1.0, 0.0);
-                break;
-              case SlideDirection.right:
-                begin = const Offset(1.0, 0.0);
-                break;
-              case SlideDirection.up:
-                begin = const Offset(0.0, -1.0);
-                break;
-              case SlideDirection.down:
-                begin = const Offset(0.0, 1.0);
-                break;
-            }
+         pageBuilder: (context, animation, secondaryAnimation) => page,
+         transitionDuration: duration,
+         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+           Offset begin;
+           switch (direction) {
+             case SlideDirection.left:
+               begin = const Offset(-1.0, 0.0);
+               break;
+             case SlideDirection.right:
+               begin = const Offset(1.0, 0.0);
+               break;
+             case SlideDirection.up:
+               begin = const Offset(0.0, -1.0);
+               break;
+             case SlideDirection.down:
+               begin = const Offset(0.0, 1.0);
+               break;
+           }
 
-            const end = Offset.zero;
+           const end = Offset.zero;
 
-            final tween = Tween(begin: begin, end: end).chain(
-              CurveTween(curve: curve),
-            );
+           final tween = Tween(
+             begin: begin,
+             end: end,
+           ).chain(CurveTween(curve: curve));
 
-            return SlideTransition(
-              position: animation.drive(tween),
-              child: child,
-            );
-          },
-        );
+           return SlideTransition(
+             position: animation.drive(tween),
+             child: child,
+           );
+         },
+       );
 }
 
 /// Scale transition - Page scales up from center
@@ -162,22 +157,20 @@ class ScalePageRoute<T> extends PageRouteBuilder<T> {
     Duration duration = const Duration(milliseconds: 300),
     Curve curve = Curves.easeInOut,
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionDuration: duration,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = 0.0;
-            const end = 1.0;
+         pageBuilder: (context, animation, secondaryAnimation) => page,
+         transitionDuration: duration,
+         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+           const begin = 0.0;
+           const end = 1.0;
 
-            final tween = Tween(begin: begin, end: end).chain(
-              CurveTween(curve: curve),
-            );
+           final tween = Tween(
+             begin: begin,
+             end: end,
+           ).chain(CurveTween(curve: curve));
 
-            return ScaleTransition(
-              scale: animation.drive(tween),
-              child: child,
-            );
-          },
-        );
+           return ScaleTransition(scale: animation.drive(tween), child: child);
+         },
+       );
 }
 
 /// Combined slide and fade transition
@@ -205,44 +198,46 @@ class SlideAndFadePageRoute<T> extends PageRouteBuilder<T> {
     Duration duration = const Duration(milliseconds: 300),
     Curve curve = Curves.easeInOut,
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionDuration: duration,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            Offset begin;
-            switch (direction) {
-              case SlideDirection.left:
-                begin = const Offset(-1.0, 0.0);
-                break;
-              case SlideDirection.right:
-                begin = const Offset(1.0, 0.0);
-                break;
-              case SlideDirection.up:
-                begin = const Offset(0.0, -1.0);
-                break;
-              case SlideDirection.down:
-                begin = const Offset(0.0, 1.0);
-                break;
-            }
+         pageBuilder: (context, animation, secondaryAnimation) => page,
+         transitionDuration: duration,
+         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+           Offset begin;
+           switch (direction) {
+             case SlideDirection.left:
+               begin = const Offset(-1.0, 0.0);
+               break;
+             case SlideDirection.right:
+               begin = const Offset(1.0, 0.0);
+               break;
+             case SlideDirection.up:
+               begin = const Offset(0.0, -1.0);
+               break;
+             case SlideDirection.down:
+               begin = const Offset(0.0, 1.0);
+               break;
+           }
 
-            const end = Offset.zero;
+           const end = Offset.zero;
 
-            final slideTween = Tween(begin: begin, end: end).chain(
-              CurveTween(curve: curve),
-            );
+           final slideTween = Tween(
+             begin: begin,
+             end: end,
+           ).chain(CurveTween(curve: curve));
 
-            final fadeTween = Tween(begin: 0.0, end: 1.0).chain(
-              CurveTween(curve: curve),
-            );
+           final fadeTween = Tween(
+             begin: 0.0,
+             end: 1.0,
+           ).chain(CurveTween(curve: curve));
 
-            return SlideTransition(
-              position: animation.drive(slideTween),
-              child: FadeTransition(
-                opacity: animation.drive(fadeTween),
-                child: child,
-              ),
-            );
-          },
-        );
+           return SlideTransition(
+             position: animation.drive(slideTween),
+             child: FadeTransition(
+               opacity: animation.drive(fadeTween),
+               child: child,
+             ),
+           );
+         },
+       );
 }
 
 /// Rotation transition - Page rotates while fading in (Bonus)
@@ -273,26 +268,28 @@ class RotationPageRoute<T> extends PageRouteBuilder<T> {
     Duration duration = const Duration(milliseconds: 400),
     Curve curve = Curves.easeInOut,
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionDuration: duration,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            final rotationTween = Tween(begin: rotationAngle, end: 0.0).chain(
-              CurveTween(curve: curve),
-            );
+         pageBuilder: (context, animation, secondaryAnimation) => page,
+         transitionDuration: duration,
+         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+           final rotationTween = Tween(
+             begin: rotationAngle,
+             end: 0.0,
+           ).chain(CurveTween(curve: curve));
 
-            final fadeTween = Tween(begin: 0.0, end: 1.0).chain(
-              CurveTween(curve: curve),
-            );
+           final fadeTween = Tween(
+             begin: 0.0,
+             end: 1.0,
+           ).chain(CurveTween(curve: curve));
 
-            return RotationTransition(
-              turns: animation.drive(rotationTween),
-              child: FadeTransition(
-                opacity: animation.drive(fadeTween),
-                child: child,
-              ),
-            );
-          },
-        );
+           return RotationTransition(
+             turns: animation.drive(rotationTween),
+             child: FadeTransition(
+               opacity: animation.drive(fadeTween),
+               child: child,
+             ),
+           );
+         },
+       );
 }
 
 /// Convenient helper functions for common transitions
@@ -315,11 +312,7 @@ class CustomTransitions {
     Duration duration = const Duration(milliseconds: 300),
     Curve curve = Curves.easeInOut,
   }) {
-    return FadePageRoute<T>(
-      page: page,
-      duration: duration,
-      curve: curve,
-    );
+    return FadePageRoute<T>(page: page, duration: duration, curve: curve);
   }
 
   /// Slide from right (default platform behavior)
@@ -384,11 +377,7 @@ class CustomTransitions {
     Duration duration = const Duration(milliseconds: 300),
     Curve curve = Curves.easeInOut,
   }) {
-    return ScalePageRoute<T>(
-      page: page,
-      duration: duration,
-      curve: curve,
-    );
+    return ScalePageRoute<T>(page: page, duration: duration, curve: curve);
   }
 
   /// Combined slide and fade (from right)

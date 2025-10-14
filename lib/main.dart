@@ -179,8 +179,7 @@ class MyApp extends StatelessWidget {
             const ImplicitAnimationsDemo(),
         '/week5/explicit-animations': (context) =>
             const ExplicitAnimationsDemo(),
-        '/week5/hero-transitions': (context) =>
-            const HeroAndTransitionsDemo(),
+        '/week5/hero-transitions': (context) => const HeroAndTransitionsDemo(),
         '/week5/navigation-demo': (context) => const NavigationDemoScreen(),
         '/week5/animation-demo': (context) => const AnimationDemoScreen(),
         '/week5/weekly-task': (context) => const WeeklyTaskScreen(),
@@ -208,10 +207,7 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Luarsekolah LMS'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Luarsekolah LMS'), elevation: 0),
 
       // ==========================================
       // BODY - Menu Grid

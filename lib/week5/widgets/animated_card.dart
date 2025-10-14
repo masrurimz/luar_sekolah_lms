@@ -48,6 +48,7 @@
 ///   },
 /// )
 /// ```
+library;
 
 import 'package:flutter/material.dart';
 
@@ -134,13 +135,9 @@ class _AnimatedCardState extends State<AnimatedCard>
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _initAnimationController,
-      curve: Curves.easeOut,
-    ));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _initAnimationController, curve: Curves.easeOut),
+    );
 
     // Trigger initialization animation if enabled
     if (widget.animateOnInit ?? false) {
@@ -197,9 +194,9 @@ class _AnimatedCardState extends State<AnimatedCard>
             : SystemMouseCursors.basic,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() {
-              _isHovered = false;
-              _isTapped = false; // Reset tap state on exit
-            }),
+          _isHovered = false;
+          _isTapped = false; // Reset tap state on exit
+        }),
         child: GestureDetector(
           onTapDown: widget.onTap != null
               ? (_) => setState(() => _isTapped = true)
@@ -221,11 +218,11 @@ class _AnimatedCardState extends State<AnimatedCard>
             child: Material(
               color: widget.color ?? Colors.white,
               elevation: _currentElevation,
-              borderRadius:
-                  BorderRadius.circular(widget.borderRadius ?? 12.0),
+              borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.0),
               child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(widget.borderRadius ?? 12.0),
+                borderRadius: BorderRadius.circular(
+                  widget.borderRadius ?? 12.0,
+                ),
                 child: widget.child,
               ),
             ),

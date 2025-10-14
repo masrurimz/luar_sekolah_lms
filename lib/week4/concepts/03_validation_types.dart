@@ -23,7 +23,6 @@
 // ==========================================
 
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 class ValidationTypesDemo extends StatefulWidget {
   const ValidationTypesDemo({super.key});
@@ -170,10 +169,7 @@ class _ValidationTypesDemoState extends State<ValidationTypesDemo> {
         children: [
           const Text(
             '📊 COMPARISON',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Table(
@@ -209,7 +205,10 @@ class _ValidationTypesDemoState extends State<ValidationTypesDemo> {
                 children: [
                   Padding(padding: EdgeInsets.all(8), child: Text('Speed')),
                   Padding(padding: EdgeInsets.all(8), child: Text('Instant')),
-                  Padding(padding: EdgeInsets.all(8), child: Text('Network delay')),
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text('Network delay'),
+                  ),
                 ],
               ),
               TableRow(
@@ -222,7 +221,10 @@ class _ValidationTypesDemoState extends State<ValidationTypesDemo> {
               TableRow(
                 children: [
                   Padding(padding: EdgeInsets.all(8), child: Text('UX')),
-                  Padding(padding: EdgeInsets.all(8), child: Text('✅ Excellent')),
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text('✅ Excellent'),
+                  ),
                   Padding(padding: EdgeInsets.all(8), child: Text('⚠️ Slower')),
                 ],
               ),
@@ -274,9 +276,7 @@ class _ClientSideValidationWidgetState
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('✅ Client validation passed!'),
-                  ),
+                  const SnackBar(content: Text('✅ Client validation passed!')),
                 );
               }
             },
@@ -311,10 +311,7 @@ class _ServerSideValidationWidgetState
 
     // Simulate server validation logic
     if (email == 'admin@example.com') {
-      return {
-        'valid': false,
-        'error': 'Email already registered on server',
-      };
+      return {'valid': false, 'error': 'Email already registered on server'};
     }
 
     return {'valid': true};
@@ -385,10 +382,7 @@ class _ServerSideValidationWidgetState
           const SizedBox(height: 8),
           Text(
             'Try: admin@example.com (server will reject)',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
           ),
         ],
       ),

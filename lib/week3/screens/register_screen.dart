@@ -112,7 +112,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       bool hasUpperCase = password.contains(RegExp(r'[A-Z]'));
       bool hasLowerCase = password.contains(RegExp(r'[a-z]'));
       bool hasDigits = password.contains(RegExp(r'[0-9]'));
-      bool hasSpecialChar = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+      bool hasSpecialChar = password.contains(
+        RegExp(r'[!@#$%^&*(),.?":{}|<>]'),
+      );
 
       int criteriaCount = 0;
       if (hasUpperCase) criteriaCount++;
@@ -278,26 +280,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildHeader() {
     return Column(
       children: [
-        Icon(
-          Icons.person_add,
-          size: 60,
-          color: Theme.of(context).primaryColor,
-        ),
+        Icon(Icons.person_add, size: 60, color: Theme.of(context).primaryColor),
         const SizedBox(height: 16),
         const Text(
           'Buat Akun Baru',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
           'Isi form di bawah untuk mendaftar',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade600,
-          ),
+          style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
         ),
       ],
     );
@@ -331,9 +323,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         labelText: 'Nama Lengkap',
         hintText: 'John Doe',
         prefixIcon: const Icon(Icons.person_outline),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -364,17 +354,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         labelText: 'Email',
         hintText: 'nama@email.com',
         prefixIcon: const Icon(Icons.email_outlined),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Email tidak boleh kosong';
         }
         // Advanced email regex
-        if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-            .hasMatch(value)) {
+        if (!RegExp(
+          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+        ).hasMatch(value)) {
           return 'Format email tidak valid';
         }
         return null;
@@ -401,9 +390,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         hintText: '08123456789',
         prefixIcon: const Icon(Icons.phone_outlined),
         prefixText: '+62 ',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -419,27 +406,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _buildGenderDropdown() {
     return DropdownButtonFormField<String>(
-      value: _selectedGender,
+      initialValue: _selectedGender,
       decoration: InputDecoration(
         labelText: 'Jenis Kelamin',
         prefixIcon: const Icon(Icons.people_outline),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
       items: const [
-        DropdownMenuItem(
-          value: 'male',
-          child: Text('Laki-laki'),
-        ),
-        DropdownMenuItem(
-          value: 'female',
-          child: Text('Perempuan'),
-        ),
-        DropdownMenuItem(
-          value: 'other',
-          child: Text('Lainnya'),
-        ),
+        DropdownMenuItem(value: 'male', child: Text('Laki-laki')),
+        DropdownMenuItem(value: 'female', child: Text('Perempuan')),
+        DropdownMenuItem(value: 'other', child: Text('Lainnya')),
       ],
       onChanged: (value) {
         setState(() {
@@ -475,9 +451,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         decoration: InputDecoration(
           labelText: 'Tanggal Lahir',
           prefixIcon: const Icon(Icons.calendar_today_outlined),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),
         child: Text(
           _selectedDate == null
@@ -515,9 +489,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             });
           },
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         helperText: 'Gunakan kombinasi huruf besar, kecil, angka, dan simbol',
         helperMaxLines: 2,
       ),
@@ -571,9 +543,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         prefixIcon: const Icon(Icons.lock_outline),
         suffixIcon: IconButton(
           icon: Icon(
-            _isConfirmPasswordVisible
-                ? Icons.visibility_off
-                : Icons.visibility,
+            _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
             color: Colors.grey,
           ),
           onPressed: () {
@@ -582,9 +552,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             });
           },
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -685,10 +653,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               )
             : const Text(
                 'Daftar Sekarang',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
       ),
     );

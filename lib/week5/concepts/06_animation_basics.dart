@@ -168,16 +168,15 @@ class _AnimationBasicsDemoState extends State<AnimationBasicsDemo> {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -404,7 +403,9 @@ class _AnimationBasicsDemoState extends State<AnimationBasicsDemo> {
                 Text('• Keep animations under 400ms'),
                 Text('• Use appropriate curves for natural feel'),
                 Text('• Dispose AnimationControllers'),
-                Text('• Animate transform properties (translate, scale, rotate)'),
+                Text(
+                  '• Animate transform properties (translate, scale, rotate)',
+                ),
                 Text('• Use const for static widgets'),
                 Text('• Test on real devices for performance'),
                 Text('• Provide option to disable animations (accessibility)'),
@@ -498,10 +499,7 @@ class _AnimationBasicsDemoState extends State<AnimationBasicsDemo> {
         children: [
           const Text(
             'ANIMATION LIFECYCLE STATE MACHINE',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
           ),
           const SizedBox(height: 16),
           Row(
@@ -517,9 +515,7 @@ class _AnimationBasicsDemoState extends State<AnimationBasicsDemo> {
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('↓', style: TextStyle(fontSize: 20)),
-            ],
+            children: const [Text('↓', style: TextStyle(fontSize: 20))],
           ),
           const SizedBox(height: 8),
           Row(
@@ -782,17 +778,16 @@ class _CurvesDemonstrationWidgetState extends State<CurvesDemonstrationWidget>
                 left: 0,
                 right: 0,
                 top: 35,
-                child: Container(
-                  height: 2,
-                  color: Colors.grey.shade300,
-                ),
+                child: Container(height: 2, color: Colors.grey.shade300),
               ),
               // Animated ball
               AnimatedBuilder(
                 animation: animation,
                 builder: (context, child) {
                   return Positioned(
-                    left: animation.value * (MediaQuery.of(context).size.width - 80),
+                    left:
+                        animation.value *
+                        (MediaQuery.of(context).size.width - 80),
                     top: 20,
                     child: Container(
                       width: 40,
@@ -1058,10 +1053,7 @@ class _AnimationPrinciplesWidgetState extends State<AnimationPrinciplesWidget>
 
   @override
   Widget build(BuildContext context) {
-    final animation = CurvedAnimation(
-      parent: _controller,
-      curve: _getCurve(),
-    );
+    final animation = CurvedAnimation(parent: _controller, curve: _getCurve());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1097,19 +1089,20 @@ class _AnimationPrinciplesWidgetState extends State<AnimationPrinciplesWidget>
           spacing: 4,
           children: ['linear', 'easeIn', 'easeOut', 'easeInOut', 'bounceOut']
               .map((curve) {
-            return ChoiceChip(
-              label: Text(curve, style: const TextStyle(fontSize: 11)),
-              selected: _curve == curve,
-              onSelected: (selected) {
-                if (selected) {
-                  setState(() {
-                    _curve = curve;
-                  });
-                }
-              },
-              selectedColor: Colors.purple.shade300,
-            );
-          }).toList(),
+                return ChoiceChip(
+                  label: Text(curve, style: const TextStyle(fontSize: 11)),
+                  selected: _curve == curve,
+                  onSelected: (selected) {
+                    if (selected) {
+                      setState(() {
+                        _curve = curve;
+                      });
+                    }
+                  },
+                  selectedColor: Colors.purple.shade300,
+                );
+              })
+              .toList(),
         ),
 
         const SizedBox(height: 16),

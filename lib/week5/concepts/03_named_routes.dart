@@ -153,16 +153,15 @@ class NamedRoutesDemo extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -625,18 +624,9 @@ class DetailScreen extends StatelessWidget {
               TableRow(
                 decoration: BoxDecoration(color: Colors.teal.shade100),
                 children: const [
-                  _TableCell(
-                    text: 'Aspect',
-                    isHeader: true,
-                  ),
-                  _TableCell(
-                    text: 'Direct Routes',
-                    isHeader: true,
-                  ),
-                  _TableCell(
-                    text: 'Named Routes',
-                    isHeader: true,
-                  ),
+                  _TableCell(text: 'Aspect', isHeader: true),
+                  _TableCell(text: 'Direct Routes', isHeader: true),
+                  _TableCell(text: 'Named Routes', isHeader: true),
                 ],
               ),
 
@@ -724,10 +714,7 @@ class _TableCell extends StatelessWidget {
   final String text;
   final bool isHeader;
 
-  const _TableCell({
-    required this.text,
-    this.isHeader = false,
-  });
+  const _TableCell({required this.text, this.isHeader = false});
 
   @override
   Widget build(BuildContext context) {
@@ -796,9 +783,7 @@ class NamedRoutesTestWidget extends StatelessWidget {
                 },
                 icon: const Icon(Icons.person),
                 label: const Text('Direct Push'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               ),
 
               ElevatedButton.icon(
@@ -807,17 +792,14 @@ class NamedRoutesTestWidget extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const DemoProfileScreen(
-                        title: 'Named Route Demo',
-                      ),
+                      builder: (_) =>
+                          const DemoProfileScreen(title: 'Named Route Demo'),
                     ),
                   );
                 },
                 icon: const Icon(Icons.route),
                 label: const Text('Named Push'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               ),
 
               ElevatedButton.icon(
@@ -834,9 +816,7 @@ class NamedRoutesTestWidget extends StatelessWidget {
                 },
                 icon: const Icon(Icons.send),
                 label: const Text('With Arguments'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
               ),
             ],
           ),
@@ -869,18 +849,12 @@ class NamedRoutesTestWidget extends StatelessWidget {
 class DemoProfileScreen extends StatelessWidget {
   final String title;
 
-  const DemoProfileScreen({
-    super.key,
-    this.title = 'Profile Screen',
-  });
+  const DemoProfileScreen({super.key, this.title = 'Profile Screen'});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.green,
-      ),
+      appBar: AppBar(title: Text(title), backgroundColor: Colors.green),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -909,11 +883,7 @@ class DemoDetailScreen extends StatelessWidget {
   final int id;
   final String title;
 
-  const DemoDetailScreen({
-    super.key,
-    required this.id,
-    required this.title,
-  });
+  const DemoDetailScreen({super.key, required this.id, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -928,10 +898,7 @@ class DemoDetailScreen extends StatelessWidget {
           children: [
             const Icon(Icons.info, size: 100, color: Colors.orange),
             const SizedBox(height: 16),
-            Text(
-              'ID: $id',
-              style: const TextStyle(fontSize: 20),
-            ),
+            Text('ID: $id', style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 8),
             Text(
               'Title: $title',

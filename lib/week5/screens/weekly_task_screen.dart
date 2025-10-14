@@ -52,16 +52,15 @@ class _WeeklyTaskScreenState extends State<WeeklyTaskScreen>
       duration: const Duration(milliseconds: 800),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _controller.forward();
   }
@@ -95,9 +94,7 @@ class _WeeklyTaskScreenState extends State<WeeklyTaskScreen>
               child: Column(
                 children: [
                   _buildHeader(),
-                  Expanded(
-                    child: _buildFeatureMenu(),
-                  ),
+                  Expanded(child: _buildFeatureMenu()),
                   _buildTaskInstructions(),
                   const SizedBox(height: 16),
                 ],
@@ -201,10 +198,7 @@ class _WeeklyTaskScreenState extends State<WeeklyTaskScreen>
       ),
       itemCount: features.length,
       itemBuilder: (context, index) {
-        return _AnimatedFeatureCard(
-          feature: features[index],
-          index: index,
-        );
+        return _AnimatedFeatureCard(feature: features[index], index: index);
       },
     );
   }
@@ -216,10 +210,7 @@ class _WeeklyTaskScreenState extends State<WeeklyTaskScreen>
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.15),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.3),
-          width: 1,
-        ),
+        border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,10 +255,7 @@ class _AnimatedFeatureCard extends StatefulWidget {
   final FeatureItem feature;
   final int index;
 
-  const _AnimatedFeatureCard({
-    required this.feature,
-    required this.index,
-  });
+  const _AnimatedFeatureCard({required this.feature, required this.index});
 
   @override
   State<_AnimatedFeatureCard> createState() => _AnimatedFeatureCardState();
@@ -285,10 +273,7 @@ class _AnimatedFeatureCardState extends State<_AnimatedFeatureCard> {
       builder: (context, value, child) {
         return Transform.scale(
           scale: value,
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: GestureDetector(
@@ -305,7 +290,9 @@ class _AnimatedFeatureCardState extends State<_AnimatedFeatureCard> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: widget.feature.color.withOpacity(_isHovered ? 0.4 : 0.2),
+                  color: widget.feature.color.withOpacity(
+                    _isHovered ? 0.4 : 0.2,
+                  ),
                   blurRadius: _isHovered ? 20 : 12,
                   offset: Offset(0, _isHovered ? 12 : 6),
                 ),
@@ -340,10 +327,7 @@ class _AnimatedFeatureCardState extends State<_AnimatedFeatureCard> {
                 const SizedBox(height: 4),
                 Text(
                   widget.feature.subtitle,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -355,10 +339,7 @@ class _AnimatedFeatureCardState extends State<_AnimatedFeatureCard> {
   }
 
   void _navigateToFeature(BuildContext context) {
-    Navigator.push(
-      context,
-      _createCustomRoute(widget.feature.route),
-    );
+    Navigator.push(context, _createCustomRoute(widget.feature.route));
   }
 
   Route _createCustomRoute(Widget page) {
@@ -370,13 +351,15 @@ class _AnimatedFeatureCardState extends State<_AnimatedFeatureCard> {
         const end = Offset.zero;
         const curve = Curves.easeInOutCubic;
 
-        var tween = Tween(begin: begin, end: end).chain(
-          CurveTween(curve: curve),
-        );
+        var tween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(CurveTween(curve: curve));
 
-        var fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-          CurvedAnimation(parent: animation, curve: Curves.easeIn),
-        );
+        var fadeAnimation = Tween<double>(
+          begin: 0.0,
+          end: 1.0,
+        ).animate(CurvedAnimation(parent: animation, curve: Curves.easeIn));
 
         return FadeTransition(
           opacity: fadeAnimation,
@@ -484,10 +467,7 @@ class _AnimatedLoginScreenState extends State<AnimatedLoginScreen>
       builder: (context, value, child) {
         return Transform.scale(
           scale: value,
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: Column(
@@ -524,10 +504,7 @@ class _AnimatedLoginScreenState extends State<AnimatedLoginScreen>
           const SizedBox(height: 8),
           Text(
             'Sign in to continue',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
           ),
         ],
       ),
@@ -539,10 +516,7 @@ class _AnimatedLoginScreenState extends State<AnimatedLoginScreen>
       animation: _shakeController,
       builder: (context, child) {
         final offset = sin(_shakeController.value * pi * 3) * 10;
-        return Transform.translate(
-          offset: Offset(offset, 0),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(offset, 0), child: child);
       },
       child: Form(
         key: _formKey,
@@ -587,10 +561,7 @@ class _AnimatedLoginScreenState extends State<AnimatedLoginScreen>
       builder: (context, value, child) {
         return Transform.scale(
           scale: value,
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: SizedBox(
@@ -617,10 +588,7 @@ class _AnimatedLoginScreenState extends State<AnimatedLoginScreen>
                 )
               : const Text(
                   'Sign In',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
         ),
       ),
@@ -633,10 +601,7 @@ class _AnimatedLoginScreenState extends State<AnimatedLoginScreen>
       duration: const Duration(milliseconds: 600),
       curve: Curves.elasticOut,
       builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: child,
-        );
+        return Transform.scale(scale: value, child: child);
       },
       child: Container(
         padding: const EdgeInsets.all(20),
@@ -736,10 +701,7 @@ class _AnimatedTextFieldState extends State<_AnimatedTextField> {
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(0, (1 - value) * 50),
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: Focus(
@@ -862,10 +824,7 @@ class AnimatedProfileScreen extends StatelessWidget {
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(0, (1 - value) * 50),
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: Column(
@@ -897,11 +856,7 @@ class AnimatedProfileScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Icon(
-                  Icons.person,
-                  size: 60,
-                  color: Colors.white,
-                ),
+                child: const Icon(Icons.person, size: 60, color: Colors.white),
               ),
             ),
           ),
@@ -917,10 +872,7 @@ class AnimatedProfileScreen extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             'john.doe@example.com',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
           ),
         ],
       ),
@@ -944,10 +896,7 @@ class AnimatedProfileScreen extends StatelessWidget {
           builder: (context, value, child) {
             return Transform.scale(
               scale: value,
-              child: Opacity(
-                opacity: value,
-                child: child,
-              ),
+              child: Opacity(opacity: value, child: child),
             );
           },
           child: _StatCard(
@@ -963,7 +912,11 @@ class AnimatedProfileScreen extends StatelessWidget {
     final info = [
       {'icon': Icons.email, 'label': 'Email', 'value': 'john.doe@example.com'},
       {'icon': Icons.phone, 'label': 'Phone', 'value': '+1 234 567 8900'},
-      {'icon': Icons.location_on, 'label': 'Location', 'value': 'San Francisco, CA'},
+      {
+        'icon': Icons.location_on,
+        'label': 'Location',
+        'value': 'San Francisco, CA',
+      },
       {'icon': Icons.cake, 'label': 'Birthday', 'value': 'January 1, 1990'},
     ];
 
@@ -976,10 +929,7 @@ class AnimatedProfileScreen extends StatelessWidget {
           builder: (context, value, child) {
             return Transform.translate(
               offset: Offset((1 - value) * 100, 0),
-              child: Opacity(
-                opacity: value,
-                child: child,
-              ),
+              child: Opacity(opacity: value, child: child),
             );
           },
           child: _InfoCard(
@@ -997,10 +947,7 @@ class _StatCard extends StatelessWidget {
   final String label;
   final String value;
 
-  const _StatCard({
-    required this.label,
-    required this.value,
-  });
+  const _StatCard({required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -1030,10 +977,7 @@ class _StatCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
           ),
         ],
       ),
@@ -1086,10 +1030,7 @@ class _InfoCard extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -1131,11 +1072,7 @@ class ProfileImageFullScreen extends StatelessWidget {
                   colors: [Colors.green.shade400, Colors.teal.shade400],
                 ),
               ),
-              child: const Icon(
-                Icons.person,
-                size: 150,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.person, size: 150, color: Colors.white),
             ),
           ),
         ),
@@ -1235,10 +1172,7 @@ class _AnimatedSettingsScreenState extends State<AnimatedSettingsScreen> {
       builder: (context, value, child) {
         return Transform.scale(
           scale: value,
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: Container(
@@ -1266,10 +1200,7 @@ class _AnimatedSettingsScreenState extends State<AnimatedSettingsScreen> {
                 ),
                 Text(
                   'Customize your experience',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white70,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.white70),
                 ),
               ],
             ),
@@ -1294,10 +1225,7 @@ class _AnimatedSettingsScreenState extends State<AnimatedSettingsScreen> {
       builder: (context, animValue, child) {
         return Transform.translate(
           offset: Offset((1 - animValue) * 100, 0),
-          child: Opacity(
-            opacity: animValue,
-            child: child,
-          ),
+          child: Opacity(opacity: animValue, child: child),
         );
       },
       child: AnimatedContainer(
@@ -1321,15 +1249,10 @@ class _AnimatedSettingsScreenState extends State<AnimatedSettingsScreen> {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: value
-                    ? Colors.orange.shade100
-                    : Colors.grey.shade100,
+                color: value ? Colors.orange.shade100 : Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                color: value ? Colors.orange : Colors.grey,
-              ),
+              child: Icon(icon, color: value ? Colors.orange : Colors.grey),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -1346,10 +1269,7 @@ class _AnimatedSettingsScreenState extends State<AnimatedSettingsScreen> {
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey.shade600,
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                   ),
                 ],
               ),
@@ -1360,7 +1280,7 @@ class _AnimatedSettingsScreenState extends State<AnimatedSettingsScreen> {
               child: Switch(
                 value: value,
                 onChanged: onChanged,
-                activeColor: Colors.orange,
+                activeThumbColor: Colors.orange,
               ),
             ),
           ],
@@ -1383,10 +1303,7 @@ class _AnimatedSettingsScreenState extends State<AnimatedSettingsScreen> {
       builder: (context, animValue, child) {
         return Transform.translate(
           offset: Offset((1 - animValue) * 100, 0),
-          child: Opacity(
-            opacity: animValue,
-            child: child,
-          ),
+          child: Opacity(opacity: animValue, child: child),
         );
       },
       child: Container(
@@ -1443,10 +1360,7 @@ class _AnimatedSettingsScreenState extends State<AnimatedSettingsScreen> {
                 thumbColor: Colors.orange,
                 overlayColor: Colors.orange.withOpacity(0.2),
               ),
-              child: Slider(
-                value: value,
-                onChanged: onChanged,
-              ),
+              child: Slider(value: value, onChanged: onChanged),
             ),
           ],
         ),
@@ -1507,10 +1421,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(0, (1 - value) * 50),
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: Container(
@@ -1533,10 +1444,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
           children: [
             const Text(
               'Welcome back!',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white70,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.white70),
             ),
             const SizedBox(height: 8),
             const Text(
@@ -1565,10 +1473,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
                       SizedBox(width: 4),
                       Text(
                         'Premium Member',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],
                   ),
@@ -1583,10 +1488,30 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
 
   Widget _buildStatsGrid() {
     final stats = [
-      {'icon': Icons.shopping_cart, 'label': 'Orders', 'value': '24', 'color': Colors.blue},
-      {'icon': Icons.attach_money, 'label': 'Revenue', 'value': '\$2.4K', 'color': Colors.green},
-      {'icon': Icons.people, 'label': 'Customers', 'value': '156', 'color': Colors.orange},
-      {'icon': Icons.trending_up, 'label': 'Growth', 'value': '+23%', 'color': Colors.purple},
+      {
+        'icon': Icons.shopping_cart,
+        'label': 'Orders',
+        'value': '24',
+        'color': Colors.blue,
+      },
+      {
+        'icon': Icons.attach_money,
+        'label': 'Revenue',
+        'value': '\$2.4K',
+        'color': Colors.green,
+      },
+      {
+        'icon': Icons.people,
+        'label': 'Customers',
+        'value': '156',
+        'color': Colors.orange,
+      },
+      {
+        'icon': Icons.trending_up,
+        'label': 'Growth',
+        'value': '+23%',
+        'color': Colors.purple,
+      },
     ];
 
     return GridView.builder(
@@ -1608,10 +1533,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
           builder: (context, value, child) {
             return Transform.scale(
               scale: value,
-              child: Opacity(
-                opacity: value,
-                child: child,
-              ),
+              child: Opacity(opacity: value, child: child),
             );
           },
           child: _StatDashboardCard(
@@ -1633,10 +1555,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(0, (1 - value) * 50),
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: Container(
@@ -1657,10 +1576,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
           children: [
             const Text(
               'Activity Overview',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             Row(
@@ -1696,17 +1612,19 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                  .map((day) => SizedBox(
-                        width: 32,
-                        child: Text(
-                          day,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.grey.shade600,
-                          ),
-                          textAlign: TextAlign.center,
+                  .map(
+                    (day) => SizedBox(
+                      width: 32,
+                      child: Text(
+                        day,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey.shade600,
                         ),
-                      ))
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
                   .toList(),
             ),
           ],
@@ -1717,9 +1635,21 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
 
   Widget _buildRecentActivity() {
     final activities = [
-      {'title': 'New order received', 'time': '2 minutes ago', 'icon': Icons.shopping_bag},
-      {'title': 'Customer message', 'time': '15 minutes ago', 'icon': Icons.message},
-      {'title': 'Payment received', 'time': '1 hour ago', 'icon': Icons.payment},
+      {
+        'title': 'New order received',
+        'time': '2 minutes ago',
+        'icon': Icons.shopping_bag,
+      },
+      {
+        'title': 'Customer message',
+        'time': '15 minutes ago',
+        'icon': Icons.message,
+      },
+      {
+        'title': 'Payment received',
+        'time': '1 hour ago',
+        'icon': Icons.payment,
+      },
     ];
 
     return Column(
@@ -1727,10 +1657,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
       children: [
         const Text(
           'Recent Activity',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
         ...activities.asMap().entries.map((entry) {
@@ -1741,10 +1668,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
             builder: (context, value, child) {
               return Transform.translate(
                 offset: Offset((1 - value) * 100, 0),
-                child: Opacity(
-                  opacity: value,
-                  child: child,
-                ),
+                child: Opacity(opacity: value, child: child),
               );
             },
             child: Container(
@@ -1783,9 +1707,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
                       children: [
                         Text(
                           entry.value['title'] as String,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 2),
                         Text(
@@ -1836,10 +1758,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
             icon: Icon(Icons.analytics),
             label: 'Analytics',
@@ -1848,10 +1767,7 @@ class _AnimatedDashboardScreenState extends State<AnimatedDashboardScreen> {
             icon: Icon(Icons.notifications),
             label: 'Notifications',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );
@@ -1911,10 +1827,7 @@ class _StatDashboardCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
           ),
         ],
       ),
