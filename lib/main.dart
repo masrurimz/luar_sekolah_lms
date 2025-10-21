@@ -43,6 +43,17 @@ import 'week5/screens/animation_demo_screen.dart';
 import 'week5/screens/weekly_task_screen.dart';
 import 'week5_simple.dart';
 
+// Week 6 imports
+import 'week6/concepts/01_packages_intro.dart';
+import 'week6/concepts/02_http_setup.dart';
+import 'week6/concepts/03_http_get_basics.dart';
+import 'week6/concepts/04_parse_json_to_model.dart';
+import 'week6/concepts/05_futurebuilder_ui.dart';
+import 'week6/concepts/06_error_handling_retry.dart';
+import 'week6/screens/todo_dashboard_screen.dart';
+import 'week6/screens/weekly_task_screen.dart' as week6;
+import 'week6/screens/todo_crud_screen.dart';
+
 // ==========================================
 // MAIN FUNCTION
 // ==========================================
@@ -183,6 +194,17 @@ class MyApp extends StatelessWidget {
         '/week5/navigation-demo': (context) => const NavigationDemoScreen(),
         '/week5/animation-demo': (context) => const AnimationDemoScreen(),
         '/week5/weekly-task': (context) => const WeeklyTaskScreen(),
+
+        // Week 6 routes
+        '/week6/packages-intro': (context) => const PackagesIntroDemo(),
+        '/week6/http-setup': (context) => const HttpSetupDemo(),
+        '/week6/http-get': (context) => const HttpGetBasicsDemo(),
+        '/week6/parse-json': (context) => const ParseJsonToModelDemo(),
+        '/week6/futurebuilder-ui': (context) => const FutureBuilderUiDemo(),
+        '/week6/error-retry': (context) => const ErrorHandlingRetryDemo(),
+        '/week6/todo-dashboard': (context) => const TodoDashboardScreen(),
+        '/week6/todo-crud': (context) => const TodoCrudScreen(),
+        '/week6/weekly-task': (context) => const week6.Week6WeeklyTaskScreen(),
       },
 
       // Route generator untuk dynamic routing (optional)
@@ -490,6 +512,88 @@ class MainMenuScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 24),
+
+                // ==========================================
+                // WEEK 6 SECTION
+                // ==========================================
+                const Text(
+                  '📙 Week 6: API → UI',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMenuCard(
+                  context: context,
+                  title: 'Packages Intro',
+                  subtitle: 'Dart vs Plugin, manfaat, praktik',
+                  icon: Icons.extension,
+                  color: Colors.blue,
+                  route: '/week6/packages-intro',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'HTTP Setup',
+                  subtitle: 'Tambah dependency, import & konfigurasi',
+                  icon: Icons.settings_ethernet,
+                  color: Colors.indigo,
+                  route: '/week6/http-setup',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'HTTP GET Basics',
+                  subtitle: 'Request, response, status code',
+                  icon: Icons.cloud_download,
+                  color: Colors.deepPurple,
+                  route: '/week6/http-get',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Parse JSON → Model',
+                  subtitle: 'Model class, mapping & list',
+                  icon: Icons.data_object,
+                  color: Colors.teal,
+                  route: '/week6/parse-json',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'FutureBuilder & UI',
+                  subtitle: 'Loading, success, error, empty',
+                  icon: Icons.query_builder,
+                  color: Colors.cyan,
+                  route: '/week6/futurebuilder-ui',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Error Handling & Retry',
+                  subtitle: 'Timeout, exception, retry pattern',
+                  icon: Icons.report_problem,
+                  color: Colors.orange,
+                  route: '/week6/error-retry',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Todo Dashboard (API)',
+                  subtitle: 'Filter, refresh, retry',
+                  icon: Icons.dashboard,
+                  color: Colors.blueGrey,
+                  route: '/week6/todo-dashboard',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Todo CRUD (API)',
+                  subtitle: 'Create, Update, Delete',
+                  icon: Icons.build_circle,
+                  color: Colors.deepOrange,
+                  route: '/week6/todo-crud',
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '⭐ Weekly Task',
+                  subtitle: 'Bangun UI dengan API',
+                  icon: Icons.assignment,
+                  color: Colors.red,
+                  route: '/week6/weekly-task',
+                ),
 
                 // ==========================================
                 // INFO SECTION

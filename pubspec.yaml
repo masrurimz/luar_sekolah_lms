@@ -38,6 +38,9 @@ dependencies:
   # Week 4: Local storage for form data persistence
   shared_preferences: ^2.5.3
 
+  # Week 6: HTTP client for API integration
+  http: ^1.2.2
+
   # Week 4 (Optional): Validation library for bonus lesson
   # Uncomment below to try library-based validation in week4_simple.dart Lesson 11
   # form_validator: ^2.1.1
