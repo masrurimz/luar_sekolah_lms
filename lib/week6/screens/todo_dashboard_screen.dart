@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import '../models/todo.dart';
 import '../services/todo_api_service.dart';
 
+/// Filter options for Todo items
 enum TodoFilter { all, completed, pending }
 
+/// Dashboard screen for viewing Todo items with filtering
+/// Demonstrates read-only API consumption with state management
 class TodoDashboardScreen extends StatefulWidget {
   const TodoDashboardScreen({super.key});
 

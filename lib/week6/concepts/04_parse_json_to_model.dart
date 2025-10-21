@@ -25,7 +25,14 @@ class _ParseJsonToModelDemoState extends State<ParseJsonToModelDemo> {
     });
     try {
       final uri = Uri.parse('https://jsonplaceholder.typicode.com/todos?_limit=8');
-      final res = await http.get(uri).timeout(const Duration(seconds: 15));
+      final res = await http.get(
+        uri,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'User-Agent': 'Flutter-Learning-App/1.0',
+        },
+      ).timeout(const Duration(seconds: 15));
       if (res.statusCode == 200) {
         final List<dynamic> data = jsonDecode(res.body) as List<dynamic>;
         final todos = data.map((e) => Todo.fromJson(e as Map<String, dynamic>)).toList();

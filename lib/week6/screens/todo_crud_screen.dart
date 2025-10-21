@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../models/todo.dart';
 import '../services/todo_api_service.dart';
 
+/// Full CRUD operations screen for Todo management
+/// Demonstrates create, read, update, delete operations with optimistic updates
 class TodoCrudScreen extends StatefulWidget {
   const TodoCrudScreen({super.key});
 
@@ -22,6 +24,21 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
     _load();
   }
 
+  /// Converts API errors to user-friendly messages
+  String _getErrorMessage(dynamic error) {
+    final errorString = error.toString();
+
+    if (errorString.contains('Network error')) {
+      return 'Tidak ada koneksi internet. Periksa WiFi/data Anda.';
+    } else if (errorString.contains('timeout')) {
+      return 'Koneksi terlalu lambat. Coba lagi beberapa saat.';
+    } else if (errorString.contains('Failed to load')) {
+      return 'Gagal memuat data dari server. Coba lagi nanti.';
+    } else {
+      return 'Terjadi kesalahan: ${error.toString()}';
+    }
+  }
+
   Future<void> _load() async {
     setState(() {
       _loading = true;
@@ -31,7 +48,7 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
       final data = await _api.fetchTodos(limit: 12);
       setState(() => _items = data);
     } catch (e) {
-      setState(() => _error = e.toString());
+      setState(() => _error = _getErrorMessage(e));
     } finally {
       setState(() => _loading = false);
     }
@@ -51,7 +68,9 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
       setState(() => _items = [created, ..._items]);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Create failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal membuat todo: ${_getErrorMessage(e)}')),
+      );
     } finally {
       setState(() => _loading = false);
     }
@@ -77,7 +96,9 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
       // Revert on failure
       setState(() => _items = [..._items]..[idx] = before);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Update failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal memperbarui todo: ${_getErrorMessage(e)}')),
+      );
     }
   }
 
@@ -92,7 +113,9 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
     } catch (e) {
       setState(() => _items = [..._items]..[idx] = before);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Toggle failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal mengubah status: ${_getErrorMessage(e)}')),
+      );
     }
   }
 
@@ -118,7 +141,9 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
     } catch (e) {
       setState(() => _items = before);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Delete failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal menghapus todo: ${_getErrorMessage(e)}')),
+      );
     }
   }
 

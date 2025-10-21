@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Demo screen explaining packages in Flutter for Week 6
 class PackagesIntroDemo extends StatelessWidget {
   const PackagesIntroDemo({super.key});
 
@@ -19,6 +20,7 @@ class PackagesIntroDemo extends StatelessWidget {
             '• Hindari reinventing the wheel\n'
             '• Solusi cepat dan teruji komunitas\n'
             '• Maintenance oleh maintainer\n',
+            style: TextStyle(fontSize: 14),
           ),
           SizedBox(height: 12),
           Text(
@@ -26,6 +28,7 @@ class PackagesIntroDemo extends StatelessWidget {
             '1) Tambahkan ke pubspec.yaml\n'
             '2) Jalankan flutter pub get\n'
             '3) Import di file Dart dan gunakan\n',
+            style: TextStyle(fontSize: 14),
           ),
         ],
       ),
