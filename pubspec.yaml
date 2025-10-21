@@ -41,6 +41,9 @@ dependencies:
   # Week 6: HTTP client for API integration
   http: ^1.2.2
 
+  # Week 6: Alternative HTTP client with more features
+  dio: ^5.7.0
+
   # Week 4 (Optional): Validation library for bonus lesson
   # Uncomment below to try library-based validation in week4_simple.dart Lesson 11
   # form_validator: ^2.1.1
