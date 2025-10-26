@@ -5,10 +5,12 @@
 // Week 3: Widget & Layout
 // Week 4: Form & Validation
 // Week 5: Navigation, Routing & Animations
+// Week 7: State Management & Clean Architecture with GetX
 //
 // ==========================================
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // Week 3 imports
 import 'week3/concepts/01_widget_basics.dart';
@@ -54,6 +56,101 @@ import 'week6/screens/todo_dashboard_screen.dart';
 import 'week6/screens/weekly_task_screen.dart' as week6;
 import 'week6/screens/todo_crud_screen.dart';
 
+// Week 7 imports
+import 'week7/routes/week7_routes.dart';
+
+final List<GetPage<dynamic>> _appPages = [
+  GetPage(name: '/', page: () => const MainMenuScreen()),
+
+  // Week 3
+  GetPage(name: '/week3/basics', page: () => const WidgetBasicsDemo()),
+  GetPage(name: '/week3/stateless', page: () => const StatelessWidgetDemo()),
+  GetPage(name: '/week3/stateful', page: () => const StatefulWidgetDemo()),
+  GetPage(name: '/week3/login', page: () => const LoginScreen()),
+  GetPage(name: '/week3/register', page: () => const RegisterScreen()),
+  GetPage(name: '/week3/home', page: () => const week3.HomeScreen()),
+
+  // Week 4
+  GetPage(name: '/week4/simple', page: () => const Week4SimpleScreen()),
+  GetPage(name: '/week4/form-basics', page: () => const FormBasicsDemo()),
+  GetPage(name: '/week4/validation', page: () => const InputValidationDemo()),
+  GetPage(
+    name: '/week4/validation-types',
+    page: () => const ValidationTypesDemo(),
+  ),
+  GetPage(
+    name: '/week4/shared-prefs',
+    page: () => const SharedPreferencesDemo(),
+  ),
+  GetPage(
+    name: '/week4/validation-libraries',
+    page: () => const ValidationLibrariesDemo(),
+  ),
+  GetPage(name: '/week4/profile-form', page: () => const ProfileFormScreen()),
+
+  // Week 5
+  GetPage(name: '/week5/simple', page: () => const Week5SimpleScreen()),
+  GetPage(
+    name: '/week5/navigation-basics',
+    page: () => const NavigationBasicsDemo(),
+  ),
+  GetPage(name: '/week5/navigator', page: () => const NavigatorWidgetDemo()),
+  GetPage(name: '/week5/named-routes', page: () => const NamedRoutesDemo()),
+  GetPage(name: '/week5/drawer', page: () => const DrawerNavigationDemo()),
+  GetPage(name: '/week5/bottom-nav', page: () => const BottomNavigationDemo()),
+  GetPage(
+    name: '/week5/animation-basics',
+    page: () => const AnimationBasicsDemo(),
+  ),
+  GetPage(
+    name: '/week5/implicit-animations',
+    page: () => const ImplicitAnimationsDemo(),
+  ),
+  GetPage(
+    name: '/week5/explicit-animations',
+    page: () => const ExplicitAnimationsDemo(),
+  ),
+  GetPage(
+    name: '/week5/hero-transitions',
+    page: () => const HeroAndTransitionsDemo(),
+  ),
+  GetPage(
+    name: '/week5/navigation-demo',
+    page: () => const NavigationDemoScreen(),
+  ),
+  GetPage(
+    name: '/week5/animation-demo',
+    page: () => const AnimationDemoScreen(),
+  ),
+  GetPage(name: '/week5/weekly-task', page: () => const WeeklyTaskScreen()),
+
+  // Week 6
+  GetPage(name: '/week6/packages-intro', page: () => const PackagesIntroDemo()),
+  GetPage(name: '/week6/http-setup', page: () => const HttpSetupDemo()),
+  GetPage(name: '/week6/http-get', page: () => const HttpGetBasicsDemo()),
+  GetPage(name: '/week6/parse-json', page: () => const ParseJsonToModelDemo()),
+  GetPage(
+    name: '/week6/futurebuilder-ui',
+    page: () => const FutureBuilderUiDemo(),
+  ),
+  GetPage(
+    name: '/week6/error-retry',
+    page: () => const ErrorHandlingRetryDemo(),
+  ),
+  GetPage(
+    name: '/week6/todo-dashboard',
+    page: () => const TodoDashboardScreen(),
+  ),
+  GetPage(name: '/week6/todo-crud', page: () => const TodoCrudScreen()),
+  GetPage(
+    name: '/week6/weekly-task',
+    page: () => const week6.Week6WeeklyTaskScreen(),
+  ),
+
+  // Week 7 (spread existing definitions)
+  ...Week7Routes.pages,
+];
+
 // ==========================================
 // MAIN FUNCTION
 // ==========================================
@@ -75,8 +172,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MaterialApp adalah widget top-level untuk Material Design apps
-    return MaterialApp(
+    // GetMaterialApp memperluas MaterialApp dan menambahkan dukungan penuh
+    // untuk routing, dependency injection, serta snackbar dari GetX.
+    return GetMaterialApp(
       // ==========================================
       // APP CONFIGURATION
       // ==========================================
@@ -157,55 +255,7 @@ class MyApp extends StatelessWidget {
       // NAVIGATION ROUTES
       // ==========================================
       initialRoute: '/',
-      routes: {
-        '/': (context) => const MainMenuScreen(),
-
-        // Week 3 routes
-        '/week3/basics': (context) => const WidgetBasicsDemo(),
-        '/week3/stateless': (context) => const StatelessWidgetDemo(),
-        '/week3/stateful': (context) => const StatefulWidgetDemo(),
-        '/week3/login': (context) => const LoginScreen(),
-        '/week3/register': (context) => const RegisterScreen(),
-        '/week3/home': (context) => const week3.HomeScreen(),
-
-        // Week 4 routes
-        '/week4/simple': (context) => const Week4SimpleScreen(),
-        '/week4/form-basics': (context) => const FormBasicsDemo(),
-        '/week4/validation': (context) => const InputValidationDemo(),
-        '/week4/validation-types': (context) => const ValidationTypesDemo(),
-        '/week4/shared-prefs': (context) => const SharedPreferencesDemo(),
-        '/week4/validation-libraries': (context) =>
-            const ValidationLibrariesDemo(),
-        '/week4/profile-form': (context) => const ProfileFormScreen(),
-
-        // Week 5 routes
-        '/week5/simple': (context) => const Week5SimpleScreen(),
-        '/week5/navigation-basics': (context) => const NavigationBasicsDemo(),
-        '/week5/navigator': (context) => const NavigatorWidgetDemo(),
-        '/week5/named-routes': (context) => const NamedRoutesDemo(),
-        '/week5/drawer': (context) => const DrawerNavigationDemo(),
-        '/week5/bottom-nav': (context) => const BottomNavigationDemo(),
-        '/week5/animation-basics': (context) => const AnimationBasicsDemo(),
-        '/week5/implicit-animations': (context) =>
-            const ImplicitAnimationsDemo(),
-        '/week5/explicit-animations': (context) =>
-            const ExplicitAnimationsDemo(),
-        '/week5/hero-transitions': (context) => const HeroAndTransitionsDemo(),
-        '/week5/navigation-demo': (context) => const NavigationDemoScreen(),
-        '/week5/animation-demo': (context) => const AnimationDemoScreen(),
-        '/week5/weekly-task': (context) => const WeeklyTaskScreen(),
-
-        // Week 6 routes
-        '/week6/packages-intro': (context) => const PackagesIntroDemo(),
-        '/week6/http-setup': (context) => const HttpSetupDemo(),
-        '/week6/http-get': (context) => const HttpGetBasicsDemo(),
-        '/week6/parse-json': (context) => const ParseJsonToModelDemo(),
-        '/week6/futurebuilder-ui': (context) => const FutureBuilderUiDemo(),
-        '/week6/error-retry': (context) => const ErrorHandlingRetryDemo(),
-        '/week6/todo-dashboard': (context) => const TodoDashboardScreen(),
-        '/week6/todo-crud': (context) => const TodoCrudScreen(),
-        '/week6/weekly-task': (context) => const week6.Week6WeeklyTaskScreen(),
-      },
+      getPages: _appPages,
 
       // Route generator untuk dynamic routing (optional)
       // onGenerateRoute: (settings) {
@@ -241,7 +291,7 @@ class MainMenuScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Theme.of(context).primaryColor.withOpacity(0.1),
+              Theme.of(context).primaryColor.withValues(alpha: 0.1),
               Colors.white,
             ],
           ),
@@ -262,7 +312,7 @@ class MainMenuScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 2),
                       ),
@@ -595,6 +645,82 @@ class MainMenuScreen extends StatelessWidget {
                   route: '/week6/weekly-task',
                 ),
 
+                const SizedBox(height: 24),
+
+                // ==========================================
+                // WEEK 7 SECTION
+                // ==========================================
+                const Text(
+                  '🧠 Week 7: GetX State Management',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMenuCard(
+                  context: context,
+                  title: 'State Management Overview',
+                  subtitle: 'State lokal vs global, kapan memakai GetX',
+                  icon: Icons.sync_alt,
+                  color: Colors.blue,
+                  route: Week7Routes.stateManagementOverview,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'GetX Essentials',
+                  subtitle: 'State, route, dan dependency injection',
+                  icon: Icons.auto_awesome,
+                  color: Colors.deepPurple,
+                  route: Week7Routes.getxFoundation,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Controller Lifecycle',
+                  subtitle: 'onInit, onReady, onClose & reactive state',
+                  icon: Icons.timeline,
+                  color: Colors.teal,
+                  route: Week7Routes.controllerLifecycle,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Routing & Dependency Injection',
+                  subtitle: 'GetMaterialApp, GetPage, Binding pattern',
+                  icon: Icons.alt_route,
+                  color: Colors.indigo,
+                  route: Week7Routes.navigationDi,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Clean Architecture + GetX',
+                  subtitle: 'Pisahkan UI, domain, dan data layer',
+                  icon: Icons.architecture,
+                  color: Colors.orange,
+                  route: Week7Routes.cleanArchitecture,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'API Integration Playbook',
+                  subtitle: 'Checklist konsumsi API + error handling',
+                  icon: Icons.cloud_sync,
+                  color: Colors.cyan,
+                  route: Week7Routes.apiIntegration,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'GetX Todo Dashboard',
+                  subtitle: 'Reactive CRUD dengan binding & snackbar',
+                  icon: Icons.dashboard_customize,
+                  color: Colors.blueGrey,
+                  route: Week7Routes.todoDashboard,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '⭐ Weekly Task',
+                  subtitle: 'Todo app dengan arsitektur bersih',
+                  icon: Icons.assignment_turned_in,
+                  color: Colors.redAccent,
+                  route: Week7Routes.weeklyTask,
+                ),
+
                 // ==========================================
                 // INFO SECTION
                 // ==========================================
@@ -660,11 +786,11 @@ class MainMenuScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         elevation: 2,
-        shadowColor: color.withOpacity(0.3),
+        shadowColor: color.withValues(alpha: 0.3),
         child: InkWell(
           onTap: () {
             // Navigate ke route yang dituju
-            Navigator.pushNamed(context, route);
+            Get.toNamed(route);
           },
           borderRadius: BorderRadius.circular(12),
           child: Container(
@@ -676,7 +802,7 @@ class MainMenuScreen extends StatelessWidget {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Icon(icon, color: color, size: 24),

@@ -44,6 +44,9 @@ dependencies:
   # Week 6: Alternative HTTP client with more features
   dio: ^5.7.0
 
+  # Week 7: GetX state management framework
+  get: ^4.6.6
+
   # Week 4 (Optional): Validation library for bonus lesson
   # Uncomment below to try library-based validation in week4_simple.dart Lesson 11
   # form_validator: ^2.1.1
