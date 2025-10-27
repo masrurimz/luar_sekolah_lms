@@ -5,18 +5,23 @@ class GetxControllerLifecycleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const codeStyle = TextStyle(fontFamily: 'monospace', fontSize: 12.5);
     return Scaffold(
-      appBar: AppBar(title: const Text('Week 7 - GetX Controller & Lifecycle')),
+      appBar: AppBar(
+        title: const Text('Week 8 - Remote Data Source & Dio Setup'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            _LifecycleOverview(),
-            SizedBox(height: 16),
-            _ObservableDeepDive(),
-            SizedBox(height: 16),
-            _GetxVsBloc(),
+          children: [
+            _DataSourceCard(codeStyle: codeStyle),
+            const SizedBox(height: 18),
+            const _TimeoutRetryCard(),
+            const SizedBox(height: 18),
+            const _MappingCard(),
+            const SizedBox(height: 18),
+            const _LoggingCard(),
           ],
         ),
       ),
@@ -24,104 +29,10 @@ class GetxControllerLifecycleScreen extends StatelessWidget {
   }
 }
 
-class _LifecycleOverview extends StatelessWidget {
-  const _LifecycleOverview();
+class _DataSourceCard extends StatelessWidget {
+  const _DataSourceCard({required this.codeStyle});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        gradient: LinearGradient(
-          colors: [Colors.teal.withValues(alpha: 0.08), Colors.white],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        border: Border.all(color: Colors.teal.withValues(alpha: 0.3)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Lifecycle penting dalam GetxController',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 12),
-          const _LifecycleRow(
-            'onInit()',
-            'Dipanggil sekali ketika controller dibuat. Cocok untuk init async, fetch API.',
-          ),
-          const _LifecycleRow(
-            'onReady()',
-            'Dipanggil setelah widget pertama kali dirender. Gunakan untuk logic yang butuh context/UI.',
-          ),
-          const _LifecycleRow(
-            'onClose()',
-            'Dipanggil ketika controller dihapus dari memori. Bersihkan resource (controller.dispose).',
-          ),
-          const SizedBox(height: 12),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.85),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Text(
-              'class TodoController extends GetxController {\n  @override\n  void onInit() {\n    super.onInit();\n    loadTodos();\n  }\n\n  @override\n  void onClose() {\n    searchController.dispose();\n    super.onClose();\n  }\n}',
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 12.5,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LifecycleRow extends StatelessWidget {
-  const _LifecycleRow(this.title, this.description);
-
-  final String title;
-  final String description;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(Icons.circle, size: 10, color: Colors.teal),
-          const SizedBox(width: 8),
-          Expanded(
-            child: RichText(
-              text: TextSpan(
-                style: Theme.of(context).textTheme.bodyMedium,
-                children: [
-                  TextSpan(
-                    text: '$title  ',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: description),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ObservableDeepDive extends StatelessWidget {
-  const _ObservableDeepDive();
+  final TextStyle codeStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -132,9 +43,9 @@ class _ObservableDeepDive extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            blurRadius: 20,
-            offset: const Offset(0, 12),
-            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 18,
+            offset: const Offset(0, 10),
+            color: Colors.black.withValues(alpha: 0.05),
           ),
         ],
       ),
@@ -142,47 +53,42 @@ class _ObservableDeepDive extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Reactive programming dengan `.obs`',
+            'Struktur `TodoRemoteDataSource`',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           const Text(
-            'Setiap tipe bisa dijadikan observable. Gunakan `.value` untuk primitive dan `assignAll/update` untuk koleksi.',
+            'Semua interaksi dengan Dio ditempatkan di sini. Data source bertugas mengubah JSON menjadi `TodoModel` sebelum dikirim ke repository.',
           ),
           const SizedBox(height: 12),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: const Color(0xFF0F172A),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(14),
             ),
-            child: const Text(
-              'final title = '
-              '.obs;\nfinal todos = <Todo>[].obs;\n\nvoid addTodo(Todo todo) {\n  todos.insert(0, todo);\n}\n\nvoid rename(String value) {\n  title.value = value;\n}',
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 12.5,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          const Text('Widget yang mendengarkan perubahan:'),
-          const SizedBox(height: 8),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colors.orange.withValues(alpha: 0.08),
-            ),
-            child: const Text(
-              'Obx(() => Text(controller.title.value));\nGetBuilder<TodoController>(builder: (_) => TodoListView(_.todos));',
-              style: TextStyle(fontFamily: 'monospace', fontSize: 12.5),
-            ),
+            child: Text('''class TodoRemoteDataSource {
+  TodoRemoteDataSource({Dio? client})
+      : _client = client ?? Dio(_baseOptions);
+
+  static final BaseOptions _baseOptions = BaseOptions(
+    baseUrl: 'https://ls-lms.zoidify.my.id/api',
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+    headers: {'Accept': 'application/json'},
+  );
+
+  final Dio _client;
+
+  Future<List<TodoModel>> fetchTodos() async {
+    final response = await _client.get<Map<String, dynamic>>('/todos');
+    final data = response.data?['todos'] as List<dynamic>? ?? [];
+    return data.map((item) => TodoModel.fromJson(item as Map<String, dynamic>)).toList();
+  }
+}''', style: codeStyle.copyWith(color: Colors.white70)),
           ),
         ],
       ),
@@ -190,8 +96,8 @@ class _ObservableDeepDive extends StatelessWidget {
   }
 }
 
-class _GetxVsBloc extends StatelessWidget {
-  const _GetxVsBloc();
+class _TimeoutRetryCard extends StatelessWidget {
+  const _TimeoutRetryCard();
 
   @override
   Widget build(BuildContext context) {
@@ -200,41 +106,37 @@ class _GetxVsBloc extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         gradient: LinearGradient(
-          colors: [Colors.purple.withValues(alpha: 0.08), Colors.white],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          colors: [Colors.cyan.withValues(alpha: 0.09), Colors.white],
         ),
-        border: Border.all(color: Colors.purple.withValues(alpha: 0.2)),
+        border: Border.all(color: Colors.cyan.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'GetX vs Cubit/BLoC',
+            'Timeout & retry strategy',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          const _ComparisonRow(
-            title: 'Verbosity',
-            getx: 'Lebih ringkas (sedikit boilerplate).',
-            bloc: 'State + event terpisah, kode lebih panjang.',
-          ),
-          const _ComparisonRow(
-            title: 'Reaktivitas',
-            getx: 'Observable bawaan `.obs`, update otomatis.',
-            bloc: 'Menggunakan stream & emit, cocok untuk event pipeline.',
-          ),
-          const _ComparisonRow(
-            title: 'Dependency Injection',
-            getx: 'Built-in dengan Get.put/Get.lazyPut.',
-            bloc: 'Biasanya memakai get_it atau provider.',
-          ),
-          const _ComparisonRow(
-            title: 'Testing',
-            getx: 'Controller relatif mudah di unit test (fungsi biasa).',
-            bloc: 'Testable juga, tapi butuh mocking stream controller.',
+          ...const [
+            'Set timeout connect & receive (10s) untuk menghindari UI menggantung.',
+            'Tangani `DioExceptionType.connectionTimeout` → lempar pesan khusus dan tawarkan tombol retry.',
+            'Gunakan interceptor ringan untuk menambahkan header auth (jika diperlukan) atau logging.',
+            'Siapkan mekanisme retry manual di controller/use case untuk aksi kritikal (misal create todo).',
+          ].map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.restart_alt, color: Colors.cyan),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(item)),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -242,96 +144,105 @@ class _GetxVsBloc extends StatelessWidget {
   }
 }
 
-class _ComparisonRow extends StatelessWidget {
-  const _ComparisonRow({
-    required this.title,
-    required this.getx,
-    required this.bloc,
-  });
-
-  final String title;
-  final String getx;
-  final String bloc;
-
-  @override
-  Widget build(BuildContext context) {
-    final style = Theme.of(
-      context,
-    ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: style),
-          const SizedBox(height: 6),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: _ColumnComparison(
-                  title: 'GetX',
-                  description: getx,
-                  color: Colors.teal,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _ColumnComparison(
-                  title: 'Cubit/BLoC',
-                  description: bloc,
-                  color: Colors.deepPurple,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ColumnComparison extends StatelessWidget {
-  const _ColumnComparison({
-    required this.title,
-    required this.description,
-    required this.color,
-  });
-
-  final String title;
-  final String description;
-  final Color color;
+class _MappingCard extends StatelessWidget {
+  const _MappingCard();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: color.withValues(alpha: 0.08),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 18,
+            offset: const Offset(0, 12),
+            color: Colors.black.withValues(alpha: 0.05),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: color.darken(),
+            'Mapping JSON ↔ domain',
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          ...const [
+            'Selalu gunakan `TodoModel` (extends `Todo`) untuk menjaga domain tetap immutable.',
+            'Validasi field wajib: id, text, completed, createdAt, updatedAt. Jika response tidak valid, lempar exception khusus.',
+            'Konversi tanggal menggunakan `DateTime.parse` dan `toIso8601String` agar kompatibel di semua layer.',
+            'Repository bertugas mengirim object domain (`Todo`), bukan Map ataupun DTO.',
+          ].map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.data_object, color: Colors.deepPurple),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(item)),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 6),
-          Text(description),
         ],
       ),
     );
   }
 }
 
-extension on Color {
-  Color darken([double amount = .2]) {
-    final hsl = HSLColor.fromColor(this);
-    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
-    return hslDark.toColor();
+class _LoggingCard extends StatelessWidget {
+  const _LoggingCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        gradient: LinearGradient(
+          colors: [Colors.grey.withValues(alpha: 0.1), Colors.white],
+        ),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Logging & monitoring ringan',
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            'Sebelum masuk ke Week 11 (testing), kita menambahkan observability sederhana agar debugging lebih cepat.',
+          ),
+          const SizedBox(height: 10),
+          ...const [
+            'Gunakan `log()` (dart:developer) di data source untuk mencatat endpoint, status code, dan waktu respons.',
+            'Tambahkan helper `mapDioError` yang mengubah error teknis menjadi pesan user-friendly.',
+            'Simulasikan kegagalan API di kelas demo untuk menunjukkan cara rollback state dari controller.',
+          ].map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.visibility, color: Colors.grey),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(item)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

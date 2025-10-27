@@ -24,6 +24,8 @@ class StateManagementOverviewScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
+            const _BridgeFromWeek6Card(),
+            const SizedBox(height: 20),
             _ExplanationCard(
               title: 'Kategori besar state management',
               color: Colors.green,
@@ -49,6 +51,61 @@ class StateManagementOverviewScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _BridgeFromWeek6Card extends StatelessWidget {
+  const _BridgeFromWeek6Card();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        color: Colors.indigo.withValues(alpha: 0.06),
+        border: Border.all(color: Colors.indigo.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.sync_alt, color: Colors.indigo.shade400),
+              const SizedBox(width: 12),
+              Text(
+                'Dari Week 6 → Week 7',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'Week 6 memakai FutureBuilder + JSONPlaceholder untuk membaca data. Week 7 meneruskan konsep API tersebut, tetapi kita memindahkan alur state ke GetX agar controller memegang data dan UI menjadi reaktif.',
+          ),
+          const SizedBox(height: 12),
+          ...const [
+            'Model: dari ID numerik → UUID/string mengikuti LMS API.',
+            'State: dari FutureBuilder → RxList `.obs` + `Obx` widget.',
+            'Aksi: dari sekadar fetch → CRUD optimistic agar peserta melihat siklus penuh API.',
+          ].map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.arrow_right, size: 18, color: Colors.indigo),
+                  const SizedBox(width: 4),
+                  Expanded(child: Text(item)),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

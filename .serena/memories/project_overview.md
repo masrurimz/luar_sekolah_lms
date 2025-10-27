@@ -1,0 +1,2 @@
+- Flutter training workspace with lesson code for successive weeks (week3+). Each week folder contains concepts, demos, and tasks for a mobile development curriculum leading from basic forms to API work, GetX state management, and clean architecture.
+- Primary tech stack: Flutter (Dart), with featured packages like shared_preferences (week4), http/dio (week6), and GetX (week7-8).

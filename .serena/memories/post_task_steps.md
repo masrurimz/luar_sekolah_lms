@@ -1,0 +1,3 @@
+- Run `flutter analyze` (and relevant `flutter test` suites) to ensure changes are clean.
+- Verify new lessons build by running `flutter run` on the target week entry point (`main.dart`/week-specific entry) if applicable.
+- Update README or week-specific docs when material changes to keep curriculum aligned.

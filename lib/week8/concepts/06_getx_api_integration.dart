@@ -6,7 +6,9 @@ class GetxApiIntegrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Week 7 - GetX + API Integration')),
+      appBar: AppBar(
+        title: const Text('Week 8 - Integrasi Data Layer Selesai'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -16,7 +18,7 @@ class GetxApiIntegrationScreen extends StatelessWidget {
             SizedBox(height: 16),
             _ErrorHandlingTips(),
             SizedBox(height: 16),
-            _TestingIdeas(),
+            _SustainabilityCard(),
           ],
         ),
       ),
@@ -117,8 +119,8 @@ class _ErrorHandlingTips extends StatelessWidget {
   }
 }
 
-class _TestingIdeas extends StatelessWidget {
-  const _TestingIdeas();
+class _SustainabilityCard extends StatelessWidget {
+  const _SustainabilityCard();
 
   @override
   Widget build(BuildContext context) {
@@ -135,19 +137,43 @@ class _TestingIdeas extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           Text(
-            'Testing ideas (bonus)',
+            'Sustainability & persiapan Week 11',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 12),
-          _TipRow(
-            'Mock repository di unit test controller untuk memastikan add/toggle/delete bekerja.',
+          _SustainabilityRow(
+            'Catat skenario yang ingin diuji nanti (success, empty, error, retry) tanpa menuliskannya sekarang.',
           ),
-          _TipRow(
-            'Widget test: gunakan Get.testMode = true dan pump halaman dengan binding.',
+          _SustainabilityRow(
+            'Pisahkan helper konversi/mapper ke file tersendiri sehingga mudah di-mock.',
           ),
-          _TipRow(
-            'Integration test: simulasi user menambahkan todo dan memastikan muncul di list.',
+          _SustainabilityRow(
+            'Gunakan `Get.testMode = true` saat membuat snippet demo agar peserta melihat perbedaan environment.',
           ),
+          _SustainabilityRow(
+            'Pastikan setiap use case mengembalikan tipe yang konsisten sehingga mudah dibuat unit test di Week 11.',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SustainabilityRow extends StatelessWidget {
+  const _SustainabilityRow(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.arrow_right, size: 20, color: Colors.grey),
+          const SizedBox(width: 6),
+          Expanded(child: Text(text)),
         ],
       ),
     );

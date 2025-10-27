@@ -6,19 +6,17 @@ class GetxNavigationDependencyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Week 7 - Routing & Dependency Injection'),
-      ),
+      appBar: AppBar(title: const Text('Week 8 - Dependency Graph & Bindings')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            _RoutingBasicsCard(),
+            _GraphOverviewCard(),
             SizedBox(height: 16),
-            _BindingPatternCard(),
+            _BindingScenariosCard(),
             SizedBox(height: 16),
-            _NavigationCheatsheet(),
+            _NavigationFlowsCard(),
           ],
         ),
       ),
@@ -26,32 +24,32 @@ class GetxNavigationDependencyScreen extends StatelessWidget {
   }
 }
 
-class _RoutingBasicsCard extends StatelessWidget {
-  const _RoutingBasicsCard();
+class _GraphOverviewCard extends StatelessWidget {
+  const _GraphOverviewCard();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(18),
         gradient: LinearGradient(
           colors: [Colors.blue.withValues(alpha: 0.08), Colors.white],
         ),
-        border: Border.all(color: Colors.blue.withValues(alpha: 0.2)),
+        border: Border.all(color: Colors.blue.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'GetMaterialApp & GetPage',
+            'Membangun dependency graph',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           const Text(
-            'Untuk memakai fitur routing GetX kita mengganti MaterialApp menjadi GetMaterialApp dan mendefinisikan daftar routes via GetPage.',
+            'Binding di Week 8 tidak hanya mendaftarkan controller, tetapi seluruh jalur data (data source → repository → use case → controller).',
           ),
           const SizedBox(height: 12),
           Container(
@@ -62,13 +60,17 @@ class _RoutingBasicsCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: const Text(
-              'GetMaterialApp(\n  initialRoute: Week7Routes.dashboard,\n  getPages: [\n    GetPage(\n      name: Week7Routes.dashboard,\n      page: () => const TodoDashboardPage(),\n      binding: TodoBinding(),\n    ),\n  ],\n);',
+              'class TodoBinding extends Bindings {\n  @override\n  void dependencies() {\n    Get.lazyPut<TodoRemoteDataSource>(() => TodoRemoteDataSource());\n    Get.lazyPut<TodoRepository>(\n      () => TodoRepositoryImpl(remote: Get.find()),\n    );\n\n    Get.lazyPut(() => GetTodosUseCase(Get.find()));\n    Get.lazyPut(() => CreateTodoUseCase(Get.find()));\n    Get.lazyPut(() => ToggleTodoCompletionUseCase(Get.find()));\n    Get.lazyPut(() => UpdateTodoUseCase(Get.find()));\n    Get.lazyPut(() => DeleteTodoUseCase(Get.find()));\n\n    Get.put(\n      TodoController(\n        getTodos: Get.find(),\n        createTodo: Get.find(),\n        toggleTodo: Get.find(),\n        updateTodo: Get.find(),\n        deleteTodo: Get.find(),\n      ),\n    );\n  }\n}',
               style: TextStyle(
                 fontFamily: 'monospace',
                 fontSize: 12.5,
-                color: Colors.white,
+                color: Colors.white70,
               ),
             ),
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'Tekankan bahwa setiap `Get.find()` membaca dependency yang sudah disiapkan sebelumnya sehingga urutan deklarasi penting.',
           ),
         ],
       ),
@@ -76,8 +78,8 @@ class _RoutingBasicsCard extends StatelessWidget {
   }
 }
 
-class _BindingPatternCard extends StatelessWidget {
-  const _BindingPatternCard();
+class _BindingScenariosCard extends StatelessWidget {
+  const _BindingScenariosCard();
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +87,11 @@ class _BindingPatternCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
             blurRadius: 18,
-            offset: const Offset(0, 12),
+            offset: const Offset(0, 10),
             color: Colors.black.withValues(alpha: 0.05),
           ),
         ],
@@ -98,50 +100,64 @@ class _BindingPatternCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Binding = tempat resmi dependency injection',
+            'Tiga skenario Binding',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Binding class memastikan semua dependency tersedia sebelum halaman dibuat.',
+          ...const [
+            (
+              Icons.cloud_download,
+              'Lazy Binding (default)',
+              'Gunakan `Get.lazyPut` untuk dependency yang hanya perlu dibuat saat halaman dibuka.',
+            ),
+            (
+              Icons.memory,
+              'Permanent Binding',
+              'Pass `permanent: true` pada dependency penting (mis. auth session) agar tidak ter-dispose.',
+            ),
+            (
+              Icons.playlist_add_check,
+              'BindingsBuilder',
+              'Gunakan untuk menambahkan dependency tambahan pada route tertentu tanpa membuat kelas baru.',
+            ),
+          ].map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(item.$1, color: Colors.indigo),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.$2,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(item.$3),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           const SizedBox(height: 12),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: Colors.blueGrey.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: const Text(
-              'class TodoBinding extends Bindings {\n  @override\n  void dependencies() {\n    Get.lazyPut(() => TodoRemoteDataSource());\n    Get.lazyPut<TodoRepository>(() => TodoRepositoryImpl(remote: Get.find()));\n    Get.lazyPut(() => GetTodosUseCase(Get.find()));\n    // ... use case lainnya\n    Get.put(TodoController(...));\n  }\n}',
-              style: TextStyle(fontFamily: 'monospace', fontSize: 12.5),
-            ),
-          ),
-          const SizedBox(height: 12),
-          const Text('Keuntungan:'),
-          const SizedBox(height: 8),
-          ...const [
-            'Dependency tersentralisasi, mudah dilacak.',
-            'Mendukung lazy loading sehingga resource efisien.',
-            'Memudahkan testing karena binding dapat dioverride.',
-          ].map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.check_circle,
-                    size: 18,
-                    color: Colors.indigo,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(item)),
-                ],
-              ),
+              'Instruktur tip: tunjukkan bagaimana `Get.delete<TodoController>()` dapat dipanggil saat logout sehingga dependency dibersihkan.',
             ),
           ),
         ],
@@ -150,15 +166,15 @@ class _BindingPatternCard extends StatelessWidget {
   }
 }
 
-class _NavigationCheatsheet extends StatelessWidget {
-  const _NavigationCheatsheet();
+class _NavigationFlowsCard extends StatelessWidget {
+  const _NavigationFlowsCard();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(18),
         gradient: LinearGradient(
           colors: [Colors.orange.withValues(alpha: 0.08), Colors.white],
         ),
@@ -168,69 +184,57 @@ class _NavigationCheatsheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Cheatsheet navigasi GetX',
+            'Skenario navigasi untuk demo',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          const _CheatsheetRow(
-            'Get.to(() => DetailPage());',
-            'Push route biasa (tanpa context).',
-          ),
-          const _CheatsheetRow(
-            'Get.off(() => HomePage());',
-            'Ganti route saat ini dengan halaman baru.',
-          ),
-          const _CheatsheetRow(
-            'Get.offAllNamed(Week7Routes.dashboard);',
-            'Hapus semua halaman dan buka halaman baru.',
-          ),
-          const _CheatsheetRow(
-            'Get.back(result: data);',
-            'Pop halaman & kirim data kembali.',
-          ),
-          const _CheatsheetRow(
-            'Get.snackbar("Berhasil", "Todo dibuat!");',
-            'Menampilkan snackbar global tanpa context.',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CheatsheetRow extends StatelessWidget {
-  const _CheatsheetRow(this.code, this.description);
-
-  final String code;
-  final String description;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.85),
-              borderRadius: BorderRadius.circular(10),
+          ...const [
+            (
+              'Get.toNamed(Week8Routes.todoDashboard);',
+              'Buka dashboard dengan binding penuh (mendaftarkan repo, use case, controller).',
             ),
-            child: Text(
-              code,
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 12.5,
-                color: Colors.white,
+            (
+              'Get.toNamed(Week8Routes.weeklyTask);',
+              'Halaman ringkasan tugas yang hanya membutuhkan binding ringan (mis. tidak perlu controller).',
+            ),
+            (
+              'Get.offAllNamed(Week8Routes.todoDashboard);',
+              'Gunakan setelah autentikasi sukses agar stack bersih dan dependency terinisialisasi ulang.',
+            ),
+            (
+              'Get.back(result: TodoActionResult.updated);',
+              'Kembalikan status dari bottom sheet edit ke controller untuk men-trigger refresh tertentu.',
+            ),
+          ].map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.85),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      item.$1,
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 12.5,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(item.$2),
+                ],
               ),
             ),
           ),
-          const SizedBox(height: 6),
-          Text(description),
         ],
       ),
     );

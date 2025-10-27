@@ -1,0 +1,5 @@
+- `flutter pub get` – install/update dependencies.
+- `flutter run` – launch the sample lesson app on a connected device/emulator.
+- `flutter analyze` – static analysis/lint checks (uses flutter_lints).
+- `flutter test` – run unit/widget tests if present.
+- `dart format .` – apply standard Dart formatting when needed.

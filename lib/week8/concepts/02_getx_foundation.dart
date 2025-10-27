@@ -7,63 +7,21 @@ class GetxFoundationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const codeStyle = TextStyle(fontFamily: 'monospace', fontSize: 12.5);
     return Scaffold(
-      appBar: AppBar(title: const Text('Week 7 - Mengenal GetX')),
+      appBar: AppBar(
+        title: const Text('Week 8 - Merancang Use Case & Repository'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _IntroCard(codeStyle: codeStyle),
+            _OverviewCard(codeStyle: codeStyle),
             const SizedBox(height: 18),
-            _FeatureCard(
-              title: 'Tiga pilar utama GetX',
-              items: const [
-                (
-                  Icons.remove_red_eye,
-                  'State Management',
-                  'Reactive state (`Obx`) dan simple state (`GetBuilder`) membuat UI sinkron tanpa boilerplate.',
-                ),
-                (
-                  Icons.alt_route,
-                  'Route Management',
-                  'GetX menyediakan `GetMaterialApp` dan `GetPage` untuk navigasi tanpa context.',
-                ),
-                (
-                  Icons.extension,
-                  'Dependency Injection',
-                  'Get.put / Get.lazyPut memudahkan pengelolaan objek lintas aplikasi tanpa tirani singleton.',
-                ),
-              ],
-            ),
+            const _UseCaseGuidelinesCard(),
             const SizedBox(height: 18),
-            _CodeExample(
-              title: 'Contoh 10 baris: counter dengan GetX',
-              codeStyle: codeStyle,
-              code: '''class CounterController extends GetxController {
-  final count = 0.obs;
-  void increment() => count++;
-}
-
-class CounterPage extends GetView<CounterController> {
-  const CounterPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: controller.increment,
-        child: const Icon(Icons.add),
-      ),
-      body: Center(
-        child: Obx(() => Text('Clicked: \${controller.count}x')),
-      ),
-    );
-  }
-}
-''',
-            ),
+            const _RepositoryChecklistCard(),
             const SizedBox(height: 18),
-            _BestPracticeCard(),
+            _CodeTemplateCard(codeStyle: codeStyle),
           ],
         ),
       ),
@@ -71,8 +29,8 @@ class CounterPage extends GetView<CounterController> {
   }
 }
 
-class _IntroCard extends StatelessWidget {
-  const _IntroCard({required this.codeStyle});
+class _OverviewCard extends StatelessWidget {
+  const _OverviewCard({required this.codeStyle});
 
   final TextStyle codeStyle;
 
@@ -82,27 +40,27 @@ class _IntroCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.deepPurple.withValues(alpha: 0.3)),
         gradient: LinearGradient(
           colors: [Colors.deepPurple.withValues(alpha: 0.08), Colors.white],
         ),
+        border: Border.all(color: Colors.deepPurple.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'GetX dalam satu paragraf',
+            'Kenapa perlu use case?',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           const Text(
-            'GetX adalah framework Flutter ringan yang menyatukan state management, route management, dan dependency injection. Fokus utamanya adalah developer experience: sedikit boilerplate, performa tinggi, dan struktur kode yang scalable.',
+            'Use case memisahkan aturan bisnis dari UI. Setiap aksi (get todos, create todo, dsb) berada dalam fungsi tunggal yang mudah diuji dan dipakai ulang.',
           ),
           const SizedBox(height: 12),
           Text(
-            'Install via pubspec.yaml:',
+            'Kontrak repository (domain):',
             style: Theme.of(context).textTheme.titleSmall,
           ),
           const SizedBox(height: 6),
@@ -110,13 +68,16 @@ class _IntroCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.85),
+              color: const Color(0xFF0F172A),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(
-              "dependencies:\n  get: ^4.6.6",
-              style: codeStyle.copyWith(color: Colors.greenAccent.shade200),
-            ),
+            child: Text('''abstract class TodoRepository {
+  Future<List<Todo>> fetchTodos();
+  Future<Todo> create(String text);
+  Future<Todo> toggle(String id);
+  Future<Todo> update({required String id, required String text});
+  Future<void> delete(String id);
+}''', style: codeStyle.copyWith(color: Colors.greenAccent.shade200)),
           ),
         ],
       ),
@@ -124,11 +85,8 @@ class _IntroCard extends StatelessWidget {
   }
 }
 
-class _FeatureCard extends StatelessWidget {
-  const _FeatureCard({required this.title, required this.items});
-
-  final String title;
-  final List<(IconData, String, String)> items;
+class _UseCaseGuidelinesCard extends StatelessWidget {
+  const _UseCaseGuidelinesCard();
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +97,7 @@ class _FeatureCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            blurRadius: 20,
+            blurRadius: 18,
             offset: const Offset(0, 10),
             color: Colors.black.withValues(alpha: 0.05),
           ),
@@ -149,34 +107,27 @@ class _FeatureCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            'Checklist use case yang baik',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          ...items.map(
+          ...const [
+            'Nama jelas menggambarkan aksi (GetTodosUseCase).',
+            'Hanya mengeksekusi satu tindakan bisnis, delegasikan detail ke repository.',
+            'Tidak memegang state internal – hasilkan nilai baru setiap pemanggilan.',
+            'Lempar exception bermakna (custom) agar controller bisa menerjemahkan ke pesan UI.',
+            'Dapat di-test terpisah dengan mock repository.',
+          ].map(
             (item) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.only(bottom: 6),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(item.$1, color: Colors.deepPurple),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.$2,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(item.$3),
-                      ],
-                    ),
-                  ),
+                  const Icon(Icons.check_circle, color: Colors.teal),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(item)),
                 ],
               ),
             ),
@@ -187,22 +138,65 @@ class _FeatureCard extends StatelessWidget {
   }
 }
 
-class _CodeExample extends StatelessWidget {
-  const _CodeExample({
-    required this.title,
-    required this.code,
-    required this.codeStyle,
-  });
+class _RepositoryChecklistCard extends StatelessWidget {
+  const _RepositoryChecklistCard();
 
-  final String title;
-  final String code;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        gradient: LinearGradient(
+          colors: [Colors.orange.withValues(alpha: 0.1), Colors.white],
+        ),
+        border: Border.all(color: Colors.orange.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Repository implementation tips',
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          ...const [
+            'Terima dependency data source melalui konstruktor (Dependency Inversion).',
+            'Mapping JSON dilakukan di data layer menggunakan `TodoModel`.',
+            'Tangani exception Dio → lempar ulang sebagai `RepositoryException` agar domain tetap bersih.',
+            'Siapkan hook caching / fallback walau belum diaktifkan (kembalikan data lokal saat API gagal).',
+            'Gunakan logger sederhana untuk mencatat error agar nanti mudah diinvestigasi.',
+          ].map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.bolt, color: Colors.orange),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(item)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CodeTemplateCard extends StatelessWidget {
+  const _CodeTemplateCard({required this.codeStyle});
+
   final TextStyle codeStyle;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(16),
@@ -211,78 +205,43 @@ class _CodeExample extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            'Template use case + repository',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: Colors.tealAccent,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 12),
-          Text(code, style: codeStyle.copyWith(color: Colors.white)),
-        ],
-      ),
-    );
+          Text('''class CreateTodoUseCase {
+  CreateTodoUseCase(this._repository);
+
+  final TodoRepository _repository;
+
+  Future<Todo> call(String text) async {
+    if (text.trim().isEmpty) {
+      throw ArgumentError('Judul tidak boleh kosong');
+    }
+    return _repository.create(text);
   }
-}
+}''', style: codeStyle.copyWith(color: Colors.white)),
+          const SizedBox(height: 14),
+          Text('''class TodoRepositoryImpl implements TodoRepository {
+  TodoRepositoryImpl({required this.remote});
 
-class _BestPracticeCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
-        gradient: LinearGradient(
-          colors: [Colors.green.withValues(alpha: 0.1), Colors.white],
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            'Gunakan GetX secara bijak',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8),
-          Text('Tips singkat agar implementasi tetap clean dan maintainable:'),
-          SizedBox(height: 12),
-          _BestPracticeRow(
-            'Pisahkan controller dari widget, simpan logic di controller.',
-          ),
-          _BestPracticeRow(
-            'Hindari membuat semua variabel `.obs`; gunakan hanya yang perlu.',
-          ),
-          _BestPracticeRow(
-            'Standarkan lokasi penggunaan Get.put/Get.lazyPut di Binding class.',
-          ),
-          _BestPracticeRow(
-            'Gunakan named routes (`GetPage`) agar navigasi konsisten.',
-          ),
-          _BestPracticeRow(
-            'Selalu tangani error (try-catch) dan berikan feedback ke user.',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BestPracticeRow extends StatelessWidget {
-  const _BestPracticeRow(this.text);
-
-  final String text;
+  final TodoRemoteDataSource remote;
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(Icons.check, size: 18, color: Colors.green),
-          const SizedBox(width: 8),
-          Expanded(child: Text(text)),
+  Future<Todo> create(String text) async {
+    try {
+      final dto = await remote.createTodo(text);
+      return dto;
+    } on DioException catch (error) {
+      throw RepositoryException.fromDio(error);
+    }
+  }
+
+  // Lanjutkan dengan metode lain (fetch, update, toggle, delete)...
+}''', style: codeStyle.copyWith(color: Colors.white70)),
         ],
       ),
     );

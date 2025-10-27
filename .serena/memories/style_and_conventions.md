@@ -1,0 +1,3 @@
+- Uses default `flutter_lints` rules; follow idiomatic Flutter/Dart naming (lowerCamelCase identifiers, UpperCamelCase types, snake_case files).
+- Lesson structure favors feature folders per week (`concepts/`, `models/`, `presentation/`, etc.) and GetX patterns beginning in week7 (controllers, bindings separated from UI).
+- Keep widgets stateless where possible, push logic into services/controllers to prep for clean architecture transitions in later weeks.
