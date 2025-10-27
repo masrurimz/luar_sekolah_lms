@@ -59,6 +59,9 @@ import 'week6/screens/todo_crud_screen.dart';
 // Week 7 imports
 import 'week7/routes/week7_routes.dart';
 
+// Week 8 imports
+import 'week8/routes/week8_routes.dart';
+
 final List<GetPage<dynamic>> _appPages = [
   GetPage(name: '/', page: () => const MainMenuScreen()),
 
@@ -149,6 +152,9 @@ final List<GetPage<dynamic>> _appPages = [
 
   // Week 7
   ...Week7Routes.pages,
+
+  // Week 8
+  ...Week8Routes.pages,
 ];
 
 // ==========================================
@@ -711,6 +717,82 @@ class MainMenuScreen extends StatelessWidget {
                   icon: Icons.assignment_turned_in,
                   color: Colors.redAccent,
                   route: Week7Routes.weeklyTask,
+                ),
+
+                const SizedBox(height: 24),
+
+                // ==========================================
+                // WEEK 8 SECTION
+                // ==========================================
+                const Text(
+                  '🏗️ Week 8: Clean Architecture & API',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMenuCard(
+                  context: context,
+                  title: 'Domain & Use Case Mapping',
+                  subtitle: 'Entity, use case, dan aturan dependency',
+                  icon: Icons.hub,
+                  color: Colors.blue,
+                  route: Week8Routes.stateManagementOverview,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'GetX Advanced Essentials',
+                  subtitle: 'Review singkat + fokus arsitektur',
+                  icon: Icons.extension,
+                  color: Colors.deepPurple,
+                  route: Week8Routes.getxFoundation,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Controller Lifecycle (API Ready)',
+                  subtitle: 'Load data & cleanup untuk API',
+                  icon: Icons.timelapse,
+                  color: Colors.teal,
+                  route: Week8Routes.controllerLifecycle,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Routing & Binding Lanjutan',
+                  subtitle: 'Inject repository, use case, controller',
+                  icon: Icons.alt_route,
+                  color: Colors.indigo,
+                  route: Week8Routes.navigationDi,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Clean Architecture (Full Stack)',
+                  subtitle: 'Lapisan data & domain terhubung API',
+                  icon: Icons.architecture_outlined,
+                  color: Colors.orange,
+                  route: Week8Routes.cleanArchitecture,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'API Integration Playbook',
+                  subtitle: 'Checklist konsumsi API & error handling',
+                  icon: Icons.cloud_sync,
+                  color: Colors.cyan,
+                  route: Week8Routes.apiIntegration,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Todo Dashboard (API)',
+                  subtitle: 'Repository, data source, dan feedback state',
+                  icon: Icons.dashboard,
+                  color: Colors.blueGrey,
+                  route: Week8Routes.todoDashboard,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '⭐ Weekly Task',
+                  subtitle: 'Integrasi LMS API + DI lengkap',
+                  icon: Icons.assignment,
+                  color: Colors.red,
+                  route: Week8Routes.weeklyTask,
                 ),
 
                 // ==========================================
