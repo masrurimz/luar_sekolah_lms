@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/todo_controller.dart';
-import '../widgets/todo_form_sheet.dart';
 import '../widgets/todo_list_tile.dart';
 
 class TodoDashboardPage extends GetView<TodoController> {
@@ -12,11 +11,11 @@ class TodoDashboardPage extends GetView<TodoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Week 7 - GetX Todo (Local State)'),
+        title: const Text('Week 7 - Todo Dashboard (GetX + API)'),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            tooltip: 'Segarkan daftar',
+            tooltip: 'Muat ulang dari API',
             onPressed: controller.refreshTodos,
           ),
         ],
@@ -33,33 +32,7 @@ class TodoDashboardPage extends GetView<TodoController> {
               if (controller.isLoading.value)
                 const LinearProgressIndicator(minHeight: 2),
               if (controller.errorMessage.value != null)
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.redAccent.withValues(alpha: 0.4),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.error_outline, color: Colors.red),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          controller.errorMessage.value!,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                _ErrorBanner(message: controller.errorMessage.value!),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: _AnalyticsHeader(controller: controller),
@@ -97,8 +70,6 @@ class TodoDashboardPage extends GetView<TodoController> {
                             todo: todo,
                             onToggle: () => _toggle(todo.id),
                             onDelete: () => _confirmDelete(context, todo.id),
-                            onEdit: () =>
-                                _openEditSheet(context, todo.id, todo.text),
                           );
                         },
                         separatorBuilder: (_, __) => const SizedBox(height: 12),
@@ -116,53 +87,70 @@ class TodoDashboardPage extends GetView<TodoController> {
   }
 
   Future<void> _openCreateSheet(BuildContext context) async {
-    final result = await Get.bottomSheet<String>(
-      TodoFormSheet(title: 'Tambah Todo', submitLabel: 'Simpan'),
-      isScrollControlled: true,
-      ignoreSafeArea: false,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    final controller = TextEditingController();
+    final result = await Get.bottomSheet<bool>(
+      Padding(
+        padding: EdgeInsets.only(
+          left: 24,
+          right: 24,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          top: 24,
+        ),
+        child: Material(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Tambah Todo',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Get.back(result: false),
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: controller,
+                autofocus: true,
+                maxLength: 80,
+                decoration: const InputDecoration(
+                  labelText: 'Judul tugas',
+                  hintText: 'Contoh: Sinkronkan UI dengan data API',
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () => Get.back(result: true),
+                  icon: const Icon(Icons.save_alt),
+                  label: const Text('Simpan'),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
     );
-    if (result == null || result.trim().isEmpty) return;
 
-    await controller.addTodo(result.trim());
+    if (result != true) return;
+    final text = controller.text.trim();
+    if (text.isEmpty) return;
+
+    await this.controller.addTodo(text);
     Get.snackbar(
       'Sukses',
       'Todo berhasil ditambahkan',
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  }
-
-  Future<void> _openEditSheet(
-    BuildContext context,
-    String id,
-    String currentText,
-  ) async {
-    final result = await Get.bottomSheet<String>(
-      TodoFormSheet(
-        title: 'Edit Todo',
-        submitLabel: 'Update',
-        initialValue: currentText,
-      ),
-      isScrollControlled: true,
-      ignoreSafeArea: false,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-    );
-    if (result == null ||
-        result.trim().isEmpty ||
-        result.trim() == currentText) {
-      return;
-    }
-
-    await controller.updateTodo(id: id, text: result.trim());
-    Get.snackbar(
-      'Berhasil',
-      'Todo berhasil diperbarui',
       snackPosition: SnackPosition.BOTTOM,
     );
   }
@@ -323,5 +311,34 @@ extension _ColorShade on Color {
     final hsl = HSLColor.fromColor(this);
     final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
     return hslDark.toColor();
+  }
+}
+
+class _ErrorBanner extends StatelessWidget {
+  const _ErrorBanner({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.red.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.redAccent.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.error_outline, color: Colors.red),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(message, style: const TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,32 +1,14 @@
 import 'package:get/get.dart';
 
-import '../../domain/entities/todo.dart';
-import '../../domain/usecases/create_todo_use_case.dart';
-import '../../domain/usecases/delete_todo_use_case.dart';
-import '../../domain/usecases/get_todos_use_case.dart';
-import '../../domain/usecases/toggle_todo_completion_use_case.dart';
-import '../../domain/usecases/update_todo_use_case.dart';
+import '../../models/todo.dart';
+import '../../services/todo_api_service.dart';
 
 enum TodoFilter { all, completed, pending }
 
 class TodoController extends GetxController {
-  TodoController({
-    required GetTodosUseCase getTodos,
-    required CreateTodoUseCase createTodo,
-    required ToggleTodoCompletionUseCase toggleTodo,
-    required UpdateTodoUseCase updateTodo,
-    required DeleteTodoUseCase deleteTodo,
-  }) : _getTodos = getTodos,
-       _createTodo = createTodo,
-       _toggleTodo = toggleTodo,
-       _updateTodo = updateTodo,
-       _deleteTodo = deleteTodo;
+  TodoController(this._api);
 
-  final GetTodosUseCase _getTodos;
-  final CreateTodoUseCase _createTodo;
-  final ToggleTodoCompletionUseCase _toggleTodo;
-  final UpdateTodoUseCase _updateTodo;
-  final DeleteTodoUseCase _deleteTodo;
+  final TodoApiService _api;
 
   final RxList<Todo> todos = <Todo>[].obs;
   final RxBool isLoading = false.obs;
@@ -35,15 +17,10 @@ class TodoController extends GetxController {
   final Rx<TodoFilter> filter = TodoFilter.all.obs;
 
   List<Todo> get filteredTodos => _applyFilter(todos.toList());
-
   int get completedCount => todos.where((item) => item.completed).length;
-
   int get pendingCount => todos.length - completedCount;
-
-  double get completionRate {
-    if (todos.isEmpty) return 0;
-    return completedCount / todos.length;
-  }
+  double get completionRate =>
+      todos.isEmpty ? 0 : completedCount / todos.length;
 
   @override
   void onInit() {
@@ -55,7 +32,7 @@ class TodoController extends GetxController {
     isLoading.value = true;
     errorMessage.value = null;
     try {
-      final items = await _getTodos();
+      final items = await _api.fetchTodos();
       todos.assignAll(items);
     } catch (error) {
       errorMessage.value = _humanizeError(error);
@@ -72,7 +49,7 @@ class TodoController extends GetxController {
     isSubmitting.value = true;
     errorMessage.value = null;
     try {
-      final created = await _createTodo(text);
+      final created = await _api.createTodo(text);
       todos.insert(0, created);
     } catch (error) {
       errorMessage.value = _humanizeError(error);
@@ -84,6 +61,7 @@ class TodoController extends GetxController {
   Future<void> toggleTodo(String id) async {
     final index = todos.indexWhere((item) => item.id == id);
     if (index == -1) return;
+
     final previous = todos[index];
     final optimistic = previous.copyWith(
       completed: !previous.completed,
@@ -92,28 +70,7 @@ class TodoController extends GetxController {
     todos[index] = optimistic;
 
     try {
-      final updated = await _toggleTodo(id);
-      todos[index] = updated;
-    } catch (error) {
-      todos[index] = previous;
-      errorMessage.value = _humanizeError(error);
-    }
-  }
-
-  Future<void> updateTodo({required String id, required String text}) async {
-    errorMessage.value = null;
-    final index = todos.indexWhere((item) => item.id == id);
-    if (index == -1) return;
-    final previous = todos[index];
-    final optimistic = previous.copyWith(text: text, updatedAt: DateTime.now());
-    todos[index] = optimistic;
-
-    try {
-      final updated = await _updateTodo(
-        id: id,
-        text: text,
-        completed: optimistic.completed,
-      );
+      final updated = await _api.toggleTodo(id);
       todos[index] = updated;
     } catch (error) {
       todos[index] = previous;
@@ -122,14 +79,13 @@ class TodoController extends GetxController {
   }
 
   Future<void> deleteTodo(String id) async {
-    errorMessage.value = null;
     final index = todos.indexWhere((item) => item.id == id);
     if (index == -1) return;
     final removed = todos[index];
     todos.removeAt(index);
 
     try {
-      await _deleteTodo(id);
+      await _api.deleteTodo(id);
     } catch (error) {
       todos.insert(index, removed);
       errorMessage.value = _humanizeError(error);
@@ -152,14 +108,11 @@ class TodoController extends GetxController {
   }
 
   String _humanizeError(Object error) {
-    if (error is Exception) {
-      final message = error.toString();
-      final separatorIndex = message.indexOf(':');
-      if (separatorIndex != -1) {
-        return message.substring(separatorIndex + 1).trim();
-      }
-      return message.replaceFirst('Exception', '').trim();
+    final text = error.toString();
+    final separatorIndex = text.indexOf(':');
+    if (separatorIndex != -1) {
+      return text.substring(separatorIndex + 1).trim();
     }
-    return 'Terjadi kesalahan tak terduga';
+    return text;
   }
 }
