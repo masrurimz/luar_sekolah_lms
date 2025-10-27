@@ -10,6 +10,23 @@ class TodoModel extends Todo {
     required super.updatedAt,
   });
 
+  @override
+  TodoModel copyWith({
+    String? id,
+    String? text,
+    bool? completed,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return TodoModel(
+      id: id ?? this.id,
+      text: text ?? this.text,
+      completed: completed ?? this.completed,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
   factory TodoModel.fromJson(Map<String, dynamic> json) {
     return TodoModel(
       id: json['id'] as String,

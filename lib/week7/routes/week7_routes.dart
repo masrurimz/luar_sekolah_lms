@@ -5,7 +5,6 @@ import '../concepts/02_getx_foundation.dart';
 import '../concepts/03_getx_controller_lifecycle.dart';
 import '../concepts/04_getx_navigation_dependency.dart';
 import '../concepts/05_clean_architecture_getx.dart';
-import '../concepts/06_getx_api_integration.dart';
 import '../presentation/bindings/todo_binding.dart';
 import '../presentation/pages/todo_dashboard_page.dart';
 import '../presentation/pages/weekly_task_screen.dart';
@@ -16,7 +15,6 @@ class Week7Routes {
   static const controllerLifecycle = '/week7/controller-lifecycle';
   static const navigationDi = '/week7/navigation-di';
   static const cleanArchitecture = '/week7/clean-architecture';
-  static const apiIntegration = '/week7/api-integration';
   static const todoDashboard = '/week7/todo-dashboard';
   static const weeklyTask = '/week7/weekly-task';
 
@@ -43,7 +41,6 @@ class Week7Routes {
       name: cleanArchitecture,
       page: () => const CleanArchitectureGetxScreen(),
     ),
-    GetPage(name: apiIntegration, page: () => const GetxApiIntegrationScreen()),
     GetPage(
       name: todoDashboard,
       page: () => const TodoDashboardPage(),

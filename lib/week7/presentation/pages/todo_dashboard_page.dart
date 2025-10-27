@@ -12,11 +12,11 @@ class TodoDashboardPage extends GetView<TodoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Week 7 - GetX Todo Dashboard'),
+        title: const Text('Week 7 - GetX Todo (Local State)'),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            tooltip: 'Refresh dari API',
+            tooltip: 'Segarkan daftar',
             onPressed: controller.refreshTodos,
           ),
         ],
@@ -127,21 +127,12 @@ class TodoDashboardPage extends GetView<TodoController> {
     );
     if (result == null || result.trim().isEmpty) return;
 
-    try {
-      await controller.addTodo(result.trim());
-      Get.snackbar(
-        'Sukses',
-        'Todo berhasil ditambahkan',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } catch (_) {
-      Get.snackbar(
-        'Gagal',
-        controller.errorMessage.value ?? 'Tidak dapat menambahkan todo',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.1),
-      );
-    }
+    await controller.addTodo(result.trim());
+    Get.snackbar(
+      'Sukses',
+      'Todo berhasil ditambahkan',
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 
   Future<void> _openEditSheet(
@@ -168,21 +159,12 @@ class TodoDashboardPage extends GetView<TodoController> {
       return;
     }
 
-    try {
-      await controller.updateTodo(id: id, text: result.trim());
-      Get.snackbar(
-        'Berhasil',
-        'Todo berhasil diperbarui',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } catch (_) {
-      Get.snackbar(
-        'Gagal',
-        controller.errorMessage.value ?? 'Tidak dapat memperbarui todo',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.1),
-      );
-    }
+    await controller.updateTodo(id: id, text: result.trim());
+    Get.snackbar(
+      'Berhasil',
+      'Todo berhasil diperbarui',
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 
   Future<void> _confirmDelete(BuildContext context, String id) async {
@@ -204,34 +186,16 @@ class TodoDashboardPage extends GetView<TodoController> {
     );
     if (confirm != true) return;
 
-    try {
-      await controller.deleteTodo(id);
-      Get.snackbar(
-        'Sukses',
-        'Todo berhasil dihapus',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } catch (_) {
-      Get.snackbar(
-        'Gagal',
-        controller.errorMessage.value ?? 'Tidak dapat menghapus todo',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.1),
-      );
-    }
+    await controller.deleteTodo(id);
+    Get.snackbar(
+      'Sukses',
+      'Todo berhasil dihapus',
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 
   Future<void> _toggle(String id) async {
-    try {
-      await controller.toggleTodo(id);
-    } catch (_) {
-      Get.snackbar(
-        'Gagal',
-        controller.errorMessage.value ?? 'Tidak dapat mengganti status todo',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.1),
-      );
-    }
+    await controller.toggleTodo(id);
   }
 }
 

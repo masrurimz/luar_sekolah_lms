@@ -147,7 +147,7 @@ final List<GetPage<dynamic>> _appPages = [
     page: () => const week6.Week6WeeklyTaskScreen(),
   ),
 
-  // Week 7 (spread existing definitions)
+  // Week 7
   ...Week7Routes.pages,
 ];
 
@@ -659,7 +659,7 @@ class MainMenuScreen extends StatelessWidget {
                 _buildMenuCard(
                   context: context,
                   title: 'State Management Overview',
-                  subtitle: 'State lokal vs global, kapan memakai GetX',
+                  subtitle: 'Kenali masalah state & solusi dasar',
                   icon: Icons.sync_alt,
                   color: Colors.blue,
                   route: Week7Routes.stateManagementOverview,
@@ -667,7 +667,7 @@ class MainMenuScreen extends StatelessWidget {
                 _buildMenuCard(
                   context: context,
                   title: 'GetX Essentials',
-                  subtitle: 'State, route, dan dependency injection',
+                  subtitle: 'Pilar GetX: state, route, dependency',
                   icon: Icons.auto_awesome,
                   color: Colors.deepPurple,
                   route: Week7Routes.getxFoundation,
@@ -675,39 +675,31 @@ class MainMenuScreen extends StatelessWidget {
                 _buildMenuCard(
                   context: context,
                   title: 'Controller Lifecycle',
-                  subtitle: 'onInit, onReady, onClose & reactive state',
+                  subtitle: 'onInit / onReady / onClose',
                   icon: Icons.timeline,
                   color: Colors.teal,
                   route: Week7Routes.controllerLifecycle,
                 ),
                 _buildMenuCard(
                   context: context,
-                  title: 'Routing & Dependency Injection',
-                  subtitle: 'GetMaterialApp, GetPage, Binding pattern',
+                  title: 'Routing & Binding Dasar',
+                  subtitle: 'GetMaterialApp & Binding sederhana',
                   icon: Icons.alt_route,
                   color: Colors.indigo,
                   route: Week7Routes.navigationDi,
                 ),
                 _buildMenuCard(
                   context: context,
-                  title: 'Clean Architecture + GetX',
-                  subtitle: 'Pisahkan UI, domain, dan data layer',
+                  title: 'Clean Architecture Starter',
+                  subtitle: 'Pisahkan UI dari logika & data lokal',
                   icon: Icons.architecture,
                   color: Colors.orange,
                   route: Week7Routes.cleanArchitecture,
                 ),
                 _buildMenuCard(
                   context: context,
-                  title: 'API Integration Playbook',
-                  subtitle: 'Checklist konsumsi API + error handling',
-                  icon: Icons.cloud_sync,
-                  color: Colors.cyan,
-                  route: Week7Routes.apiIntegration,
-                ),
-                _buildMenuCard(
-                  context: context,
-                  title: 'GetX Todo Dashboard',
-                  subtitle: 'Reactive CRUD dengan binding & snackbar',
+                  title: 'Mini Workshop: Todo Lokal',
+                  subtitle: 'Latihan .obs, Obx, dan state lokal',
                   icon: Icons.dashboard_customize,
                   color: Colors.blueGrey,
                   route: Week7Routes.todoDashboard,
@@ -715,7 +707,7 @@ class MainMenuScreen extends StatelessWidget {
                 _buildMenuCard(
                   context: context,
                   title: '⭐ Weekly Task',
-                  subtitle: 'Todo app dengan arsitektur bersih',
+                  subtitle: 'Implementasi state management fundamental',
                   icon: Icons.assignment_turned_in,
                   color: Colors.redAccent,
                   route: Week7Routes.weeklyTask,

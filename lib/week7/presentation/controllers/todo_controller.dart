@@ -59,10 +59,6 @@ class TodoController extends GetxController {
       todos.assignAll(items);
     } catch (error) {
       errorMessage.value = _humanizeError(error);
-      // Provide a fallback dataset so the UI tetap interaktif selama demo.
-      if (todos.isEmpty) {
-        todos.assignAll(_fallbackTodos());
-      }
     } finally {
       isLoading.value = false;
     }
@@ -74,12 +70,12 @@ class TodoController extends GetxController {
 
   Future<void> addTodo(String text) async {
     isSubmitting.value = true;
+    errorMessage.value = null;
     try {
       final created = await _createTodo(text);
       todos.insert(0, created);
     } catch (error) {
       errorMessage.value = _humanizeError(error);
-      rethrow;
     } finally {
       isSubmitting.value = false;
     }
@@ -101,11 +97,11 @@ class TodoController extends GetxController {
     } catch (error) {
       todos[index] = previous;
       errorMessage.value = _humanizeError(error);
-      rethrow;
     }
   }
 
   Future<void> updateTodo({required String id, required String text}) async {
+    errorMessage.value = null;
     final index = todos.indexWhere((item) => item.id == id);
     if (index == -1) return;
     final previous = todos[index];
@@ -122,11 +118,11 @@ class TodoController extends GetxController {
     } catch (error) {
       todos[index] = previous;
       errorMessage.value = _humanizeError(error);
-      rethrow;
     }
   }
 
   Future<void> deleteTodo(String id) async {
+    errorMessage.value = null;
     final index = todos.indexWhere((item) => item.id == id);
     if (index == -1) return;
     final removed = todos[index];
@@ -137,7 +133,6 @@ class TodoController extends GetxController {
     } catch (error) {
       todos.insert(index, removed);
       errorMessage.value = _humanizeError(error);
-      rethrow;
     }
   }
 
@@ -158,35 +153,13 @@ class TodoController extends GetxController {
 
   String _humanizeError(Object error) {
     if (error is Exception) {
-      return error.toString().replaceFirst('Exception: ', '');
+      final message = error.toString();
+      final separatorIndex = message.indexOf(':');
+      if (separatorIndex != -1) {
+        return message.substring(separatorIndex + 1).trim();
+      }
+      return message.replaceFirst('Exception', '').trim();
     }
     return 'Terjadi kesalahan tak terduga';
-  }
-
-  List<Todo> _fallbackTodos() {
-    final now = DateTime.now();
-    return [
-      Todo(
-        id: 'local-1',
-        text: 'Review materi GetX dan siapkan presentasi',
-        completed: true,
-        createdAt: now.subtract(const Duration(days: 2)),
-        updatedAt: now.subtract(const Duration(days: 1, hours: 2)),
-      ),
-      Todo(
-        id: 'local-2',
-        text: 'Implementasikan TodoController dengan GetX',
-        completed: false,
-        createdAt: now.subtract(const Duration(days: 1, hours: 5)),
-        updatedAt: now.subtract(const Duration(hours: 20)),
-      ),
-      Todo(
-        id: 'local-3',
-        text: 'Refactor repository agar sesuai clean architecture',
-        completed: false,
-        createdAt: now.subtract(const Duration(hours: 12)),
-        updatedAt: now.subtract(const Duration(hours: 6)),
-      ),
-    ];
   }
 }
