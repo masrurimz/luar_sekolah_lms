@@ -264,11 +264,13 @@ class _TipCard extends StatelessWidget {
             children: [
               Icon(icon, color: Colors.orange, size: 28),
               const SizedBox(width: 12),
-              Text(
-                title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),

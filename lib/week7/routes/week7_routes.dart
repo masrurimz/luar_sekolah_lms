@@ -5,7 +5,11 @@ import '../concepts/02_getx_foundation.dart';
 import '../concepts/03_getx_controller_lifecycle.dart';
 import '../concepts/04_getx_navigation_dependency.dart';
 import '../concepts/05_clean_architecture_getx.dart';
+import '../presentation/bindings/counter_binding.dart';
 import '../presentation/bindings/todo_binding.dart';
+import '../presentation/pages/binding_methods_page.dart';
+import '../presentation/pages/counter_page.dart';
+import '../presentation/pages/counter_patterns_page.dart';
 import '../presentation/pages/todo_dashboard_page.dart';
 import '../presentation/pages/weekly_task_screen.dart';
 
@@ -15,6 +19,9 @@ class Week7Routes {
   static const controllerLifecycle = '/week7/controller-lifecycle';
   static const navigationDi = '/week7/navigation-di';
   static const cleanArchitecture = '/week7/clean-architecture';
+  static const counter = '/week7/counter';
+  static const counterPatterns = '/week7/counter-patterns';
+  static const bindingMethods = '/week7/binding-methods';
   static const todoDashboard = '/week7/todo-dashboard';
   static const weeklyTask = '/week7/weekly-task';
 
@@ -40,6 +47,23 @@ class Week7Routes {
     GetPage(
       name: cleanArchitecture,
       page: () => const CleanArchitectureGetxScreen(),
+    ),
+    GetPage(
+      name: counter,
+      page: () => const CounterPage(),
+      binding: CounterBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: counterPatterns,
+      page: () => const CounterPatternsPage(),
+      binding: CounterBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: bindingMethods,
+      page: () => const BindingMethodsExamplePage(),
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: todoDashboard,

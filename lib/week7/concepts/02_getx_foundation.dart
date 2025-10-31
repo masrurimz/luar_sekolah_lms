@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../exercises/counter_practice_exercise.dart';
 
 class GetxFoundationScreen extends StatelessWidget {
   const GetxFoundationScreen({super.key});
@@ -226,6 +227,7 @@ class _CodeExample extends StatelessWidget {
 }
 
 class _BestPracticeCard extends StatelessWidget {
+  const _BestPracticeCard({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -239,29 +241,33 @@ class _BestPracticeCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
+        children: [
+          const Text(
             'Gunakan GetX secara bijak',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 8),
-          Text('Tips singkat agar implementasi tetap clean dan maintainable:'),
-          SizedBox(height: 12),
-          _BestPracticeRow(
+          const SizedBox(height: 8),
+          const Text(
+            'Tips singkat agar implementasi tetap clean dan maintainable:',
+          ),
+          const SizedBox(height: 12),
+          const _BestPracticeRow(
             'Pisahkan controller dari widget, simpan logic di controller.',
           ),
-          _BestPracticeRow(
+          const _BestPracticeRow(
             'Hindari membuat semua variabel `.obs`; gunakan hanya yang perlu.',
           ),
-          _BestPracticeRow(
+          const _BestPracticeRow(
             'Standarkan lokasi penggunaan Get.put/Get.lazyPut di Binding class.',
           ),
-          _BestPracticeRow(
+          const _BestPracticeRow(
             'Gunakan named routes (`GetPage`) agar navigasi konsisten.',
           ),
-          _BestPracticeRow(
+          const _BestPracticeRow(
             'Selalu tangani error (try-catch) dan berikan feedback ke user.',
           ),
+          const SizedBox(height: 16),
+          const _PracticeButton(),
         ],
       ),
     );
@@ -284,6 +290,56 @@ class _BestPracticeRow extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(child: Text(text)),
         ],
+      ),
+    );
+  }
+}
+
+class _PracticeButton extends StatelessWidget {
+  const _PracticeButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          colors: [Colors.blue.shade600, Colors.blue.shade400],
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            // Navigate to counter practice exercise
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CounterPracticeExerciseScreen(),
+              ),
+            );
+          },
+          borderRadius: BorderRadius.circular(12),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.play_circle, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text(
+                  'Coba Latihan Counter Sekarang!',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

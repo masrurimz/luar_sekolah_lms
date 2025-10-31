@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../routes/week7_routes.dart';
 
 class Week7WeeklyTaskScreen extends StatelessWidget {
   const Week7WeeklyTaskScreen({super.key});
@@ -14,6 +16,8 @@ class Week7WeeklyTaskScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _InteractiveDemosCard(),
+              const SizedBox(height: 16),
               _SectionCard(
                 title: '🎯 Tujuan Tugas',
                 description:
@@ -188,6 +192,180 @@ class _DetailCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _InteractiveDemosCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: LinearGradient(
+          colors: [
+            Colors.purple.withValues(alpha: 0.1),
+            Colors.deepPurple.withValues(alpha: 0.05),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        border: Border.all(color: Colors.purple.withValues(alpha: 0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.rocket_launch, color: Colors.purple, size: 28),
+              const SizedBox(width: 12),
+              Text(
+                '🚀 Interactive GetX Demos',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: Colors.purple,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Before starting your task, explore these interactive examples to understand GetX patterns:',
+            style: theme.textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 16),
+
+          // Demo 1: Basic Counter
+          _DemoCard(
+            icon: Icons.add_circle_outline,
+            title: 'Basic Counter Demo',
+            description: 'Simple GetX reactive state with Obx',
+            color: Colors.blue,
+            onTap: () => Get.toNamed(Week7Routes.counter),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Demo 2: Access Patterns
+          _DemoCard(
+            icon: Icons.compare_arrows,
+            title: 'Controller Access Patterns',
+            description: 'Props vs Get.find() - Which to use?',
+            color: Colors.green,
+            onTap: () => Get.toNamed(Week7Routes.counterPatterns),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Demo 3: Binding Methods
+          _DemoCard(
+            icon: Icons.link,
+            title: 'Binding Methods',
+            description: 'Route-level, Get.put(), lazyPut() & more',
+            color: Colors.orange,
+            onTap: () => Get.toNamed(Week7Routes.bindingMethods),
+          ),
+
+          const SizedBox(height: 16),
+
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.purple.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.lightbulb, color: Colors.amber, size: 20),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Tip: Try each demo to see live examples of GetX patterns you\'ll use in your Todo app!',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DemoCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _DemoCard({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+              color: Colors.black.withValues(alpha: 0.05),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: color,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, color: color, size: 16),
+          ],
+        ),
       ),
     );
   }

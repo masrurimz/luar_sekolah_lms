@@ -148,6 +148,7 @@ class TodoDashboardPage extends GetView<TodoController> {
     if (text.isEmpty) return;
 
     await this.controller.addTodo(text);
+    // await this.controller.loadTodos();
     Get.snackbar(
       'Sukses',
       'Todo berhasil ditambahkan',
