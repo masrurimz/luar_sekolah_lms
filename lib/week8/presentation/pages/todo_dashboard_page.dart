@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/auth_controller.dart';
 import '../controllers/todo_controller.dart';
 import '../widgets/todo_form_sheet.dart';
 import '../widgets/todo_list_tile.dart';
@@ -12,12 +13,53 @@ class TodoDashboardPage extends GetView<TodoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Week 8 - Todo Dashboard (API)'),
+        title: Obx(
+          () => Text('Week 8 - Todo Dashboard (${_getDataSourceLabel()})'),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            tooltip: 'Refresh dari API',
+            tooltip: 'Refresh',
             onPressed: controller.refreshTodos,
+          ),
+          Obx(
+            () => PopupMenuButton<String>(
+              icon: const Icon(Icons.account_circle),
+              tooltip: 'User Menu',
+              onSelected: _handleMenuAction,
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'profile',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AuthController.to.userDisplayName,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        AuthController.to.currentUser.value?.email ?? '',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const PopupMenuDivider(),
+                PopupMenuItem(
+                  value: 'logout',
+                  child: const Row(
+                    children: [
+                      Icon(Icons.logout, size: 18),
+                      SizedBox(width: 8),
+                      Text('Logout'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -71,11 +113,8 @@ class TodoDashboardPage extends GetView<TodoController> {
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: controller.refreshTodos,
-                  child: Builder(
-                    builder: (context) {
-                      final todos = controller.filteredTodos;
-                      if (todos.isEmpty) {
-                        return ListView(
+                  child: controller.filteredTodos.isEmpty
+                      ? ListView(
                           physics: const AlwaysScrollableScrollPhysics(),
                           children: const [
                             SizedBox(height: 120),
@@ -86,26 +125,24 @@ class TodoDashboardPage extends GetView<TodoController> {
                               ),
                             ),
                           ],
-                        );
-                      }
-                      return ListView.separated(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
-                        itemBuilder: (context, index) {
-                          final todo = todos[index];
-                          return TodoListTile(
-                            todo: todo,
-                            onToggle: () => _toggle(todo.id),
-                            onDelete: () => _confirmDelete(context, todo.id),
-                            onEdit: () =>
-                                _openEditSheet(context, todo.id, todo.text),
-                          );
-                        },
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
-                        itemCount: todos.length,
-                      );
-                    },
-                  ),
+                        )
+                      : ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+                          itemBuilder: (context, index) {
+                            final todo = controller.filteredTodos[index];
+                            return TodoListTile(
+                              todo: todo,
+                              onToggle: () => _toggle(todo.id),
+                              onDelete: () => _confirmDelete(context, todo.id),
+                              onEdit: () =>
+                                  _openEditSheet(context, todo.id, todo.text),
+                            );
+                          },
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 12),
+                          itemCount: controller.filteredTodos.length,
+                        ),
                 ),
               ),
             ],
@@ -359,5 +396,49 @@ extension _ColorShade on Color {
     final hsl = HSLColor.fromColor(this);
     final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
     return hslDark.toColor();
+  }
+}
+
+// Extension for TodoDashboardPage
+extension _TodoDashboardPageHelpers on TodoDashboardPage {
+  String _getDataSourceLabel() {
+    // Based on current user - if Firebase user exists, assume Firebase
+    // This is a simple heuristic - in production, you might want explicit config
+    return AuthController.to.currentUser.value != null ? 'Firebase' : 'API';
+  }
+
+  void _handleMenuAction(String action) {
+    switch (action) {
+      case 'profile':
+        // Show user profile (could expand this to show profile page)
+        Get.dialog(
+          AlertDialog(
+            title: const Text('User Profile'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Name: ${AuthController.to.userDisplayName}'),
+                const SizedBox(height: 8),
+                Text(
+                  'Email: ${AuthController.to.currentUser.value?.email ?? ''}',
+                ),
+                const SizedBox(height: 8),
+                Text('Data Source: ${_getDataSourceLabel()}'),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Get.back(),
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        );
+        break;
+      case 'logout':
+        AuthController.to.signOut();
+        break;
+    }
   }
 }
