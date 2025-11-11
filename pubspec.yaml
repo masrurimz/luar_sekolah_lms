@@ -47,6 +47,11 @@ dependencies:
   # Week 7: GetX state management framework
   get: ^4.6.6
 
+  # Week 9: Firebase integration for authentication and database
+  firebase_core: ^3.15.2
+  firebase_auth: ^5.7.0
+  cloud_firestore: ^5.0.0
+
   # Week 4 (Optional): Validation library for bonus lesson
   # Uncomment below to try library-based validation in week4_simple.dart Lesson 11
   # form_validator: ^2.1.1
