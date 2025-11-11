@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import '../controllers/counter_controller.dart';
 
 /// Comprehensive example showing different GetX access patterns
-/// 
+///
 /// This page demonstrates:
 /// 1. Passing controller as prop (recommended for reusable widgets)
 /// 2. Accessing controller directly with Get.find() (quick access)
 /// 3. Trade-offs between each approach
 class CounterPatternsPage extends StatelessWidget {
-  const CounterPatternsPage({Key? key}) : super(key: key);
+  const CounterPatternsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CounterPatternsPage extends StatelessWidget {
             // Pattern explanation
             _PatternExplanation(),
             const SizedBox(height: 24),
-            
+
             // Pattern 1: Passing controller as prop (RECOMMENDED)
             _SectionHeader(
               title: '✅ Pattern 1: Passing Controller as Prop',
@@ -41,11 +41,11 @@ class CounterPatternsPage extends StatelessWidget {
                 return _CounterWithProps(controller: controller);
               },
             ),
-            
+
             const SizedBox(height: 32),
             const Divider(thickness: 2),
             const SizedBox(height: 32),
-            
+
             // Pattern 2: Direct access with Get.find() (QUICK ACCESS)
             _SectionHeader(
               title: '⚡ Pattern 2: Direct Access with Get.find()',
@@ -54,16 +54,16 @@ class CounterPatternsPage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const _CounterDirectAccess(),
-            
+
             const SizedBox(height: 32),
             const Divider(thickness: 2),
             const SizedBox(height: 32),
-            
+
             // Comparison table
             _ComparisonTable(),
-            
+
             const SizedBox(height: 32),
-            
+
             // Best practices
             _BestPracticesCard(),
           ],
@@ -74,48 +74,46 @@ class CounterPatternsPage extends StatelessWidget {
 }
 
 /// Pattern 1: Widget that receives controller as prop (RECOMMENDED)
-/// 
+///
 /// ✅ Pros:
 /// - Easy to test (can pass mock controller)
 /// - Reusable across different contexts
 /// - Explicit dependencies
 /// - No hidden coupling
-/// 
+///
 /// ❌ Cons:
 /// - More verbose (need to pass controller)
 /// - Requires parent to provide controller
 class _CounterWithProps extends StatelessWidget {
   final CounterController controller;
-  
-  const _CounterWithProps({
-    required this.controller,
-  });
+
+  const _CounterWithProps({required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             const Icon(Icons.check_circle, color: Colors.green, size: 40),
             const SizedBox(height: 16),
-            
-            Obx(() => Text(
-              'Count: ${controller.count.value}',
-              style: const TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
+
+            Obx(
+              () => Text(
+                'Count: ${controller.count.value}',
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
               ),
-            )),
-            
+            ),
+
             const SizedBox(height: 16),
-            
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -139,9 +137,9 @@ class _CounterWithProps extends StatelessWidget {
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -162,12 +160,12 @@ class _CounterWithProps extends StatelessWidget {
 }
 
 /// Pattern 2: Widget that accesses controller directly (QUICK ACCESS)
-/// 
+///
 /// ✅ Pros:
 /// - Less boilerplate code
 /// - Quick to implement
 /// - No need to pass controller down
-/// 
+///
 /// ❌ Cons:
 /// - Hard to test (tightly coupled to GetX)
 /// - Hidden dependency (not explicit)
@@ -180,31 +178,31 @@ class _CounterDirectAccess extends StatelessWidget {
   Widget build(BuildContext context) {
     // ⚠️ Direct access - will throw if controller not registered
     final controller = Get.find<CounterController>();
-    
+
     return Card(
       elevation: 4,
       color: Colors.orange.shade50,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             const Icon(Icons.flash_on, color: Colors.orange, size: 40),
             const SizedBox(height: 16),
-            
-            Obx(() => Text(
-              'Count: ${controller.count.value}',
-              style: const TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.orange,
+
+            Obx(
+              () => Text(
+                'Count: ${controller.count.value}',
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
               ),
-            )),
-            
+            ),
+
             const SizedBox(height: 16),
-            
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -237,9 +235,9 @@ class _CounterDirectAccess extends StatelessWidget {
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -328,13 +326,7 @@ class _SectionHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        Text(
-          subtitle,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey[600],
-          ),
-        ),
+        Text(subtitle, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
       ],
     );
   }
@@ -355,10 +347,7 @@ class _ComparisonTable extends StatelessWidget {
         children: [
           const Text(
             '📊 Comparison',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           _ComparisonRow(
@@ -437,10 +426,7 @@ class _BestPracticesCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.blue.withOpacity(0.1),
-            Colors.green.withOpacity(0.1),
-          ],
+          colors: [Colors.blue.withOpacity(0.1), Colors.green.withOpacity(0.1)],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.blue.withOpacity(0.3)),
@@ -470,7 +456,8 @@ class _BestPracticesCard extends StatelessWidget {
           ),
           _BestPracticeItem(
             icon: Icons.check,
-            text: 'Use Pattern 2 (Get.find) for quick prototyping or app-specific widgets',
+            text:
+                'Use Pattern 2 (Get.find) for quick prototyping or app-specific widgets',
             color: Colors.orange,
           ),
           _BestPracticeItem(
@@ -480,7 +467,8 @@ class _BestPracticesCard extends StatelessWidget {
           ),
           _BestPracticeItem(
             icon: Icons.check,
-            text: 'Consider Get.put() for singletons, Get.lazyPut() for lazy loading',
+            text:
+                'Consider Get.put() for singletons, Get.lazyPut() for lazy loading',
             color: Colors.purple,
           ),
         ],
@@ -509,12 +497,7 @@ class _BestPracticeItem extends StatelessWidget {
         children: [
           Icon(icon, color: color, size: 20),
           const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 14))),
         ],
       ),
     );

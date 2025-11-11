@@ -200,8 +200,7 @@ class WidgetBasicsDemo extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             color: Colors.white,
-            child: const Text(
-              '''
+            child: const Text('''
 MaterialApp
   └── Scaffold
        ├── AppBar
@@ -212,12 +211,7 @@ MaterialApp
                  ├── SizedBox
                  └── Button
                       └── Text("Click")
-              ''',
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 12,
-              ),
-            ),
+              ''', style: TextStyle(fontFamily: 'monospace', fontSize: 12)),
           ),
 
           const SizedBox(height: 12),
@@ -407,10 +401,7 @@ MaterialApp
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Text(
-                  '💡 TIPS:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                Text('💡 TIPS:', style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 8),
                 Text('• Buat widget kecil dan reusable'),
                 Text('• Gunakan const untuk performa'),
@@ -470,10 +461,7 @@ class _CustomCard extends StatelessWidget {
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                 ),
               ],
             ),

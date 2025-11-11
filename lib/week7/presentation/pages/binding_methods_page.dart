@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// Comprehensive example showing different GetX binding approaches
-/// 
+///
 /// This page demonstrates:
 /// 1. Route-level binding (via GetPage)
 /// 2. Manual binding with Get.put()
 /// 3. Lazy binding with Get.lazyPut()
 /// 4. Builder pattern with GetBuilder init
 /// 5. BindingsBuilder for inline bindings
-/// 
+///
 /// Each approach has different use cases and lifecycle management
 class BindingMethodsExamplePage extends StatelessWidget {
-  const BindingMethodsExamplePage({Key? key}) : super(key: key);
+  const BindingMethodsExamplePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class BindingMethodsExamplePage extends StatelessWidget {
           children: [
             _IntroCard(),
             const SizedBox(height: 24),
-            
+
             // Method 1: Route-level Binding
             _BindingMethodCard(
               method: '1. Route-Level Binding',
@@ -61,11 +61,12 @@ class CounterBinding extends Bindings {
   }
 }
 ''',
-              whenToUse: 'Use for page-specific controllers with GetX navigation',
+              whenToUse:
+                  'Use for page-specific controllers with GetX navigation',
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Method 2: Manual Put
             _BindingMethodCard(
               method: '2. Manual Get.put()',
@@ -95,17 +96,19 @@ Get.put(CounterController(), tag: 'counter1');
 // Manual disposal when done
 Get.delete<CounterController>();
 ''',
-              whenToUse: 'Use for global services or when you need immediate access',
+              whenToUse:
+                  'Use for global services or when you need immediate access',
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Method 3: Lazy Put
             _BindingMethodCard(
               method: '3. Lazy Get.lazyPut()',
               icon: Icons.hourglass_empty,
               color: Colors.orange,
-              description: 'Register controller but instantiate only when first accessed',
+              description:
+                  'Register controller but instantiate only when first accessed',
               pros: [
                 'Deferred instantiation',
                 'Better memory efficiency',
@@ -130,9 +133,9 @@ final controller = Get.find<CounterController>();
 ''',
               whenToUse: 'Use in Bindings classes for efficient memory usage',
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Method 4: GetBuilder init
             _BindingMethodCard(
               method: '4. GetBuilder init',
@@ -168,9 +171,9 @@ GetBuilder<CounterController>(
 ''',
               whenToUse: 'Use for simple, self-contained widgets or demos',
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Method 5: BindingsBuilder
             _BindingMethodCard(
               method: '5. BindingsBuilder',
@@ -206,16 +209,17 @@ GetPage(
   ),
 )
 ''',
-              whenToUse: 'Use for quick prototyping or simple single-controller pages',
+              whenToUse:
+                  'Use for quick prototyping or simple single-controller pages',
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Comparison & Best Practices
             _ComparisonSection(),
-            
+
             const SizedBox(height: 24),
-            
+
             // Live Demo Button
             _LiveDemoButton(),
           ],
@@ -232,10 +236,7 @@ class _IntroCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.teal.withOpacity(0.1),
-            Colors.cyan.withOpacity(0.1),
-          ],
+          colors: [Colors.teal.withOpacity(0.1), Colors.cyan.withOpacity(0.1)],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.teal.withOpacity(0.3)),
@@ -314,9 +315,7 @@ class _BindingMethodCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ExpansionTile(
         leading: Icon(icon, color: color, size: 32),
         title: Text(
@@ -327,10 +326,7 @@ class _BindingMethodCard extends StatelessWidget {
             color: color,
           ),
         ),
-        subtitle: Text(
-          description,
-          style: const TextStyle(fontSize: 12),
-        ),
+        subtitle: Text(description, style: const TextStyle(fontSize: 12)),
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
@@ -344,9 +340,9 @@ class _BindingMethodCard extends StatelessWidget {
                   color: Colors.green,
                   icon: Icons.check_circle,
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Cons
                 _ProConSection(
                   title: 'Cons',
@@ -354,18 +350,15 @@ class _BindingMethodCard extends StatelessWidget {
                   color: Colors.red,
                   icon: Icons.cancel,
                 ),
-                
+
                 const SizedBox(height: 16),
                 const Divider(),
                 const SizedBox(height: 16),
-                
+
                 // Code Example
                 const Text(
                   'Code Example:',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 ),
                 const SizedBox(height: 8),
                 Container(
@@ -384,9 +377,9 @@ class _BindingMethodCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // When to Use
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -463,21 +456,20 @@ class _ProConSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        ...items.map((item) => Padding(
-          padding: const EdgeInsets.only(left: 26, bottom: 4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('• ', style: TextStyle(color: color)),
-              Expanded(
-                child: Text(
-                  item,
-                  style: const TextStyle(fontSize: 13),
+        ...items.map(
+          (item) => Padding(
+            padding: const EdgeInsets.only(left: 26, bottom: 4),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('• ', style: TextStyle(color: color)),
+                Expanded(
+                  child: Text(item, style: const TextStyle(fontSize: 13)),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        )),
+        ),
       ],
     );
   }
@@ -511,28 +503,28 @@ class _ComparisonSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          
+
           _RecommendationItem(
             scenario: 'For Production Apps',
             recommendation: 'Use Route-Level Binding + Lazy Put',
             reason: 'Best lifecycle management and memory efficiency',
             color: Colors.green,
           ),
-          
+
           _RecommendationItem(
             scenario: 'For Global Services',
             recommendation: 'Use Get.put() with permanent: true',
             reason: 'Keeps service alive throughout app lifecycle',
             color: Colors.orange,
           ),
-          
+
           _RecommendationItem(
             scenario: 'For Quick Prototypes',
             recommendation: 'Use GetBuilder init or BindingsBuilder',
             reason: 'Fast setup without separate files',
             color: Colors.purple,
           ),
-          
+
           _RecommendationItem(
             scenario: 'For Complex Dependencies',
             recommendation: 'Create dedicated Binding classes',
@@ -583,18 +575,12 @@ class _RecommendationItem extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               '→ $recommendation',
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 13,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
             ),
             const SizedBox(height: 2),
             Text(
               reason,
-              style: TextStyle(
-                fontSize: 11,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 11, color: Colors.grey[600]),
             ),
           ],
         ),
@@ -610,10 +596,7 @@ class _LiveDemoButton extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.teal.withOpacity(0.2),
-            Colors.blue.withOpacity(0.2),
-          ],
+          colors: [Colors.teal.withOpacity(0.2), Colors.blue.withOpacity(0.2)],
         ),
         borderRadius: BorderRadius.circular(16),
       ),
@@ -623,10 +606,7 @@ class _LiveDemoButton extends StatelessWidget {
           const SizedBox(height: 12),
           const Text(
             'Try Different Binding Methods',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           const Text(
@@ -645,10 +625,7 @@ class _LiveDemoButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.teal,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
           ),
         ],

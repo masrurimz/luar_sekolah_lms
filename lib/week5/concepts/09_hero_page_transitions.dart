@@ -35,8 +35,7 @@ class HeroAndTransitionsDemo extends StatefulWidget {
   const HeroAndTransitionsDemo({super.key});
 
   @override
-  State<HeroAndTransitionsDemo> createState() =>
-      _HeroAndTransitionsDemoState();
+  State<HeroAndTransitionsDemo> createState() => _HeroAndTransitionsDemoState();
 }
 
 class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
@@ -164,16 +163,15 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -223,11 +221,7 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(
-                    Icons.star,
-                    color: Colors.white,
-                    size: 50,
-                  ),
+                  child: const Icon(Icons.star, color: Colors.white, size: 50),
                 ),
               ),
             ),
@@ -366,12 +360,19 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
   Widget _buildExample3_HeroListToDetail() {
     final products = [
       ProductModel(id: '1', name: 'Laptop', price: '\$999', color: Colors.blue),
+      ProductModel(id: '2', name: 'Phone', price: '\$699', color: Colors.green),
       ProductModel(
-          id: '2', name: 'Phone', price: '\$699', color: Colors.green),
+        id: '3',
+        name: 'Tablet',
+        price: '\$499',
+        color: Colors.purple,
+      ),
       ProductModel(
-          id: '3', name: 'Tablet', price: '\$499', color: Colors.purple),
-      ProductModel(
-          id: '4', name: 'Watch', price: '\$299', color: Colors.orange),
+        id: '4',
+        name: 'Watch',
+        price: '\$299',
+        color: Colors.orange,
+      ),
     ];
 
     return Container(
@@ -445,10 +446,7 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
                       color: product.color,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(
-                      Icons.shopping_bag,
-                      color: Colors.white,
-                    ),
+                    child: const Icon(Icons.shopping_bag, color: Colors.white),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -686,14 +684,12 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
         const end = Offset.zero;
         const curve = Curves.easeInOut;
 
-        var tween = Tween(begin: begin, end: end).chain(
-          CurveTween(curve: curve),
-        );
+        var tween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(CurveTween(curve: curve));
 
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
+        return SlideTransition(position: animation.drive(tween), child: child);
       },
     );
   }
@@ -704,10 +700,7 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionDuration: const Duration(milliseconds: 300),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
-          child: child,
-        );
+        return FadeTransition(opacity: animation, child: child);
       },
     );
   }
@@ -720,14 +713,9 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const curve = Curves.easeInOut;
 
-        var tween = Tween(begin: 0.0, end: 1.0).chain(
-          CurveTween(curve: curve),
-        );
+        var tween = Tween(begin: 0.0, end: 1.0).chain(CurveTween(curve: curve));
 
-        return ScaleTransition(
-          scale: animation.drive(tween),
-          child: child,
-        );
+        return ScaleTransition(scale: animation.drive(tween), child: child);
       },
     );
   }
@@ -742,9 +730,10 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
         const end = Offset.zero;
         const curve = Curves.easeInOut;
 
-        var slideTween = Tween(begin: begin, end: end).chain(
-          CurveTween(curve: curve),
-        );
+        var slideTween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(CurveTween(curve: curve));
 
         return FadeTransition(
           opacity: animation,
@@ -765,9 +754,10 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const curve = Curves.easeInOut;
 
-        var scaleTween = Tween(begin: 0.8, end: 1.0).chain(
-          CurveTween(curve: curve),
-        );
+        var scaleTween = Tween(
+          begin: 0.8,
+          end: 1.0,
+        ).chain(CurveTween(curve: curve));
 
         return FadeTransition(
           opacity: animation,
@@ -788,9 +778,10 @@ class _HeroAndTransitionsDemoState extends State<HeroAndTransitionsDemo> {
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const curve = Curves.easeInOut;
 
-        var rotateTween = Tween(begin: 0.9, end: 1.0).chain(
-          CurveTween(curve: curve),
-        );
+        var rotateTween = Tween(
+          begin: 0.9,
+          end: 1.0,
+        ).chain(CurveTween(curve: curve));
 
         return FadeTransition(
           opacity: animation,
@@ -827,11 +818,7 @@ class BasicHeroDetailScreen extends StatelessWidget {
               color: Colors.blue,
               borderRadius: BorderRadius.circular(24),
             ),
-            child: const Icon(
-              Icons.star,
-              color: Colors.white,
-              size: 150,
-            ),
+            child: const Icon(Icons.star, color: Colors.white, size: 150),
           ),
         ),
       ),
@@ -923,10 +910,7 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name),
-        backgroundColor: product.color,
-      ),
+      appBar: AppBar(title: Text(product.name), backgroundColor: product.color),
       body: Hero(
         tag: 'product-${product.id}',
         child: Material(
@@ -969,10 +953,7 @@ class ProductDetailScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   product.price,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.grey.shade700,
-                  ),
+                  style: TextStyle(fontSize: 24, color: Colors.grey.shade700),
                 ),
                 const SizedBox(height: 32),
                 Padding(
@@ -1005,26 +986,16 @@ class TransitionDemoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.deepPurple,
-      ),
+      appBar: AppBar(title: Text(title), backgroundColor: Colors.deepPurple),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.animation,
-              size: 120,
-              color: Colors.deepPurple.shade300,
-            ),
+            Icon(Icons.animation, size: 120, color: Colors.deepPurple.shade300),
             const SizedBox(height: 24),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             const Padding(
@@ -1044,8 +1015,10 @@ class TransitionDemoScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurple,
                 foregroundColor: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
               ),
             ),
           ],

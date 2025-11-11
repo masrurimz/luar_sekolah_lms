@@ -171,16 +171,15 @@ class _ImplicitAnimationsDemoState extends State<ImplicitAnimationsDemo> {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -493,10 +492,7 @@ class _AnimatedContainerExampleState extends State<AnimatedContainerExample> {
           children: [
             Text(
               _isExpanded ? 'STATE: EXPANDED' : 'STATE: COLLAPSED',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ],
         ),
@@ -510,12 +506,12 @@ class _AnimatedContainerExampleState extends State<AnimatedContainerExample> {
             height: _isExpanded ? 200 : 100,
             decoration: BoxDecoration(
               color: _isExpanded ? Colors.blue : Colors.red,
-              borderRadius:
-                  BorderRadius.circular(_isExpanded ? 100 : 20),
+              borderRadius: BorderRadius.circular(_isExpanded ? 100 : 20),
               boxShadow: [
                 BoxShadow(
-                  color: (_isExpanded ? Colors.blue : Colors.red)
-                      .withOpacity(0.5),
+                  color: (_isExpanded ? Colors.blue : Colors.red).withOpacity(
+                    0.5,
+                  ),
                   blurRadius: _isExpanded ? 20 : 10,
                   spreadRadius: _isExpanded ? 5 : 2,
                 ),
@@ -704,7 +700,11 @@ class _AnimatedAlignExampleState extends State<AnimatedAlignExample> {
                   ),
                 ],
               ),
-              child: const Icon(Icons.location_on, color: Colors.white, size: 30),
+              child: const Icon(
+                Icons.location_on,
+                color: Colors.white,
+                size: 30,
+              ),
             ),
           ),
         ),
@@ -774,8 +774,11 @@ class _AnimatedPaddingExampleState extends State<AnimatedPaddingExample> {
                 ],
               ),
               child: const Center(
-                child: Icon(Icons.filter_center_focus,
-                    color: Colors.white, size: 50),
+                child: Icon(
+                  Icons.filter_center_focus,
+                  color: Colors.white,
+                  size: 50,
+                ),
               ),
             ),
           ),
@@ -875,10 +878,7 @@ class _TweenAnimationBuilderExampleState
           duration: const Duration(milliseconds: 600),
           curve: Curves.elasticOut,
           builder: (context, scale, child) {
-            return Transform.scale(
-              scale: scale,
-              child: child,
-            );
+            return Transform.scale(scale: scale, child: child);
           },
           child: Container(
             padding: const EdgeInsets.all(16),

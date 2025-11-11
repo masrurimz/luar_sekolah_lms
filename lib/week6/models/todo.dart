@@ -21,10 +21,9 @@ class Todo {
   }
 
   Map<String, dynamic> toJson() => {
-        'userId': userId,
-        'id': id,
-        'title': title,
-        'completed': completed,
-      };
+    'userId': userId,
+    'id': id,
+    'title': title,
+    'completed': completed,
+  };
 }
-

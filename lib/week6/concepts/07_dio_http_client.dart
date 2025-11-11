@@ -112,7 +112,8 @@ class _DioHttpClientDemoState extends State<DioHttpClientDemo> {
       );
 
       setState(() {
-        _response = 'Request completed successfully!\n\n'
+        _response =
+            'Request completed successfully!\n\n'
             'Status: ${response.statusCode}\n'
             'Data length: ${(response.data as List).length} items\n'
             'Response time: Fast (Dio optimization)';
@@ -288,10 +289,12 @@ class _DioHttpClientDemoState extends State<DioHttpClientDemo> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: features
-            .map((feature) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: Text(feature, style: const TextStyle(fontSize: 13)),
-                ))
+            .map(
+              (feature) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Text(feature, style: const TextStyle(fontSize: 13)),
+              ),
+            )
             .toList(),
       ),
     );

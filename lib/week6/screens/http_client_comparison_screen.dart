@@ -13,10 +13,12 @@ class HttpClientComparisonScreen extends StatefulWidget {
   const HttpClientComparisonScreen({super.key});
 
   @override
-  State<HttpClientComparisonScreen> createState() => _HttpClientComparisonScreenState();
+  State<HttpClientComparisonScreen> createState() =>
+      _HttpClientComparisonScreenState();
 }
 
-class _HttpClientComparisonScreenState extends State<HttpClientComparisonScreen> {
+class _HttpClientComparisonScreenState
+    extends State<HttpClientComparisonScreen> {
   final _httpService = TodoApiService();
   final _dioService = TodoApiServiceDio();
 
@@ -85,10 +87,7 @@ class _HttpClientComparisonScreenState extends State<HttpClientComparisonScreen>
   }
 
   Future<void> _fetchBoth() async {
-    await Future.wait([
-      _fetchWithHttp(),
-      _fetchWithDio(),
-    ]);
+    await Future.wait([_fetchWithHttp(), _fetchWithDio()]);
   }
 
   @override
@@ -113,7 +112,9 @@ class _HttpClientComparisonScreenState extends State<HttpClientComparisonScreen>
                   children: [
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: _httpLoading || _dioLoading ? null : _fetchBoth,
+                        onPressed: _httpLoading || _dioLoading
+                            ? null
+                            : _fetchBoth,
                         icon: const Icon(Icons.compare_arrows),
                         label: const Text('Test Both'),
                         style: ElevatedButton.styleFrom(
@@ -126,14 +127,16 @@ class _HttpClientComparisonScreenState extends State<HttpClientComparisonScreen>
                     const SizedBox(width: 8),
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: _httpLoading || _dioLoading ? null : () {
-                          setState(() {
-                            _httpTodos = null;
-                            _dioTodos = null;
-                            _httpError = null;
-                            _dioError = null;
-                          });
-                        },
+                        onPressed: _httpLoading || _dioLoading
+                            ? null
+                            : () {
+                                setState(() {
+                                  _httpTodos = null;
+                                  _dioTodos = null;
+                                  _httpError = null;
+                                  _dioError = null;
+                                });
+                              },
                         icon: const Icon(Icons.clear),
                         label: const Text('Clear'),
                         style: ElevatedButton.styleFrom(
@@ -245,10 +248,10 @@ class _HttpClientComparisonScreenState extends State<HttpClientComparisonScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: features
-                .map((feature) => Text(
-                      feature,
-                      style: const TextStyle(fontSize: 11),
-                    ))
+                .map(
+                  (feature) =>
+                      Text(feature, style: const TextStyle(fontSize: 11)),
+                )
                 .toList(),
           ),
         ),
@@ -269,10 +272,7 @@ class _HttpClientComparisonScreenState extends State<HttpClientComparisonScreen>
                   const SizedBox(height: 4),
                   Text(
                     error,
-                    style: TextStyle(
-                      color: Colors.red.shade600,
-                      fontSize: 11,
-                    ),
+                    style: TextStyle(color: Colors.red.shade600, fontSize: 11),
                     textAlign: TextAlign.center,
                   ),
                 ] else if (todos != null) ...[
@@ -295,9 +295,13 @@ class _HttpClientComparisonScreenState extends State<HttpClientComparisonScreen>
                           child: Row(
                             children: [
                               Icon(
-                                todo.completed ? Icons.check_circle : Icons.radio_button_unchecked,
+                                todo.completed
+                                    ? Icons.check_circle
+                                    : Icons.radio_button_unchecked,
                                 size: 12,
-                                color: todo.completed ? Colors.green : Colors.grey,
+                                color: todo.completed
+                                    ? Colors.green
+                                    : Colors.grey,
                               ),
                               const SizedBox(width: 4),
                               Expanded(
@@ -315,18 +319,11 @@ class _HttpClientComparisonScreenState extends State<HttpClientComparisonScreen>
                     ),
                   ),
                 ] else ...[
-                  Icon(
-                    Icons.touch_app,
-                    color: Colors.grey.shade400,
-                    size: 32,
-                  ),
+                  Icon(Icons.touch_app, color: Colors.grey.shade400, size: 32),
                   const SizedBox(height: 8),
                   Text(
                     'Press "Test Both" to start',
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                 ],

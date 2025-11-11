@@ -227,7 +227,7 @@ class _CodeExample extends StatelessWidget {
 }
 
 class _BestPracticeCard extends StatelessWidget {
-  const _BestPracticeCard({Key? key}) : super(key: key);
+  const _BestPracticeCard({super.key});
   @override
   Widget build(BuildContext context) {
     return Container(

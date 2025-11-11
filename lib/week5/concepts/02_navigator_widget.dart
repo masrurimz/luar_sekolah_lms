@@ -175,16 +175,15 @@ Navigator.pop(context, result);
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -503,9 +502,7 @@ Navigator.pop(context, "returned data");
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const ChainScreenOne(),
-                ),
+                MaterialPageRoute(builder: (context) => const ChainScreenOne()),
               );
             },
             icon: const Icon(Icons.layers),
@@ -749,10 +746,7 @@ class DataReceiverScreen extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -863,7 +857,8 @@ class _DataReturnScreenState extends State<DataReturnScreen> {
             ElevatedButton.icon(
               onPressed: () {
                 // PATTERN: Return data via pop
-                final result = 'Text: ${_textController.text}, Option: $_selectedOption';
+                final result =
+                    'Text: ${_textController.text}, Option: $_selectedOption';
                 Navigator.pop(context, result);
               },
               icon: const Icon(Icons.check),

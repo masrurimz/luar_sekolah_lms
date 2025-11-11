@@ -40,20 +40,26 @@ class _ErrorHandlingRetryDemoState extends State<ErrorHandlingRetryDemo> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Terjadi error: ${snapshot.error}', textAlign: TextAlign.center, style: const TextStyle(color: Colors.red)),
+                  Text(
+                    'Terjadi error: ${snapshot.error}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.red),
+                  ),
                   const SizedBox(height: 12),
                   ElevatedButton.icon(
                     onPressed: _retry,
                     icon: const Icon(Icons.refresh),
                     label: const Text('Coba Lagi'),
-                  )
+                  ),
                 ],
               ),
             );
           }
           final list = snapshot.data ?? const <Todo>[];
           if (list.isEmpty) {
-            return const Center(child: Text('Data kosong. Tarik ke bawah untuk refresh.'));
+            return const Center(
+              child: Text('Data kosong. Tarik ke bawah untuk refresh.'),
+            );
           }
           return RefreshIndicator(
             onRefresh: () async => _retry(),
@@ -66,11 +72,13 @@ class _ErrorHandlingRetryDemoState extends State<ErrorHandlingRetryDemo> {
                 final t = list[index];
                 return ListTile(
                   leading: Icon(
-                    t.completed ? Icons.check_circle : Icons.radio_button_unchecked,
+                    t.completed
+                        ? Icons.check_circle
+                        : Icons.radio_button_unchecked,
                     color: t.completed ? Colors.green : Colors.grey,
                   ),
                   title: Text(t.title),
-                  subtitle: Text('Todo #${t.id} — Completed: ${t.completed}')
+                  subtitle: Text('Todo #${t.id} — Completed: ${t.completed}'),
                 );
               },
             ),
@@ -80,4 +88,3 @@ class _ErrorHandlingRetryDemoState extends State<ErrorHandlingRetryDemo> {
     );
   }
 }
-

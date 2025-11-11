@@ -23,7 +23,10 @@ class FutureBuilderUiDemo extends StatelessWidget {
           }
           if (snapshot.hasError) {
             return Center(
-              child: Text('Error: ${snapshot.error}', style: const TextStyle(color: Colors.red)),
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: const TextStyle(color: Colors.red),
+              ),
             );
           }
           final todos = snapshot.data ?? const <Todo>[];
@@ -38,7 +41,9 @@ class FutureBuilderUiDemo extends StatelessWidget {
               final t = todos[index];
               return ListTile(
                 leading: Icon(
-                  t.completed ? Icons.check_circle : Icons.radio_button_unchecked,
+                  t.completed
+                      ? Icons.check_circle
+                      : Icons.radio_button_unchecked,
                   color: t.completed ? Colors.green : Colors.grey,
                 ),
                 title: Text(t.title),
@@ -51,4 +56,3 @@ class FutureBuilderUiDemo extends StatelessWidget {
     );
   }
 }
-

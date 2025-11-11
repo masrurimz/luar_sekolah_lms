@@ -24,4 +24,3 @@ class HttpSetupDemo extends StatelessWidget {
     );
   }
 }
-

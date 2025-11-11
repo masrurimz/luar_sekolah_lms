@@ -63,7 +63,11 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
 
     setState(() => _loading = true);
     try {
-      final created = await _api.createTodo(userId: 1, title: result.title, completed: result.completed);
+      final created = await _api.createTodo(
+        userId: 1,
+        title: result.title,
+        completed: result.completed,
+      );
       // JSONPlaceholder won't persist; we append locally for demo
       setState(() => _items = [created, ..._items]);
     } catch (e) {
@@ -87,17 +91,28 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
     final idx = _items.indexWhere((t) => t.id == todo.id);
     if (idx == -1) return;
     final before = _items[idx];
-    final optimistic = Todo(userId: before.userId, id: before.id, title: result.title, completed: result.completed);
+    final optimistic = Todo(
+      userId: before.userId,
+      id: before.id,
+      title: result.title,
+      completed: result.completed,
+    );
     setState(() => _items = [..._items]..[idx] = optimistic);
 
     try {
-      await _api.patchTodo(todo.id, title: result.title, completed: result.completed);
+      await _api.patchTodo(
+        todo.id,
+        title: result.title,
+        completed: result.completed,
+      );
     } catch (e) {
       // Revert on failure
       setState(() => _items = [..._items]..[idx] = before);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal memperbarui todo: ${_getErrorMessage(e)}')),
+        SnackBar(
+          content: Text('Gagal memperbarui todo: ${_getErrorMessage(e)}'),
+        ),
       );
     }
   }
@@ -106,7 +121,12 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
     final idx = _items.indexWhere((t) => t.id == todo.id);
     if (idx == -1) return;
     final before = _items[idx];
-    final optimistic = Todo(userId: before.userId, id: before.id, title: before.title, completed: !before.completed);
+    final optimistic = Todo(
+      userId: before.userId,
+      id: before.id,
+      title: before.title,
+      completed: !before.completed,
+    );
     setState(() => _items = [..._items]..[idx] = optimistic);
     try {
       await _api.patchTodo(todo.id, completed: !before.completed);
@@ -114,7 +134,9 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
       setState(() => _items = [..._items]..[idx] = before);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal mengubah status: ${_getErrorMessage(e)}')),
+        SnackBar(
+          content: Text('Gagal mengubah status: ${_getErrorMessage(e)}'),
+        ),
       );
     }
   }
@@ -126,8 +148,14 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
         title: const Text('Delete Todo'),
         content: Text('Hapus todo "${todo.title}"?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Batal')),
-          ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Hapus')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Batal'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Hapus'),
+          ),
         ],
       ),
     );
@@ -168,7 +196,10 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
               width: double.infinity,
               color: Colors.red.withValues(alpha: 0.08),
               padding: const EdgeInsets.all(12),
-              child: Text('Error: $_error', style: const TextStyle(color: Colors.red)),
+              child: Text(
+                'Error: $_error',
+                style: const TextStyle(color: Colors.red),
+              ),
             ),
           Expanded(
             child: RefreshIndicator(
@@ -183,7 +214,9 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
                   return ListTile(
                     leading: IconButton(
                       icon: Icon(
-                        t.completed ? Icons.check_circle : Icons.radio_button_unchecked,
+                        t.completed
+                            ? Icons.check_circle
+                            : Icons.radio_button_unchecked,
                         color: t.completed ? Colors.green : Colors.grey,
                       ),
                       onPressed: () => _toggleCompleted(t),
@@ -211,7 +244,7 @@ class _TodoCrudScreenState extends State<TodoCrudScreen> {
               'UI ini menggunakan pendekatan optimistik agar perubahan terlihat saat demo.',
               style: TextStyle(fontSize: 12),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -257,7 +290,8 @@ class _TodoFormDialogState extends State<_TodoFormDialog> {
             TextFormField(
               controller: _titleCtl,
               decoration: const InputDecoration(labelText: 'Title'),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Wajib diisi' : null,
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'Wajib diisi' : null,
             ),
             const SizedBox(height: 12),
             SwitchListTile(
@@ -265,16 +299,25 @@ class _TodoFormDialogState extends State<_TodoFormDialog> {
               onChanged: (v) => setState(() => _completed = v),
               title: const Text('Completed'),
               contentPadding: EdgeInsets.zero,
-            )
+            ),
           ],
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Batal')),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Batal'),
+        ),
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState?.validate() != true) return;
-            Navigator.pop(context, _TodoFormResult(title: _titleCtl.text.trim(), completed: _completed));
+            Navigator.pop(
+              context,
+              _TodoFormResult(
+                title: _titleCtl.text.trim(),
+                completed: _completed,
+              ),
+            );
           },
           child: const Text('Simpan'),
         ),

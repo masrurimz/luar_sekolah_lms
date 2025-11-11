@@ -23,17 +23,23 @@ class _HttpGetBasicsDemoState extends State<HttpGetBasicsDemo> {
       _raw = null;
     });
     try {
-      final uri = Uri.parse('https://jsonplaceholder.typicode.com/todos?_limit=5');
-      final res = await http.get(
-        uri,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json',
-          'User-Agent': 'Flutter-Learning-App/1.0',
-        },
-      ).timeout(const Duration(seconds: 15));
+      final uri = Uri.parse(
+        'https://jsonplaceholder.typicode.com/todos?_limit=5',
+      );
+      final res = await http
+          .get(
+            uri,
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              'User-Agent': 'Flutter-Learning-App/1.0',
+            },
+          )
+          .timeout(const Duration(seconds: 15));
       if (res.statusCode == 200) {
-        final pretty = const JsonEncoder.withIndent('  ').convert(jsonDecode(res.body));
+        final pretty = const JsonEncoder.withIndent(
+          '  ',
+        ).convert(jsonDecode(res.body));
         setState(() => _raw = pretty);
       } else {
         setState(() => _error = 'Status: ${res.statusCode}');
@@ -69,14 +75,14 @@ class _HttpGetBasicsDemoState extends State<HttpGetBasicsDemo> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: SingleChildScrollView(
-                child: Text(
-                  _error ?? _raw ?? 'Tekan tombol untuk fetch data',
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    color: _error != null ? Colors.red : Colors.black87,
+                  child: Text(
+                    _error ?? _raw ?? 'Tekan tombol untuk fetch data',
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      color: _error != null ? Colors.red : Colors.black87,
+                    ),
                   ),
                 ),
-              ),
               ),
             ),
           ],

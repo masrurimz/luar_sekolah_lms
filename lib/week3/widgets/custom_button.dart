@@ -431,14 +431,13 @@ class CustomFAB extends StatelessWidget {
         icon: Icon(icon),
         label: Text(label!),
         backgroundColor: backgroundColor ?? theme.primaryColor,
-        
       );
     }
 
     return FloatingActionButton(
       onPressed: onPressed,
       backgroundColor: backgroundColor ?? theme.primaryColor,
-      
+
       child: Icon(icon),
     );
   }

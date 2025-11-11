@@ -24,18 +24,24 @@ class _ParseJsonToModelDemoState extends State<ParseJsonToModelDemo> {
       _todos = null;
     });
     try {
-      final uri = Uri.parse('https://jsonplaceholder.typicode.com/todos?_limit=8');
-      final res = await http.get(
-        uri,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json',
-          'User-Agent': 'Flutter-Learning-App/1.0',
-        },
-      ).timeout(const Duration(seconds: 15));
+      final uri = Uri.parse(
+        'https://jsonplaceholder.typicode.com/todos?_limit=8',
+      );
+      final res = await http
+          .get(
+            uri,
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              'User-Agent': 'Flutter-Learning-App/1.0',
+            },
+          )
+          .timeout(const Duration(seconds: 15));
       if (res.statusCode == 200) {
         final List<dynamic> data = jsonDecode(res.body) as List<dynamic>;
-        final todos = data.map((e) => Todo.fromJson(e as Map<String, dynamic>)).toList();
+        final todos = data
+            .map((e) => Todo.fromJson(e as Map<String, dynamic>))
+            .toList();
         setState(() => _todos = todos);
       } else {
         setState(() => _error = 'Status: ${res.statusCode}');
@@ -74,11 +80,13 @@ class _ParseJsonToModelDemoState extends State<ParseJsonToModelDemo> {
                     final t = _todos![index];
                     return ListTile(
                       leading: Icon(
-                        t.completed ? Icons.check_circle : Icons.radio_button_unchecked,
+                        t.completed
+                            ? Icons.check_circle
+                            : Icons.radio_button_unchecked,
                         color: t.completed ? Colors.green : Colors.grey,
                       ),
                       title: Text(t.title),
-                      subtitle: Text('Todo #${t.id} — user ${t.userId}')
+                      subtitle: Text('Todo #${t.id} — user ${t.userId}'),
                     );
                   },
                 ),
@@ -91,4 +99,3 @@ class _ParseJsonToModelDemoState extends State<ParseJsonToModelDemo> {
     );
   }
 }
-

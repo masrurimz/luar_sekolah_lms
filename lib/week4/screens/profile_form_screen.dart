@@ -103,9 +103,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   @override
   Widget build(BuildContext context) {
     if (!_isStorageInitialized) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -143,27 +141,17 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
             color: Colors.indigo.shade100,
             shape: BoxShape.circle,
           ),
-          child: const Icon(
-            Icons.person,
-            size: 50,
-            color: Colors.indigo,
-          ),
+          child: const Icon(Icons.person, size: 50, color: Colors.indigo),
         ),
         const SizedBox(height: 16),
         const Text(
           'Complete Your Profile',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
           'Fill in your information below',
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.grey.shade600,
-          ),
+          style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
         ),
       ],
     );
@@ -334,10 +322,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
               )
             : const Text(
                 'Save Profile',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
       ),
     );

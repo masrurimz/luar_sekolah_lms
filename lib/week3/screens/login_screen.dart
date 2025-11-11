@@ -178,20 +178,14 @@ class _LoginScreenState extends State<LoginScreen> {
         // Welcome text
         const Text(
           'Selamat Datang!',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
 
         // Subtitle
         Text(
           'Masuk ke akun Luarsekolah Anda',
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.grey.shade600,
-          ),
+          style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
         ),
       ],
     );
@@ -238,8 +232,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 return 'Email tidak boleh kosong';
               }
               // Simple email validation dengan regex
-              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                  .hasMatch(value)) {
+              if (!RegExp(
+                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+              ).hasMatch(value)) {
                 return 'Format email tidak valid';
               }
               return null; // null means valid
@@ -267,9 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // Suffix icon untuk toggle password visibility
               suffixIcon: IconButton(
                 icon: Icon(
-                  _isPasswordVisible
-                      ? Icons.visibility_off
-                      : Icons.visibility,
+                  _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
                   color: Colors.grey,
                 ),
                 onPressed: () {
@@ -324,10 +317,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _rememberMe = !_rememberMe;
                   });
                 },
-                child: const Text(
-                  'Ingat saya',
-                  style: TextStyle(fontSize: 14),
-                ),
+                child: const Text('Ingat saya', style: TextStyle(fontSize: 14)),
               ),
             ],
           ),
@@ -361,10 +351,7 @@ class _LoginScreenState extends State<LoginScreen> {
               )
             : const Text(
                 'Masuk',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
       ),
     );
@@ -388,9 +375,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: const Text(
         'Lupa Password?',
-        style: TextStyle(
-          decoration: TextDecoration.underline,
-        ),
+        style: TextStyle(decoration: TextDecoration.underline),
       ),
     );
   }
@@ -401,12 +386,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildDivider() {
     return Row(
       children: [
-        Expanded(
-          child: Divider(
-            thickness: 1,
-            color: Colors.grey.shade300,
-          ),
-        ),
+        Expanded(child: Divider(thickness: 1, color: Colors.grey.shade300)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
@@ -417,12 +397,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        Expanded(
-          child: Divider(
-            thickness: 1,
-            color: Colors.grey.shade300,
-          ),
-        ),
+        Expanded(child: Divider(thickness: 1, color: Colors.grey.shade300)),
       ],
     );
   }
@@ -472,10 +447,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: OutlinedButton.icon(
         onPressed: onPressed,
         icon: Icon(icon, color: color),
-        label: Text(
-          label,
-          style: const TextStyle(color: Colors.black87),
-        ),
+        label: Text(label, style: const TextStyle(color: Colors.black87)),
         style: OutlinedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -493,10 +465,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Belum punya akun? ',
-          style: TextStyle(fontSize: 14),
-        ),
+        const Text('Belum punya akun? ', style: TextStyle(fontSize: 14)),
         TextButton(
           onPressed: () {
             // Navigate to register screen
@@ -509,10 +478,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           child: const Text(
             'Daftar Sekarang',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
           ),
         ),
       ],

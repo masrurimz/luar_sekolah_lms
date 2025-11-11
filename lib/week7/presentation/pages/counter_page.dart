@@ -4,7 +4,7 @@ import '../controllers/counter_controller.dart';
 
 /// Simple counter page demonstrating GetX reactive state management
 class CounterPage extends StatelessWidget {
-  const CounterPage({Key? key}) : super(key: key);
+  const CounterPage({super.key});
 
   @override
   Widget build(BuildContext context) {

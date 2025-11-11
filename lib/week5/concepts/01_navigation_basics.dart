@@ -176,10 +176,12 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
             ),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -342,17 +344,11 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
           ),
           Text(
             subtitle,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade700,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
           ),
         ],
       ),
@@ -387,10 +383,7 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 11,
-              color: color.withOpacity(0.8),
-            ),
+            style: TextStyle(fontSize: 11, color: color.withOpacity(0.8)),
           ),
         ],
       ),
@@ -530,10 +523,7 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
           Container(
             width: 32,
             height: 32,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             child: Center(
               child: Text(
                 number,
@@ -559,10 +549,7 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
                 ),
                 Text(
                   description,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade700,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
                 ),
               ],
             ),
@@ -715,10 +702,7 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
           const SizedBox(height: 8),
           Text(
             definition,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 6),
           Container(
@@ -914,8 +898,11 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
                     children: [
-                      Icon(Icons.check_circle,
-                          size: 16, color: color.withOpacity(0.7)),
+                      Icon(
+                        Icons.check_circle,
+                        size: 16,
+                        color: color.withOpacity(0.7),
+                      ),
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
@@ -973,9 +960,7 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DemoScreenPush(
-                      screenNumber: 2,
-                    ),
+                    builder: (context) => const DemoScreenPush(screenNumber: 2),
                   ),
                 );
               },
@@ -1082,10 +1067,7 @@ class _NavigationBasicsDemoState extends State<NavigationBasicsDemo> {
 class DemoScreenPush extends StatelessWidget {
   final int screenNumber;
 
-  const DemoScreenPush({
-    super.key,
-    required this.screenNumber,
-  });
+  const DemoScreenPush({super.key, required this.screenNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -1100,11 +1082,7 @@ class DemoScreenPush extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.layers,
-                size: 100,
-                color: Colors.green.shade300,
-              ),
+              Icon(Icons.layers, size: 100, color: Colors.green.shade300),
               const SizedBox(height: 24),
               Text(
                 'This is Screen $screenNumber',
@@ -1127,9 +1105,8 @@ class DemoScreenPush extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DemoScreenPush(
-                        screenNumber: screenNumber + 1,
-                      ),
+                      builder: (context) =>
+                          DemoScreenPush(screenNumber: screenNumber + 1),
                     ),
                   );
                 },
@@ -1216,18 +1193,11 @@ class DemoScreenReplacement extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.swap_horiz,
-                size: 100,
-                color: Colors.orange.shade300,
-              ),
+              Icon(Icons.swap_horiz, size: 100, color: Colors.orange.shade300),
               const SizedBox(height: 24),
               const Text(
                 'Replacement Screen',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               const Text(
@@ -1321,10 +1291,7 @@ class _DemoScreenWithResultState extends State<DemoScreenWithResult> {
               const SizedBox(height: 24),
               const Text(
                 'Pop with Result Demo',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Text(
@@ -1395,10 +1362,7 @@ class _DemoScreenWithResultState extends State<DemoScreenWithResult> {
         backgroundColor: color,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       ),
-      child: Text(
-        name,
-        style: const TextStyle(color: Colors.white),
-      ),
+      child: Text(name, style: const TextStyle(color: Colors.white)),
     );
   }
 }

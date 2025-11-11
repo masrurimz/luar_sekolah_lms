@@ -149,16 +149,15 @@ class StatelessWidgetDemo extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -226,11 +225,7 @@ class StatelessWidgetDemo extends StatelessWidget {
           const SizedBox(height: 12),
 
           // Divider
-          const Divider(
-            color: Colors.blue,
-            thickness: 2,
-            height: 20,
-          ),
+          const Divider(color: Colors.blue, thickness: 2, height: 20),
 
           // CircleAvatar
           Row(
@@ -519,10 +514,7 @@ class ProfileCard extends StatelessWidget {
                 ),
                 Text(
                   role,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                 ),
               ],
             ),
@@ -611,11 +603,7 @@ class HeaderSection extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const HeaderSection({
-    super.key,
-    required this.title,
-    required this.subtitle,
-  });
+  const HeaderSection({super.key, required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -693,10 +681,7 @@ class StatsCard extends StatelessWidget {
           ),
           Text(
             label,
-            style: TextStyle(
-              color: color.withOpacity(0.8),
-              fontSize: 14,
-            ),
+            style: TextStyle(color: color.withOpacity(0.8), fontSize: 14),
           ),
         ],
       ),
@@ -744,10 +729,7 @@ class MenuItem extends StatelessWidget {
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 13,
-                  ),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                 ),
               ],
             ),

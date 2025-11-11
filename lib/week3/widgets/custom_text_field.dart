@@ -180,10 +180,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
           decoration: InputDecoration(
             hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Colors.grey.shade500,
-              fontSize: 14,
-            ),
+            hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
             errorText: widget.errorText,
             helperText: widget.helperText,
             helperStyle: const TextStyle(fontSize: 12),
@@ -206,7 +203,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             fillColor: widget.fillColor ?? Colors.grey.shade50,
 
             // Content Padding
-            contentPadding: widget.contentPadding ??
+            contentPadding:
+                widget.contentPadding ??
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
 
             // Borders

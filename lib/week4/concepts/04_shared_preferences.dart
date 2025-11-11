@@ -77,9 +77,7 @@ class _SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
   @override
   Widget build(BuildContext context) {
     if (!_isInitialized) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -134,10 +132,7 @@ class _SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
           Text('📌 Simple data types only'),
           Text('📌 Synchronous read, async write'),
           SizedBox(height: 12),
-          Text(
-            'Use Cases:',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+          Text('Use Cases:', style: TextStyle(fontWeight: FontWeight.bold)),
           Text('✅ User preferences'),
           Text('✅ App settings'),
           Text('✅ Remember me'),
@@ -283,7 +278,9 @@ class _SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
 
           _buildDataRow('Name', _savedName.isEmpty ? 'Not saved' : _savedName),
           _buildDataRow(
-              'Email', _savedEmail.isEmpty ? 'Not saved' : _savedEmail),
+            'Email',
+            _savedEmail.isEmpty ? 'Not saved' : _savedEmail,
+          ),
           _buildDataRow('Remember Me', _rememberMe ? 'Yes' : 'No'),
           _buildDataRow('Dark Mode', _darkMode ? 'Yes' : 'No'),
         ],
@@ -297,10 +294,7 @@ class _SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
           Text(value),
         ],
       ),
@@ -316,9 +310,7 @@ class _SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
             onPressed: _loadData,
             icon: const Icon(Icons.refresh),
             label: const Text('Reload Data'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
           ),
         ),
         const SizedBox(height: 8),
@@ -328,9 +320,7 @@ class _SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
             onPressed: _clearAllData,
             icon: const Icon(Icons.delete),
             label: const Text('Clear All Data'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
           ),
         ),
       ],

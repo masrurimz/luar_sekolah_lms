@@ -35,10 +35,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Sample data for demonstration
   final List<Map<String, dynamic>> _courseCategories = [
-    {'title': 'Programming', 'icon': Icons.code, 'color': Colors.blue, 'count': 24},
-    {'title': 'Design', 'icon': Icons.palette, 'color': Colors.purple, 'count': 18},
-    {'title': 'Business', 'icon': Icons.business, 'color': Colors.orange, 'count': 32},
-    {'title': 'Marketing', 'icon': Icons.campaign, 'color': Colors.green, 'count': 15},
+    {
+      'title': 'Programming',
+      'icon': Icons.code,
+      'color': Colors.blue,
+      'count': 24,
+    },
+    {
+      'title': 'Design',
+      'icon': Icons.palette,
+      'color': Colors.purple,
+      'count': 18,
+    },
+    {
+      'title': 'Business',
+      'icon': Icons.business,
+      'color': Colors.orange,
+      'count': 32,
+    },
+    {
+      'title': 'Marketing',
+      'icon': Icons.campaign,
+      'color': Colors.green,
+      'count': 15,
+    },
   ];
 
   final List<Map<String, dynamic>> _recentCourses = [
@@ -124,10 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               print('Search clicked');
               // TODO: Implement search
-              showSearch(
-                context: context,
-                delegate: CourseSearchDelegate(),
-              );
+              showSearch(context: context, delegate: CourseSearchDelegate());
             },
             tooltip: 'Cari',
           ),
@@ -142,11 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const CircleAvatar(
                 radius: 18,
                 backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.person,
-                  color: Colors.grey,
-                  size: 20,
-                ),
+                child: Icon(Icons.person, color: Colors.grey, size: 20),
               ),
             ),
           ),
@@ -201,27 +214,18 @@ class _HomeScreenState extends State<HomeScreen> {
           unselectedItemColor: Colors.grey,
           showUnselectedLabels: true,
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Beranda',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore),
               label: 'Jelajah',
             ),
             // Empty item for FAB space
-            BottomNavigationBarItem(
-              icon: SizedBox.shrink(),
-              label: '',
-            ),
+            BottomNavigationBarItem(icon: SizedBox.shrink(), label: ''),
             BottomNavigationBarItem(
               icon: Icon(Icons.book),
               label: 'Kursus Saya',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profil',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
           ],
         ),
       ),
@@ -256,11 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const CircleAvatar(
                   radius: 35,
                   backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person,
-                    size: 40,
-                    color: Colors.grey,
-                  ),
+                  child: Icon(Icons.person, size: 40, color: Colors.grey),
                 ),
                 const SizedBox(height: 12),
                 // User name
@@ -303,10 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: const Text(
                 'Baru',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),
             onTap: () {
@@ -363,10 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Center(
             child: Text(
               'v1.0.0',
-              style: TextStyle(
-                color: Colors.grey.shade500,
-                fontSize: 12,
-              ),
+              style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
             ),
           ),
           const SizedBox(height: 20),
@@ -517,15 +511,9 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        TextButton(
-          onPressed: onSeeAll,
-          child: const Text('Lihat Semua'),
-        ),
+        TextButton(onPressed: onSeeAll, child: const Text('Lihat Semua')),
       ],
     );
   }
@@ -569,11 +557,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              category['icon'],
-              size: 32,
-              color: category['color'],
-            ),
+            Icon(category['icon'], size: 32, color: category['color']),
             const SizedBox(height: 8),
             Text(
               category['title'],
@@ -585,10 +569,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 4),
             Text(
               '${category['count']} Kursus',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
             ),
           ],
         ),
@@ -653,10 +634,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 4),
                 Text(
                   'Instruktur: ${course['instructor']}',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                 ),
                 const SizedBox(height: 8),
                 // Progress Bar
@@ -698,10 +676,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.orange.shade400,
-            Colors.orange.shade600,
-          ],
+          colors: [Colors.orange.shade400, Colors.orange.shade600],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -748,10 +723,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Text(
           label,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.9),
-            fontSize: 12,
-          ),
+          style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 12),
         ),
       ],
     );
@@ -808,20 +780,14 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(
-            radius: 50,
-            child: Icon(Icons.person, size: 50),
-          ),
+          CircleAvatar(radius: 50, child: Icon(Icons.person, size: 50)),
           SizedBox(height: 16),
           Text(
             'John Doe',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
-          Text(
-            'john.doe@email.com',
-            style: TextStyle(color: Colors.grey),
-          ),
+          Text('john.doe@email.com', style: TextStyle(color: Colors.grey)),
         ],
       ),
     );
@@ -934,9 +900,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pop(context);
               Navigator.pushReplacementNamed(context, '/login');
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             child: const Text('Keluar'),
           ),
         ],

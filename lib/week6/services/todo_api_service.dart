@@ -36,14 +36,20 @@ class TodoApiService {
   Future<List<Todo>> fetchTodos({int? limit}) async {
     try {
       final uri = Uri.parse('$_baseUrl/todos');
-      final response = await _client.get(uri, headers: _headers).timeout(_timeout);
+      final response = await _client
+          .get(uri, headers: _headers)
+          .timeout(_timeout);
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to load todos (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to load todos (status: ${response.statusCode})',
+        );
       }
 
       final List<dynamic> data = jsonDecode(response.body) as List<dynamic>;
-      var todos = data.map((e) => Todo.fromJson(e as Map<String, dynamic>)).toList();
+      var todos = data
+          .map((e) => Todo.fromJson(e as Map<String, dynamic>))
+          .toList();
 
       if (limit != null && limit > 0 && limit < todos.length) {
         todos = todos.take(limit).toList();
@@ -83,9 +89,12 @@ class TodoApiService {
           .timeout(_timeout);
 
       if (response.statusCode != 201 && response.statusCode != 200) {
-        throw Exception('Failed to create todo (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to create todo (status: ${response.statusCode})',
+        );
       }
-      final Map<String, dynamic> data = jsonDecode(response.body) as Map<String, dynamic>;
+      final Map<String, dynamic> data =
+          jsonDecode(response.body) as Map<String, dynamic>;
       return Todo.fromJson(data);
     } on http.ClientException catch (e) {
       throw Exception('Network error: ${e.message}');
@@ -104,17 +113,16 @@ class TodoApiService {
     try {
       final uri = Uri.parse('$_baseUrl/todos/${todo.id}');
       final response = await _client
-          .put(
-            uri,
-            headers: _headers,
-            body: jsonEncode(todo.toJson()),
-          )
+          .put(uri, headers: _headers, body: jsonEncode(todo.toJson()))
           .timeout(_timeout);
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to update todo (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to update todo (status: ${response.statusCode})',
+        );
       }
-      final Map<String, dynamic> data = jsonDecode(response.body) as Map<String, dynamic>;
+      final Map<String, dynamic> data =
+          jsonDecode(response.body) as Map<String, dynamic>;
       return Todo.fromJson(data);
     } on http.ClientException catch (e) {
       throw Exception('Network error: ${e.message}');
@@ -138,17 +146,16 @@ class TodoApiService {
       if (completed != null) body['completed'] = completed;
 
       final response = await _client
-          .patch(
-            uri,
-            headers: _headers,
-            body: jsonEncode(body),
-          )
+          .patch(uri, headers: _headers, body: jsonEncode(body))
           .timeout(_timeout);
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to patch todo (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to patch todo (status: ${response.statusCode})',
+        );
       }
-      final Map<String, dynamic> data = jsonDecode(response.body) as Map<String, dynamic>;
+      final Map<String, dynamic> data =
+          jsonDecode(response.body) as Map<String, dynamic>;
       return Todo.fromJson(data);
     } on http.ClientException catch (e) {
       throw Exception('Network error: ${e.message}');
@@ -165,9 +172,13 @@ class TodoApiService {
   Future<void> deleteTodo(int id) async {
     try {
       final uri = Uri.parse('$_baseUrl/todos/$id');
-      final response = await _client.delete(uri, headers: _headers).timeout(_timeout);
+      final response = await _client
+          .delete(uri, headers: _headers)
+          .timeout(_timeout);
       if (response.statusCode != 200) {
-        throw Exception('Failed to delete todo (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to delete todo (status: ${response.statusCode})',
+        );
       }
     } on http.ClientException catch (e) {
       throw Exception('Network error: ${e.message}');

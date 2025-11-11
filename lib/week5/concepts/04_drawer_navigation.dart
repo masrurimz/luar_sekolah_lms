@@ -176,16 +176,15 @@ class _DrawerNavigationDemoState extends State<DrawerNavigationDemo> {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -281,9 +280,7 @@ class _DrawerNavigationDemoState extends State<DrawerNavigationDemo> {
             },
             icon: const Icon(Icons.launch),
             label: const Text('Open DrawerHeader Demo'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           ),
 
           const SizedBox(height: 12),
@@ -337,9 +334,7 @@ class _DrawerNavigationDemoState extends State<DrawerNavigationDemo> {
             },
             icon: const Icon(Icons.launch),
             label: const Text('Open UserAccounts Demo'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
           ),
 
           const SizedBox(height: 12),
@@ -393,9 +388,7 @@ class _DrawerNavigationDemoState extends State<DrawerNavigationDemo> {
             },
             icon: const Icon(Icons.launch),
             label: const Text('Open Full Navigation Demo'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.purple,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
           ),
 
           const SizedBox(height: 12),
@@ -530,11 +523,7 @@ class DrawerHeaderScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: const [
-                  Icon(
-                    Icons.account_circle,
-                    size: 64,
-                    color: Colors.white,
-                  ),
+                  Icon(Icons.account_circle, size: 64, color: Colors.white),
                   SizedBox(height: 10),
                   Text(
                     'My App',
@@ -546,10 +535,7 @@ class DrawerHeaderScreen extends StatelessWidget {
                   ),
                   Text(
                     'Version 1.0.0',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
                 ],
               ),
@@ -645,11 +631,7 @@ class UserAccountsDrawerScreen extends StatelessWidget {
               // Current account
               currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.person,
-                  size: 50,
-                  color: Colors.orange,
-                ),
+                child: Icon(Icons.person, size: 50, color: Colors.orange),
               ),
               // Other accounts (optional)
               otherAccountsPictures: const [
@@ -660,10 +642,7 @@ class UserAccountsDrawerScreen extends StatelessWidget {
               ],
               accountName: const Text(
                 'John Doe',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               accountEmail: const Text('john.doe@example.com'),
               // Tap header untuk show account menu
@@ -771,10 +750,7 @@ class _FullNavigationDrawerScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_currentPage),
-        backgroundColor: Colors.purple,
-      ),
+      appBar: AppBar(title: Text(_currentPage), backgroundColor: Colors.purple),
       drawer: _buildNavigationDrawer(),
       body: _buildPageContent(),
     );
@@ -804,11 +780,7 @@ class _FullNavigationDrawerScreenState
           ),
 
           // Main Navigation
-          _buildDrawerItem(
-            icon: Icons.home,
-            title: 'Home',
-            page: 'Home',
-          ),
+          _buildDrawerItem(icon: Icons.home, title: 'Home', page: 'Home'),
           _buildDrawerItem(
             icon: Icons.dashboard,
             title: 'Dashboard',
@@ -855,10 +827,7 @@ class _FullNavigationDrawerScreenState
           // Logout
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.red),
-            ),
+            title: const Text('Logout', style: TextStyle(color: Colors.red)),
             onTap: () {
               Navigator.pop(context); // Close drawer
               _showLogoutDialog();
@@ -880,10 +849,7 @@ class _FullNavigationDrawerScreenState
     final isSelected = _currentPage == page;
 
     return ListTile(
-      leading: Icon(
-        icon,
-        color: isSelected ? Colors.purple : null,
-      ),
+      leading: Icon(icon, color: isSelected ? Colors.purple : null),
       title: Text(
         title,
         style: TextStyle(
@@ -976,10 +942,7 @@ class _FullNavigationDrawerScreenState
             ),
           ),
           const SizedBox(height: 10),
-          Text(
-            description,
-            style: const TextStyle(fontSize: 16),
-          ),
+          Text(description, style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 40),
           Container(
             padding: const EdgeInsets.all(16),
@@ -1038,10 +1001,7 @@ class _FullNavigationDrawerScreenState
                 const SnackBar(content: Text('Logged out successfully')),
               );
             },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Logout', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),

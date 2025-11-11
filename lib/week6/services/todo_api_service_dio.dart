@@ -61,10 +61,12 @@ class TodoApiServiceDio {
         onError: (error, handler) {
           // Convert Dio errors to our standard exception format
           final errorMessage = _getDioErrorMessage(error);
-          handler.reject(DioException(
-            requestOptions: error.requestOptions,
-            error: errorMessage,
-          ));
+          handler.reject(
+            DioException(
+              requestOptions: error.requestOptions,
+              error: errorMessage,
+            ),
+          );
         },
       ),
     );
@@ -98,11 +100,15 @@ class TodoApiServiceDio {
       final response = await _dio.get('/todos');
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to load todos (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to load todos (status: ${response.statusCode})',
+        );
       }
 
       final List<dynamic> data = response.data as List<dynamic>;
-      var todos = data.map((e) => Todo.fromJson(e as Map<String, dynamic>)).toList();
+      var todos = data
+          .map((e) => Todo.fromJson(e as Map<String, dynamic>))
+          .toList();
 
       if (limit != null && limit > 0 && limit < todos.length) {
         todos = todos.take(limit).toList();
@@ -128,15 +134,13 @@ class TodoApiServiceDio {
     try {
       final response = await _dio.post(
         '/todos',
-        data: {
-          'userId': userId,
-          'title': title,
-          'completed': completed,
-        },
+        data: {'userId': userId, 'title': title, 'completed': completed},
       );
 
       if (response.statusCode != 201 && response.statusCode != 200) {
-        throw Exception('Failed to create todo (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to create todo (status: ${response.statusCode})',
+        );
       }
 
       final Map<String, dynamic> data = response.data as Map<String, dynamic>;
@@ -154,13 +158,12 @@ class TodoApiServiceDio {
   /// Throws [Exception] if the request fails
   Future<Todo> updateTodo(Todo todo) async {
     try {
-      final response = await _dio.put(
-        '/todos/${todo.id}',
-        data: todo.toJson(),
-      );
+      final response = await _dio.put('/todos/${todo.id}', data: todo.toJson());
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to update todo (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to update todo (status: ${response.statusCode})',
+        );
       }
 
       final Map<String, dynamic> data = response.data as Map<String, dynamic>;
@@ -183,16 +186,16 @@ class TodoApiServiceDio {
       if (title != null) data['title'] = title;
       if (completed != null) data['completed'] = completed;
 
-      final response = await _dio.patch(
-        '/todos/$id',
-        data: data,
-      );
+      final response = await _dio.patch('/todos/$id', data: data);
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to patch todo (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to patch todo (status: ${response.statusCode})',
+        );
       }
 
-      final Map<String, dynamic> responseData = response.data as Map<String, dynamic>;
+      final Map<String, dynamic> responseData =
+          response.data as Map<String, dynamic>;
       return Todo.fromJson(responseData);
     } on DioException catch (e) {
       throw Exception(_getDioErrorMessage(e));
@@ -209,7 +212,9 @@ class TodoApiServiceDio {
       final response = await _dio.delete('/todos/$id');
 
       if (response.statusCode != 200 && response.statusCode != 204) {
-        throw Exception('Failed to delete todo (status: ${response.statusCode})');
+        throw Exception(
+          'Failed to delete todo (status: ${response.statusCode})',
+        );
       }
     } on DioException catch (e) {
       throw Exception(_getDioErrorMessage(e));

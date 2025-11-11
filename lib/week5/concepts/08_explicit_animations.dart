@@ -165,16 +165,15 @@ class _ExplicitAnimationsDemoState extends State<ExplicitAnimationsDemo> {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -797,13 +796,15 @@ class _AnimatedBuilderWidgetState extends State<AnimatedBuilderWidget>
       vsync: this,
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.5).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 0.5,
+      end: 1.5,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
 
-    _opacityAnimation = Tween<double>(begin: 0.3, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
+    _opacityAnimation = Tween<double>(
+      begin: 0.3,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
   }
 
   @override
@@ -820,11 +821,7 @@ class _AnimatedBuilderWidgetState extends State<AnimatedBuilderWidget>
         AnimatedBuilder(
           animation: _controller,
           // CHILD: Static widget that doesn't need rebuilding
-          child: const Icon(
-            Icons.favorite,
-            color: Colors.red,
-            size: 60,
-          ),
+          child: const Icon(Icons.favorite, color: Colors.red, size: 60),
           // BUILDER: Only this part rebuilds
           builder: (context, child) {
             return Opacity(
@@ -914,8 +911,10 @@ class _MultipleAnimationsWidgetState extends State<MultipleAnimationsWidget>
     );
 
     // Animation 4: Color
-    _colorAnimation = ColorTween(begin: Colors.blue, end: Colors.purple)
-        .animate(_controller);
+    _colorAnimation = ColorTween(
+      begin: Colors.blue,
+      end: Colors.purple,
+    ).animate(_controller);
   }
 
   @override
@@ -1005,19 +1004,20 @@ class _CustomSequenceWidgetState extends State<CustomSequenceWidget>
     _sequenceAnimation = TweenSequence<double>([
       // Step 1: Move down (40% of time)
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0, end: 100)
-            .chain(CurveTween(curve: Curves.easeOut)),
+        tween: Tween<double>(
+          begin: 0,
+          end: 100,
+        ).chain(CurveTween(curve: Curves.easeOut)),
         weight: 40,
       ),
       // Step 2: Pause (20% of time)
-      TweenSequenceItem(
-        tween: ConstantTween<double>(100),
-        weight: 20,
-      ),
+      TweenSequenceItem(tween: ConstantTween<double>(100), weight: 20),
       // Step 3: Move back up (40% of time)
       TweenSequenceItem(
-        tween: Tween<double>(begin: 100, end: 0)
-            .chain(CurveTween(curve: Curves.bounceOut)),
+        tween: Tween<double>(
+          begin: 100,
+          end: 0,
+        ).chain(CurveTween(curve: Curves.bounceOut)),
         weight: 40,
       ),
     ]).animate(_controller);
@@ -1051,7 +1051,10 @@ class _CustomSequenceWidgetState extends State<CustomSequenceWidget>
                         height: 50,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [Colors.teal.shade300, Colors.teal.shade600],
+                            colors: [
+                              Colors.teal.shade300,
+                              Colors.teal.shade600,
+                            ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
@@ -1073,10 +1076,7 @@ class _CustomSequenceWidgetState extends State<CustomSequenceWidget>
                     bottom: 30,
                     left: 0,
                     right: 0,
-                    child: Container(
-                      height: 2,
-                      color: Colors.grey.shade300,
-                    ),
+                    child: Container(height: 2, color: Colors.grey.shade300),
                   ),
                 ],
               );

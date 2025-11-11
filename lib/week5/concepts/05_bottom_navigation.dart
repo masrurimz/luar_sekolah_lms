@@ -157,16 +157,15 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo> {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -253,7 +252,8 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const StatePreservationBottomNavScreen(),
+                  builder: (context) =>
+                      const StatePreservationBottomNavScreen(),
                 ),
               );
             },
@@ -422,22 +422,13 @@ class _BasicBottomNavScreenState extends State<BasicBottomNavScreen> {
         },
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorites',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );
@@ -474,10 +465,7 @@ class _StatePreservationBottomNavScreenState
         backgroundColor: Colors.green,
       ),
       // IMPORTANT: Use IndexedStack untuk preserve state
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -490,14 +478,8 @@ class _StatePreservationBottomNavScreenState
             icon: Icon(Icons.add_circle),
             label: 'Counter',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            label: 'Form',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'List',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.edit), label: 'Form'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'List'),
         ],
       ),
     );
@@ -534,10 +516,7 @@ class _BottomNavWithBadgesScreenState extends State<BottomNavWithBadgesScreen> {
         title: const Text('Bottom Nav with Badges'),
         backgroundColor: Colors.orange,
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -550,10 +529,7 @@ class _BottomNavWithBadgesScreenState extends State<BottomNavWithBadgesScreen> {
         },
         type: BottomNavigationBarType.fixed,
         items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
             icon: Badge(
               label: Text('$_notificationCount'),
@@ -609,10 +585,7 @@ class _CustomStyledBottomNavScreenState
         title: const Text('Custom Styled Bottom Nav'),
         backgroundColor: Colors.purple,
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {

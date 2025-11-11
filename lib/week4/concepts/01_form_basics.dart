@@ -152,16 +152,15 @@ class _FormBasicsDemoState extends State<FormBasicsDemo> {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(height: 8),
-          ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text(item, style: const TextStyle(fontSize: 13)),
-              )),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(item, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ),
     );
@@ -456,8 +455,9 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
                 return 'Email tidak boleh kosong';
               }
               // Email regex validation
-              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                  .hasMatch(value)) {
+              if (!RegExp(
+                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+              ).hasMatch(value)) {
                 return 'Format email tidak valid';
               }
               return null;
@@ -544,9 +544,9 @@ class _AutoValidationFormWidgetState extends State<AutoValidationFormWidget> {
               }
 
               if (_formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Valid!')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('Valid!')));
               }
             },
             child: const Text('Submit (enables auto-validation)'),
@@ -614,9 +614,7 @@ class _FormMethodsWidgetState extends State<FormMethodsWidget> {
                 onPressed: () {
                   _formKey.currentState!.save(); // Call save()
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Saved: $_savedName, $_savedEmail'),
-                    ),
+                    SnackBar(content: Text('Saved: $_savedName, $_savedEmail')),
                   );
                 },
                 child: const Text('Save'),
@@ -631,9 +629,7 @@ class _FormMethodsWidgetState extends State<FormMethodsWidget> {
                     _savedEmail = null;
                   });
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 child: const Text('Reset'),
               ),
             ],

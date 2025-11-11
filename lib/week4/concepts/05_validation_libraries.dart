@@ -26,10 +26,7 @@ class ValidationLibrariesDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Validation Libraries'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Validation Libraries'), elevation: 0),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -131,11 +128,7 @@ class ValidationLibrariesDemo extends StatelessWidget {
             'Setelah belajar custom validators (Week 4 concepts 1-4), '
             'sekarang explore alternatif menggunakan validation libraries.\n\n'
             'Konsep ini optional tapi sangat berguna untuk production apps!',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.white,
-              height: 1.5,
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.white, height: 1.5),
           ),
         ],
       ),
@@ -442,10 +435,7 @@ validator: ValidationBuilder()
             'Clear syntax',
             'Good for learning',
           ],
-          cons: [
-            'Limited customization',
-            'Generic patterns only',
-          ],
+          cons: ['Limited customization', 'Generic patterns only'],
           recommended: true,
         ),
         const SizedBox(height: 12),
@@ -459,10 +449,7 @@ validator: ValidationBuilder()
             'Works with flutter_form_builder',
             'Type-safe validators',
           ],
-          cons: [
-            'Requires flutter_form_builder',
-            'More complex setup',
-          ],
+          cons: ['Requires flutter_form_builder', 'More complex setup'],
           recommended: false,
         ),
         const SizedBox(height: 12),
@@ -521,8 +508,10 @@ validator: ValidationBuilder()
               ),
               if (recommended)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(12),
@@ -541,10 +530,7 @@ validator: ValidationBuilder()
           const SizedBox(height: 4),
           Text(
             'Version: $version • Level: $difficulty',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
           ),
           const SizedBox(height: 12),
           Row(
@@ -562,13 +548,15 @@ validator: ValidationBuilder()
                       ),
                     ),
                     const SizedBox(height: 4),
-                    ...pros.map((pro) => Padding(
-                          padding: const EdgeInsets.only(left: 8, bottom: 2),
-                          child: Text(
-                            '• $pro',
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        )),
+                    ...pros.map(
+                      (pro) => Padding(
+                        padding: const EdgeInsets.only(left: 8, bottom: 2),
+                        child: Text(
+                          '• $pro',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -585,13 +573,15 @@ validator: ValidationBuilder()
                       ),
                     ),
                     const SizedBox(height: 4),
-                    ...cons.map((con) => Padding(
-                          padding: const EdgeInsets.only(left: 8, bottom: 2),
-                          child: Text(
-                            '• $con',
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        )),
+                    ...cons.map(
+                      (con) => Padding(
+                        padding: const EdgeInsets.only(left: 8, bottom: 2),
+                        child: Text(
+                          '• $con',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -682,11 +672,7 @@ validator: ValidationBuilder()
             '📦 Experiment with form_validator library\n'
             '🚀 Use hybrid approach in your projects\n\n'
             '💡 Remember: Libraries are tools, not replacements for understanding!',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.white,
-              height: 1.6,
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.white, height: 1.6),
           ),
         ],
       ),
@@ -739,10 +725,7 @@ class _InteractiveValidationDemoState
               const Expanded(
                 child: Text(
                   'Try Both Approaches',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               Switch(
@@ -761,10 +744,7 @@ class _InteractiveValidationDemoState
             _useLibrary
                 ? 'Using form_validator library (uncomment import first!)'
                 : 'Using our custom Validators utility',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
           ),
           const SizedBox(height: 16),
           Form(
@@ -776,7 +756,9 @@ class _InteractiveValidationDemoState
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(_useLibrary ? Icons.email : Icons.email_outlined),
+                    prefixIcon: Icon(
+                      _useLibrary ? Icons.email : Icons.email_outlined,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -795,7 +777,9 @@ class _InteractiveValidationDemoState
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    prefixIcon: Icon(_useLibrary ? Icons.lock : Icons.lock_outlined),
+                    prefixIcon: Icon(
+                      _useLibrary ? Icons.lock : Icons.lock_outlined,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -814,7 +798,9 @@ class _InteractiveValidationDemoState
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     labelText: 'Phone (Indonesian)',
-                    prefixIcon: Icon(_useLibrary ? Icons.phone : Icons.phone_outlined),
+                    prefixIcon: Icon(
+                      _useLibrary ? Icons.phone : Icons.phone_outlined,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),

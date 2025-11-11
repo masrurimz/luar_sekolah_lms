@@ -76,11 +76,7 @@ class _NavigationDemoScreenState extends State<NavigationDemoScreen> {
       ),
       child: Column(
         children: [
-          const Icon(
-            Icons.navigation,
-            size: 64,
-            color: Colors.white,
-          ),
+          const Icon(Icons.navigation, size: 64, color: Colors.white),
           const SizedBox(height: 16),
           const Text(
             'Navigation Patterns',
@@ -93,10 +89,7 @@ class _NavigationDemoScreenState extends State<NavigationDemoScreen> {
           const SizedBox(height: 8),
           const Text(
             'Master all Flutter navigation techniques',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white70,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.white70),
             textAlign: TextAlign.center,
           ),
         ],
@@ -178,7 +171,7 @@ class _NavigationDemoScreenState extends State<NavigationDemoScreen> {
                 gradient: LinearGradient(
                   colors: [
                     Colors.deepPurple.shade300,
-                    Colors.deepPurple.shade600
+                    Colors.deepPurple.shade600,
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -249,11 +242,7 @@ class _NavigationDemoScreenState extends State<NavigationDemoScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                size: 48,
-                color: Colors.white,
-              ),
+              Icon(icon, size: 48, color: Colors.white),
               const SizedBox(height: 12),
               Text(
                 title,
@@ -267,10 +256,7 @@ class _NavigationDemoScreenState extends State<NavigationDemoScreen> {
               const SizedBox(height: 8),
               Text(
                 description,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.white70,
-                ),
+                style: const TextStyle(fontSize: 12, color: Colors.white70),
                 textAlign: TextAlign.center,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
@@ -387,11 +373,7 @@ class _NavigationDemoScreenState extends State<NavigationDemoScreen> {
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                icon,
-                size: 32,
-                color: color,
-              ),
+              child: Icon(icon, size: 32, color: color),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -409,19 +391,12 @@ class _NavigationDemoScreenState extends State<NavigationDemoScreen> {
                   const SizedBox(height: 4),
                   Text(
                     description,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade600,
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
                   ),
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: color,
-            ),
+            Icon(Icons.arrow_forward_ios, size: 16, color: color),
           ],
         ),
       ),
@@ -573,10 +548,7 @@ class _DataPassingDemoScreenState extends State<DataPassingDemoScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: const TextStyle(fontSize: 13),
-                ),
+                Text(description, style: const TextStyle(fontSize: 13)),
               ],
             ),
           ),
@@ -605,18 +577,11 @@ class NavigationChainDemoScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.layers,
-                size: 100,
-                color: Colors.orange,
-              ),
+              const Icon(Icons.layers, size: 100, color: Colors.orange),
               const SizedBox(height: 24),
               const Text(
                 'Navigation Chain Pattern',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -749,16 +714,15 @@ class _CombinedNavigationDemoScreenState
               title: const Text('Help'),
               onTap: () {
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Help tapped')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('Help tapped')));
               },
             ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
-              title:
-                  const Text('Logout', style: TextStyle(color: Colors.red)),
+              title: const Text('Logout', style: TextStyle(color: Colors.red)),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -766,10 +730,7 @@ class _CombinedNavigationDemoScreenState
           ],
         ),
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -778,18 +739,9 @@ class _CombinedNavigationDemoScreenState
           });
         },
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Explore'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );

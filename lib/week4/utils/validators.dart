@@ -277,9 +277,7 @@ class Validators {
     final cleanNumber = value.replaceAll(RegExp(r'[\s-]'), '');
 
     // Pattern untuk nomor Indonesia
-    final phoneRegex = RegExp(
-      r'^(\+?62|0)8[1-9][0-9]{7,11}$',
-    );
+    final phoneRegex = RegExp(r'^(\+?62|0)8[1-9][0-9]{7,11}$');
 
     if (!phoneRegex.hasMatch(cleanNumber)) {
       return 'Format nomor telepon tidak valid';
@@ -407,7 +405,8 @@ class Validators {
 
       final now = DateTime.now();
       final age = now.year - value.year;
-      final hasHadBirthday = now.month > value.month ||
+      final hasHadBirthday =
+          now.month > value.month ||
           (now.month == value.month && now.day >= value.day);
 
       final actualAge = hasHadBirthday ? age : age - 1;
