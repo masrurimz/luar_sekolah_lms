@@ -9,8 +9,10 @@
 //
 // ==========================================
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:luar_sekolah_lms/firebase_options.dart';
 
 // Week 3 imports
 import 'week3/concepts/01_widget_basics.dart';
@@ -61,6 +63,9 @@ import 'week7/routes/week7_routes.dart';
 
 // Week 8 imports
 import 'week8/routes/week8_routes.dart';
+
+// Week 9 imports
+import 'week9/routes/week9_routes.dart';
 
 final List<GetPage<dynamic>> _appPages = [
   GetPage(name: '/', page: () => const MainMenuScreen()),
@@ -155,6 +160,9 @@ final List<GetPage<dynamic>> _appPages = [
 
   // Week 8
   ...Week8Routes.pages,
+
+  // Week 9
+  ...Week9Routes.pages,
 ];
 
 // ==========================================
@@ -165,6 +173,8 @@ void main() async {
 
   // Initialize SharedPreferences for Week 4
   await StorageHelper.getInstance();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());
 }
@@ -793,6 +803,90 @@ class MainMenuScreen extends StatelessWidget {
                   icon: Icons.assignment,
                   color: Colors.red,
                   route: Week8Routes.weeklyTask,
+                ),
+
+                const SizedBox(height: 24),
+
+                // ==========================================
+                // WEEK 9 SECTION
+                // ==========================================
+                const Text(
+                  '🔥 Week 9: Firebase Integration & DI',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMenuCard(
+                  context: context,
+                  title: 'Firebase Authentication',
+                  subtitle: 'Email/password auth & user sessions',
+                  icon: Icons.person,
+                  color: Colors.orange,
+                  route: Week9Routes.firebaseAuthentication,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Login Page',
+                  subtitle: 'Firebase authentication login',
+                  icon: Icons.login,
+                  color: Colors.green,
+                  route: Week9Routes.login,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Signup Page',
+                  subtitle: 'Create new Firebase account',
+                  icon: Icons.app_registration,
+                  color: Colors.blue,
+                  route: Week9Routes.signup,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Firestore Database',
+                  subtitle: 'Real-time NoSQL & offline sync',
+                  icon: Icons.cloud,
+                  color: Colors.deepOrange,
+                  route: Week9Routes.firestoreDatabase,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'API vs Firebase',
+                  subtitle: 'Compare backend approaches',
+                  icon: Icons.compare,
+                  color: Colors.blue,
+                  route: Week9Routes.apiVsFirebase,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Dependency Injection',
+                  subtitle: 'GetX DI patterns & bindings',
+                  icon: Icons.hub,
+                  color: Colors.deepPurple,
+                  route: Week9Routes.dependencyInjection,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Repository Pattern',
+                  subtitle: 'Switch Firebase vs API implementations',
+                  icon: Icons.swap_horiz,
+                  color: Colors.teal,
+                  route: Week9Routes.repositoryPattern,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Firebase Todo App',
+                  subtitle: 'Real-time sync & user auth',
+                  icon: Icons.cloud_queue,
+                  color: Colors.orangeAccent,
+                  route: Week9Routes.todoDashboard,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '⭐ Weekly Task',
+                  subtitle: 'Complete Firebase integration demo',
+                  icon: Icons.local_fire_department,
+                  color: Colors.red,
+                  route: Week9Routes.weeklyTask,
                 ),
 
                 // ==========================================

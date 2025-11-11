@@ -39,10 +39,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Week 3 - Widget & Layout',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
       // Ganti home dengan screen yang ingin dipelajari
       home: const TeachingScreen(),
       // home: const WidgetBasicsDemo(), // Uncomment untuk lesson 1

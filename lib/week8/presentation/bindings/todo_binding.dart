@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../data/datasources/todo_remote_data_source.dart';
-import '../../data/repositories/todo_repository_impl.dart';
+import '../../data/repositories/todo_api_repository_impl.dart';
 import '../../domain/repositories/todo_repository.dart';
 import '../../domain/usecases/create_todo_use_case.dart';
 import '../../domain/usecases/delete_todo_use_case.dart';
@@ -13,8 +12,9 @@ import '../controllers/todo_controller.dart';
 class TodoBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<TodoRemoteDataSource>(() => TodoRemoteDataSource());
-    Get.lazyPut<TodoRepository>(() => TodoRepositoryImpl(remote: Get.find()));
+    // Week 8: API Implementation Only
+    // Firebase implementation moved to Week 9
+    Get.lazyPut<TodoRepository>(() => TodoApiRepositoryImpl());
 
     Get.lazyPut(() => GetTodosUseCase(Get.find()));
     Get.lazyPut(() => CreateTodoUseCase(Get.find()));
@@ -29,6 +29,7 @@ class TodoBinding extends Bindings {
         toggleTodo: Get.find(),
         updateTodo: Get.find(),
         deleteTodo: Get.find(),
+        currentUser: null, // Week 8: API only, no authentication
       ),
     );
   }

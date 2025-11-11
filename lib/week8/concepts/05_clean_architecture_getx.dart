@@ -113,7 +113,7 @@ class _ErrorMatrixCard extends StatelessWidget {
           const _ErrorRow(
             label: 'RepositoryException.network',
             handling:
-                'Controller menampilkan snackbar \"Periksa koneksi internet\" dan rollback perubahan optimistik.',
+                'Controller menampilkan snackbar "Periksa koneksi internet" dan rollback perubahan optimistik.',
           ),
           const _ErrorRow(
             label: 'RepositoryException.server(status: 500)',

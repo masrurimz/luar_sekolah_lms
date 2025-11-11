@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../domain/entities/todo.dart';
+import '../../domain/entities/user.dart';
 import '../../domain/usecases/create_todo_use_case.dart';
 import '../../domain/usecases/delete_todo_use_case.dart';
 import '../../domain/usecases/get_todos_use_case.dart';
@@ -19,17 +20,20 @@ class TodoController extends GetxController {
     required ToggleTodoCompletionUseCase toggleTodo,
     required UpdateTodoUseCase updateTodo,
     required DeleteTodoUseCase deleteTodo,
+    User? currentUser,
   }) : _getTodos = getTodos,
        _createTodo = createTodo,
        _toggleTodo = toggleTodo,
        _updateTodo = updateTodo,
-       _deleteTodo = deleteTodo;
+       _deleteTodo = deleteTodo,
+       _currentUser = currentUser;
 
   final GetTodosUseCase _getTodos;
   final CreateTodoUseCase _createTodo;
   final ToggleTodoCompletionUseCase _toggleTodo;
   final UpdateTodoUseCase _updateTodo;
   final DeleteTodoUseCase _deleteTodo;
+  final User? _currentUser;
 
   // Reactive variables
   final RxList<Todo> todos = <Todo>[].obs;
@@ -38,9 +42,17 @@ class TodoController extends GetxController {
   final RxnString errorMessage = RxnString();
   final Rx<TodoFilter> filter = TodoFilter.all.obs;
 
+  // Current authenticated user (for Firebase implementation)
+  User? get currentUser => _currentUser;
+
   // Getters that compute values from reactive properties
   // When accessed inside Obx(), they will trigger rebuilds when todos or filter changes
-  List<Todo> get filteredTodos => _applyFilter(todos);
+  // Always return a new list to ensure Flutter detects changes
+  List<Todo> get filteredTodos {
+    // Access todos.length to register dependency with Obx
+    final _ = todos.length;
+    return _applyFilter(todos.toList());
+  }
 
   int get completedCount => todos.where((item) => item.completed).length;
 
@@ -180,7 +192,8 @@ class TodoController extends GetxController {
       case TodoFilter.pending:
         return source.where((item) => !item.completed).toList();
       case TodoFilter.all:
-        return source;
+        // Always return a new list, not the same reference
+        return List<Todo>.from(source);
     }
   }
 
