@@ -10,6 +10,9 @@ import '../../domain/usecases/update_todo_use_case.dart';
 enum TodoFilter { all, completed, pending }
 
 class TodoController extends GetxController {
+  // Static accessor for easier access - GetX best practice
+  static TodoController get to => Get.find();
+
   TodoController({
     required GetTodosUseCase getTodos,
     required CreateTodoUseCase createTodo,
@@ -28,13 +31,16 @@ class TodoController extends GetxController {
   final UpdateTodoUseCase _updateTodo;
   final DeleteTodoUseCase _deleteTodo;
 
+  // Reactive variables
   final RxList<Todo> todos = <Todo>[].obs;
   final RxBool isLoading = false.obs;
   final RxBool isSubmitting = false.obs;
   final RxnString errorMessage = RxnString();
   final Rx<TodoFilter> filter = TodoFilter.all.obs;
 
-  List<Todo> get filteredTodos => _applyFilter(todos.toList());
+  // Getters that compute values from reactive properties
+  // When accessed inside Obx(), they will trigger rebuilds when todos or filter changes
+  List<Todo> get filteredTodos => _applyFilter(todos);
 
   int get completedCount => todos.where((item) => item.completed).length;
 
@@ -77,6 +83,8 @@ class TodoController extends GetxController {
     try {
       final created = await _createTodo(text);
       todos.insert(0, created);
+      // Trigger refresh to ensure UI updates
+      todos.refresh();
     } catch (error) {
       errorMessage.value = _humanizeError(error);
       rethrow;
@@ -88,18 +96,25 @@ class TodoController extends GetxController {
   Future<void> toggleTodo(String id) async {
     final index = todos.indexWhere((item) => item.id == id);
     if (index == -1) return;
+
     final previous = todos[index];
     final optimistic = previous.copyWith(
       completed: !previous.completed,
       updatedAt: DateTime.now(),
     );
+
+    // Optimistic update
     todos[index] = optimistic;
+    todos.refresh();
 
     try {
       final updated = await _toggleTodo(id);
       todos[index] = updated;
+      todos.refresh();
     } catch (error) {
+      // Revert on error
       todos[index] = previous;
+      todos.refresh();
       errorMessage.value = _humanizeError(error);
       rethrow;
     }
@@ -108,9 +123,13 @@ class TodoController extends GetxController {
   Future<void> updateTodo({required String id, required String text}) async {
     final index = todos.indexWhere((item) => item.id == id);
     if (index == -1) return;
+
     final previous = todos[index];
     final optimistic = previous.copyWith(text: text, updatedAt: DateTime.now());
+
+    // Optimistic update
     todos[index] = optimistic;
+    todos.refresh();
 
     try {
       final updated = await _updateTodo(
@@ -119,8 +138,11 @@ class TodoController extends GetxController {
         completed: optimistic.completed,
       );
       todos[index] = updated;
+      todos.refresh();
     } catch (error) {
+      // Revert on error
       todos[index] = previous;
+      todos.refresh();
       errorMessage.value = _humanizeError(error);
       rethrow;
     }
@@ -129,13 +151,17 @@ class TodoController extends GetxController {
   Future<void> deleteTodo(String id) async {
     final index = todos.indexWhere((item) => item.id == id);
     if (index == -1) return;
+
     final removed = todos[index];
     todos.removeAt(index);
+    todos.refresh();
 
     try {
       await _deleteTodo(id);
     } catch (error) {
+      // Revert on error
       todos.insert(index, removed);
+      todos.refresh();
       errorMessage.value = _humanizeError(error);
       rethrow;
     }
@@ -143,6 +169,8 @@ class TodoController extends GetxController {
 
   void setFilter(TodoFilter value) {
     filter.value = value;
+    // Trigger refresh to update filteredTodos getter
+    todos.refresh();
   }
 
   List<Todo> _applyFilter(List<Todo> source) {

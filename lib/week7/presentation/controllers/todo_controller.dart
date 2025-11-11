@@ -46,15 +46,15 @@ class TodoController extends GetxController {
   }
 
   Future<void> addTodo(String text) async {
-    isSubmitting.value = true;
-    errorMessage.value = null;
+    isSubmitting(true);
+    errorMessage(null);
     try {
       final created = await _api.createTodo(text);
       todos.insert(0, created);
     } catch (error) {
-      errorMessage.value = _humanizeError(error);
+      errorMessage(_humanizeError(error));
     } finally {
-      isSubmitting.value = false;
+      isSubmitting(false);
     }
   }
 
