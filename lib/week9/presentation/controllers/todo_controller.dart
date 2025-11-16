@@ -97,6 +97,7 @@ class TodoController extends GetxController {
       todos.insert(0, created);
       // Trigger refresh to ensure UI updates
       todos.refresh();
+      filter.refresh();
     } catch (error) {
       errorMessage.value = _humanizeError(error);
       rethrow;
