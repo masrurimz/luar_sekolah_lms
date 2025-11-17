@@ -13,6 +13,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:luar_sekolah_lms/firebase_options.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 // Week 3 imports
 import 'week3/concepts/01_widget_basics.dart';
@@ -179,6 +181,12 @@ void main() async {
 
   // Initialize SharedPreferences for Week 4
   await StorageHelper.getInstance();
+
+  // Initialize timezone database for notifications
+  tz.initializeTimeZones();
+  // Set a default location for timezone-aware scheduling
+  // This will be overridden by the device's timezone when possible
+  tz.setLocalLocation(tz.getLocation('Asia/Jakarta'));
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 

@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 /// Service layer for local device notifications.
@@ -10,9 +10,13 @@ import 'package:timezone/timezone.dart' as tz;
 /// This class provides a high-level API for local notification operations,
 /// handling permission requests, immediate notifications, and scheduled notifications.
 class LocalNotificationService {
-  LocalNotificationService() : _notifications = FlutterLocalNotificationsPlugin();
+  LocalNotificationService({
+    required FirebaseMessaging firebaseMessaging,
+  })  : _notifications = FlutterLocalNotificationsPlugin(),
+        _firebaseMessaging = firebaseMessaging;
 
   final FlutterLocalNotificationsPlugin _notifications;
+  final FirebaseMessaging _firebaseMessaging;
 
   StreamController<NotificationResponse>? _notificationTapController;
   StreamSubscription<int>? _idSubscription;
@@ -58,16 +62,18 @@ class LocalNotificationService {
     }
   }
 
-  /// Request notification permission.
+  /// Request notification permission using Firebase Messaging.
   Future<bool> requestPermission() async {
-    final status = await Permission.notification.request();
-    return status == PermissionStatus.granted;
+    final settings = await _firebaseMessaging.requestPermission();
+    return settings.authorizationStatus == AuthorizationStatus.authorized ||
+        settings.authorizationStatus == AuthorizationStatus.provisional;
   }
 
-  /// Check if notification permission is granted.
+  /// Check if notification permission is granted using Firebase Messaging.
   Future<bool> isPermissionGranted() async {
-    final status = await Permission.notification.status;
-    return status == PermissionStatus.granted;
+    final settings = await _firebaseMessaging.getNotificationSettings();
+    return settings.authorizationStatus == AuthorizationStatus.authorized ||
+        settings.authorizationStatus == AuthorizationStatus.provisional;
   }
 
   /// Show an immediate notification.

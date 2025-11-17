@@ -18,6 +18,7 @@ class FcmService {
 
   StreamSubscription<RemoteMessage>? _messageSubscription;
   StreamSubscription<RemoteMessage>? _openedAppSubscription;
+  StreamSubscription<RemoteMessage>? _initialMessageSubscription;
 
   /// Initialize FCM and setup message handlers.
   Future<void> initialize() async {
@@ -34,23 +35,34 @@ class FcmService {
       if (kDebugMode) {
         print('FCM Service initialized');
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       debugPrint('Error initializing FCM Service: $e');
+      debugPrint('Stack trace: $stackTrace');
       rethrow;
     }
   }
 
   /// Get the device token for sending notifications.
   Future<String?> getDeviceToken() async {
-    return await _repository.getDeviceToken();
+    try {
+      return await _repository.getDeviceToken();
+    } catch (e, stackTrace) {
+      debugPrint('Error getting device token: $e');
+      debugPrint('Stack trace: $stackTrace');
+      return null;
+    }
   }
 
   /// Subscribe to a topic for group notifications.
   Future<void> subscribeToTopic(String topic) async {
     try {
       await FirebaseMessaging.instance.subscribeToTopic(topic);
-    } catch (e) {
-      debugPrint('Error subscribing to topic: $e');
+      if (kDebugMode) {
+        print('Subscribed to topic: $topic');
+      }
+    } catch (e, stackTrace) {
+      debugPrint('Error subscribing to topic $topic: $e');
+      debugPrint('Stack trace: $stackTrace');
       rethrow;
     }
   }
@@ -59,8 +71,12 @@ class FcmService {
   Future<void> unsubscribeFromTopic(String topic) async {
     try {
       await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
-    } catch (e) {
-      debugPrint('Error unsubscribing from topic: $e');
+      if (kDebugMode) {
+        print('Unsubscribed from topic: $topic');
+      }
+    } catch (e, stackTrace) {
+      debugPrint('Error unsubscribing from topic $topic: $e');
+      debugPrint('Stack trace: $stackTrace');
       rethrow;
     }
   }
@@ -86,48 +102,47 @@ class FcmService {
   }
 
   void _setupForegroundMessageHandler() {
-    FirebaseMessaging.onMessage.listen((message) {
+    _messageSubscription = FirebaseMessaging.onMessage.listen((message) {
       if (kDebugMode) {
         print('Foreground message: ${message.notification?.title}');
       }
       // Handle foreground message
       // You could show a dialog, update state, etc.
+    }, onError: (error) {
+      debugPrint('Error in foreground message handler: $error');
     });
   }
 
   void _setupNotificationTapHandler() {
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    _openedAppSubscription = FirebaseMessaging.onMessageOpenedApp.listen((message) {
       if (kDebugMode) {
         print('Notification opened from background: ${message.notification?.title}');
       }
       handleNotificationTap(message);
+    }, onError: (error) {
+      debugPrint('Error in notification tap handler: $error');
     });
   }
 
   /// Stream that listens for incoming FCM messages when app is in foreground.
   Stream<dynamic> get onForegroundMessage {
-    // This would typically return a stream from FirebaseMessaging.onMessage
-    // For now, return an empty stream to satisfy the interface
-    return Stream.empty();
+    return _repository.onForegroundMessage;
   }
 
   /// Stream that listens for notification taps when app is in background.
   Stream<dynamic> get onNotificationTappedStream {
-    // This would typically return a stream from FirebaseMessaging.onMessageOpenedApp
-    // For now, return an empty stream to satisfy the interface
-    return Stream.empty();
+    return _repository.onNotificationTapped;
   }
 
   /// Stream that listens for initial message when app is launched from terminated state.
   Stream<dynamic> get onInitialMessage {
-    // This would typically return a stream from FirebaseMessaging.getInitialMessage
-    // For now, return an empty stream to satisfy the interface
-    return Stream.empty();
+    return _repository.onInitialMessage;
   }
 
   /// Cleanup resources.
   void dispose() {
     _messageSubscription?.cancel();
     _openedAppSubscription?.cancel();
+    _initialMessageSubscription?.cancel();
   }
 }

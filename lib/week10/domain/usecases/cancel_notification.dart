@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../repositories/notification_repository.dart';
 
 /// Use case for canceling a notification.
@@ -8,7 +10,17 @@ class CancelNotificationUseCase {
 
   final NotificationRepository _repository;
 
-  Future<void> call(String notificationId) {
-    return _repository.cancelNotification(notificationId);
+  Future<void> call(String notificationId) async {
+    try {
+      await _repository.cancelNotification(notificationId);
+
+      if (kDebugMode) {
+        print('Notification cancelled: $notificationId');
+      }
+    } catch (e, stackTrace) {
+      debugPrint('Error cancelling notification $notificationId: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../domain/entities/notification.dart';
 import '../../domain/usecases/get_device_token.dart';
@@ -86,11 +86,19 @@ class NotificationController extends GetxController {
     errorMessage.value = null;
 
     try {
-      await _fcmService.initialize();
+      // Initialize local notification service first
       await _localNotificationService.initialize();
 
+      // Then initialize FCM service
+      await _fcmService.initialize();
+
+      // Check permissions after both services are initialized
       await checkPermission();
+
+      // Get device token after permissions are checked
       await getToken();
+
+      // Load pending notifications last
       await loadPendingNotifications();
 
       if (kDebugMode) {
@@ -121,8 +129,9 @@ class NotificationController extends GetxController {
     successMessage.value = null;
 
     try {
-      final status = await _requestPermission();
-      final granted = status == PermissionStatus.granted;
+      final settings = await _requestPermission();
+      final granted = settings.authorizationStatus == AuthorizationStatus.authorized ||
+          settings.authorizationStatus == AuthorizationStatus.provisional;
       isPermissionGranted.value = granted;
 
       if (granted) {
@@ -168,7 +177,7 @@ class NotificationController extends GetxController {
 
     try {
       final notification = AppNotification(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: _generateNotificationId().toString(),
         title: title,
         body: body,
         payload: payload,
@@ -201,7 +210,7 @@ class NotificationController extends GetxController {
 
     try {
       final notification = AppNotification(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: _generateNotificationId().toString(),
         title: title,
         body: body,
         payload: payload,
@@ -314,6 +323,16 @@ class NotificationController extends GetxController {
     return '${dateTime.day}/${dateTime.month}/${dateTime.year} '
         '${dateTime.hour.toString().padLeft(2, '0')}:'
         '${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  /// Generate a valid 32-bit integer ID for notifications
+  int _generateNotificationId() {
+    // Use a simple counter-based approach with modulo to ensure it fits in 32-bit range
+    // We use a random component to reduce collision chances
+    final int timestamp = DateTime.now().millisecondsSinceEpoch;
+    final int randomComponent = timestamp.hashCode & 0xFFFF; // 16-bit random component
+    final int id = (timestamp + randomComponent) & 0x7FFFFFFF; // Ensure positive 31-bit integer
+    return id;
   }
 
   /// Humanize error messages

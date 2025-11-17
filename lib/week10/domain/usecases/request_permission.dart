@@ -1,4 +1,4 @@
-import 'package:permission_handler/permission_handler.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../repositories/notification_repository.dart';
 
@@ -11,7 +11,7 @@ class RequestPermissionUseCase {
 
   final NotificationRepository _repository;
 
-  Future<PermissionStatus> call() {
+  Future<NotificationSettings> call() {
     return _repository.requestPermission();
   }
 }

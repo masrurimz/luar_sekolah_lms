@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 import '../../domain/entities/notification.dart';
@@ -15,9 +15,12 @@ import '../../domain/entities/notification.dart';
 class NotificationLocalDataSource {
   NotificationLocalDataSource({
     required FlutterLocalNotificationsPlugin localNotifications,
-  }) : _localNotifications = localNotifications;
+    required FirebaseMessaging firebaseMessaging,
+  })  : _localNotifications = localNotifications,
+        _firebaseMessaging = firebaseMessaging;
 
   final FlutterLocalNotificationsPlugin _localNotifications;
+  final FirebaseMessaging _firebaseMessaging;
 
   /// Initialize the local notification service.
   Future<void> initialize() async {
@@ -44,21 +47,16 @@ class NotificationLocalDataSource {
     );
   }
 
-  /// Request notification permission.
-  Future<PermissionStatus> requestPermission() async {
-    final status = await Permission.notification.request();
-    return status;
+  /// Request notification permission using Firebase Messaging.
+  Future<NotificationSettings> requestPermission() async {
+    return await _firebaseMessaging.requestPermission();
   }
 
-  /// Check if notification permission is granted.
+  /// Check if notification permission is granted using Firebase Messaging.
   Future<bool> isPermissionGranted() async {
-    final status = await Permission.notification.status;
-    return status == PermissionStatus.granted;
-  }
-
-  /// Check notification permission using permission_handler.
-  Future<bool> hasPermission() async {
-    return await Permission.notification.isGranted;
+    final settings = await _firebaseMessaging.getNotificationSettings();
+    return settings.authorizationStatus == AuthorizationStatus.authorized ||
+        settings.authorizationStatus == AuthorizationStatus.provisional;
   }
 
   /// Show an immediate notification.
@@ -73,6 +71,7 @@ class NotificationLocalDataSource {
       showWhen: true,
       enableVibration: true,
       playSound: true,
+      icon: 'ic_notification',
     );
 
     const DarwinNotificationDetails iOSNotificationDetails =
@@ -110,6 +109,7 @@ class NotificationLocalDataSource {
       showWhen: true,
       enableVibration: true,
       playSound: true,
+      icon: 'ic_notification',
     );
 
     const DarwinNotificationDetails iOSNotificationDetails =

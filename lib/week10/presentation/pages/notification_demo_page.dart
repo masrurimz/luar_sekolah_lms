@@ -62,6 +62,34 @@ class NotificationDemoPage extends GetView<NotificationController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Introduction Section
+            Card(
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Notification Demo',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue[800],
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'This demo showcases both local notifications and Firebase Cloud Messaging (FCM) capabilities. '
+                      'You can send immediate notifications, schedule future reminders, and see how different notification '
+                      'types and channels work.',
+                      style: TextStyle(fontSize: 16, height: 1.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
             // Status Section
             Obx(
               () => Column(
@@ -210,7 +238,7 @@ class NotificationDemoPage extends GetView<NotificationController> {
                 ElevatedButton.icon(
                   onPressed: controller.isLoading.value
                       ? null
-                      : () => controller.getToken(),
+                  : () => controller.getToken(),
                   icon: const Icon(Icons.vpn_key),
                   label: const Text('Get Token'),
                   style: ElevatedButton.styleFrom(
@@ -222,13 +250,79 @@ class NotificationDemoPage extends GetView<NotificationController> {
             ),
             const SizedBox(height: 24),
 
+            // Demo Notifications Section
+            Card(
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Quick Demos',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green[800],
+                          ),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Try these predefined notifications to see different features:',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children: [
+                        OutlinedButton.icon(
+                          onPressed: controller.isLoading.value
+                              ? null
+                              : () => _sendDemoNotification(
+                                    'Welcome!',
+                                    'Thanks for trying our notification demo. This is an immediate local notification.',
+                                    'welcome_demo',
+                                  ),
+                          icon: const Icon(Icons.notifications_active, size: 18),
+                          label: const Text('Welcome Notification'),
+                        ),
+                        OutlinedButton.icon(
+                          onPressed: controller.isLoading.value
+                              ? null
+                              : () => _scheduleDemoNotification(
+                                    'Scheduled Reminder',
+                                    'This is a scheduled notification that appeared 10 seconds after you requested it.',
+                                    'scheduled_demo',
+                                  ),
+                          icon: const Icon(Icons.schedule, size: 18),
+                          label: const Text('Schedule in 10s'),
+                        ),
+                        OutlinedButton.icon(
+                          onPressed: controller.isLoading.value
+                              ? null
+                              : () => _sendDemoNotification(
+                                    'Rich Notification',
+                                    'This notification has additional styling and features.',
+                                    'rich_demo',
+                                  ),
+                          icon: const Icon(Icons.star, size: 18),
+                          label: const Text('Rich Notification'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
             // Notification Form
             ElevatedButton.icon(
               onPressed: controller.isLoading.value
                   ? null
                   : () => _showNotificationForm(context),
               icon: const Icon(Icons.send),
-              label: const Text('Send Notification'),
+              label: const Text('Send Custom Notification'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green[600],
                 foregroundColor: Colors.white,
@@ -311,6 +405,72 @@ class NotificationDemoPage extends GetView<NotificationController> {
                 ],
               ),
             ),
+
+            const SizedBox(height: 24),
+
+            // Educational Section
+            Card(
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Learning Resources',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple[800],
+                          ),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Explore different aspects of notifications:',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        FilterChip(
+                          label: const Text('Basics'),
+                          onSelected: (_) => Get.toNamed('/week10/notifications-basics'),
+                        ),
+                        FilterChip(
+                          label: const Text('Local'),
+                          onSelected: (_) => Get.toNamed('/week10/local-notifications'),
+                        ),
+                        FilterChip(
+                          label: const Text('FCM'),
+                          onSelected: (_) => Get.toNamed('/week10/firebase-cloud-messaging'),
+                        ),
+                        FilterChip(
+                          label: const Text('Permissions'),
+                          onSelected: (_) => Get.toNamed('/week10/permission-handling'),
+                        ),
+                        FilterChip(
+                          label: const Text('App States'),
+                          onSelected: (_) => Get.toNamed('/week10/foreground-background'),
+                        ),
+                        FilterChip(
+                          label: const Text('Channels'),
+                          onSelected: (_) => Get.toNamed('/week10/notification-channels'),
+                        ),
+                        FilterChip(
+                          label: const Text('Advanced'),
+                          onSelected: (_) => Get.toNamed('/week10/advanced-features'),
+                        ),
+                        FilterChip(
+                          label: const Text('Push vs Local'),
+                          onSelected: (_) => Get.toNamed('/week10/push-vs-local'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -322,32 +482,50 @@ class NotificationDemoPage extends GetView<NotificationController> {
     );
   }
 
+  void _sendDemoNotification(String title, String body, String payload) {
+    controller.sendLocalNotification(
+      title: title,
+      body: body,
+      payload: payload,
+    );
+  }
+
+  void _scheduleDemoNotification(String title, String body, String payload) {
+    final scheduledTime = DateTime.now().add(const Duration(seconds: 10));
+    controller.scheduleNotification(
+      title: title,
+      body: body,
+      scheduledTime: scheduledTime,
+      payload: payload,
+    );
+  }
+
   void _showNotificationForm(BuildContext context) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => NotificationFormSheet(
-        onSubmit: (title, body, scheduledTime, payload) async {
-          await controller.loadPendingNotifications();
+      builder: (context) => const NotificationFormSheet(),
+    ).then((result) async {
+      if (result is NotificationFormData) {
+        await controller.loadPendingNotifications();
 
-          if (scheduledTime != null) {
-            await controller.scheduleNotification(
-              title: title,
-              body: body,
-              scheduledTime: scheduledTime,
-              payload: payload,
-            );
-          } else {
-            await controller.sendLocalNotification(
-              title: title,
-              body: body,
-              payload: payload,
-            );
-          }
-        },
-      ),
-    );
+        if (result.isScheduled && result.scheduledTime != null) {
+          await controller.scheduleNotification(
+            title: result.title,
+            body: result.body,
+            scheduledTime: result.scheduledTime!,
+            payload: result.payload,
+          );
+        } else {
+          await controller.sendLocalNotification(
+            title: result.title,
+            body: result.body,
+            payload: result.payload,
+          );
+        }
+      }
+    });
   }
 }
 
@@ -391,6 +569,23 @@ class _PendingNotificationTile extends StatelessWidget {
                     color: Colors.grey[600],
                   ),
                 ),
+                if (notification.payload != null) ...[
+                  const SizedBox(height: 4),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[100],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      'Payload: ${notification.payload}',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

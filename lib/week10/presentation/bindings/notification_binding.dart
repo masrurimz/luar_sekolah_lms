@@ -33,6 +33,7 @@ class NotificationBinding extends Bindings {
     Get.lazyPut<NotificationLocalDataSource>(
       () => NotificationLocalDataSource(
         localNotifications: Get.find(),
+        firebaseMessaging: Get.find(),
       ),
     );
 
@@ -61,7 +62,9 @@ class NotificationBinding extends Bindings {
     );
 
     Get.lazyPut<LocalNotificationService>(
-      () => LocalNotificationService(),
+      () => LocalNotificationService(
+        firebaseMessaging: Get.find(),
+      ),
     );
 
     // Register Controller

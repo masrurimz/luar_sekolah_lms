@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../domain/entities/notification.dart';
 import '../../domain/repositories/notification_repository.dart';
@@ -76,7 +75,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Future<PermissionStatus> requestPermission() async {
+  Future<NotificationSettings> requestPermission() async {
     return await _localDataSource.requestPermission();
   }
 

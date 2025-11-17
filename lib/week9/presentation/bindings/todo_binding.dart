@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../data/repositories/todo_firebase_repository_impl.dart';
 import '../../domain/repositories/todo_repository.dart';
@@ -33,9 +34,14 @@ class TodoBinding extends Bindings {
       AuthBinding().dependencies();
     }
 
+    // Register FirebaseMessaging for LocalNotificationService
+    Get.lazyPut<FirebaseMessaging>(() => FirebaseMessaging.instance);
+
     // Register LocalNotificationService for Week 10 integration
     Get.lazyPut<LocalNotificationService>(
-      () => LocalNotificationService(),
+      () => LocalNotificationService(
+        firebaseMessaging: Get.find(),
+      ),
     );
 
     Get.lazyPut(() => TodoController(

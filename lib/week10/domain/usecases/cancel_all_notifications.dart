@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../repositories/notification_repository.dart';
 
 /// Use case for canceling all notifications.
@@ -8,7 +10,17 @@ class CancelAllNotificationsUseCase {
 
   final NotificationRepository _repository;
 
-  Future<void> call() {
-    return _repository.cancelAllNotifications();
+  Future<void> call() async {
+    try {
+      await _repository.cancelAllNotifications();
+
+      if (kDebugMode) {
+        print('All notifications cancelled');
+      }
+    } catch (e, stackTrace) {
+      debugPrint('Error cancelling all notifications: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 }

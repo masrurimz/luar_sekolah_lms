@@ -1,4 +1,4 @@
-import 'package:permission_handler/permission_handler.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../entities/notification.dart';
 
@@ -31,8 +31,8 @@ abstract class NotificationRepository {
 
   /// Request notification permission from the user.
   ///
-  /// Returns the permission status after requesting.
-  Future<PermissionStatus> requestPermission();
+  /// Returns the notification settings after requesting.
+  Future<NotificationSettings> requestPermission();
 
   /// Check if the app has notification permission (FCM-specific).
   Future<bool> hasNotificationPermission();

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../entities/notification.dart';
 import '../repositories/notification_repository.dart';
 
@@ -10,13 +12,23 @@ class SendLocalNotificationUseCase {
 
   final NotificationRepository _repository;
 
-  Future<void> call(AppNotification notification) {
-    // Validate that it's not a scheduled notification
-    if (notification.isScheduled) {
-      throw ArgumentError('Use ScheduleNotificationUseCase for scheduled notifications');
-    }
+  Future<void> call(AppNotification notification) async {
+    try {
+      // Validate that it's not a scheduled notification
+      if (notification.isScheduled) {
+        throw ArgumentError('Use ScheduleNotificationUseCase for scheduled notifications');
+      }
 
-    // Send the immediate notification
-    return _repository.sendLocalNotification(notification);
+      // Send the immediate notification
+      await _repository.sendLocalNotification(notification);
+
+      if (kDebugMode) {
+        print('Local notification sent: ${notification.title}');
+      }
+    } catch (e, stackTrace) {
+      debugPrint('Error sending local notification: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 }
