@@ -28,15 +28,27 @@ class LocalNotificationService {
       const AndroidInitializationSettings initializationSettingsAndroid =
           AndroidInitializationSettings('@mipmap/ic_launcher');
 
-      // Setup iOS initialization settings
-      const DarwinInitializationSettings initializationSettingsIOS =
+      // Setup iOS initialization settings with notification categories
+      final DarwinInitializationSettings initializationSettingsIOS =
           DarwinInitializationSettings(
         requestAlertPermission: true,
         requestBadgePermission: true,
         requestSoundPermission: true,
+        notificationCategories: [
+          DarwinNotificationCategory(
+            'todo_category',
+            actions: <DarwinNotificationAction>[
+              DarwinNotificationAction.plain('view_action', 'View'),
+              DarwinNotificationAction.plain('dismiss_action', 'Dismiss'),
+            ],
+            options: <DarwinNotificationCategoryOption>{
+              DarwinNotificationCategoryOption.hiddenPreviewShowTitle,
+            },
+          )
+        ],
       );
 
-      const InitializationSettings initializationSettings =
+      final InitializationSettings initializationSettings =
           InitializationSettings(
         android: initializationSettingsAndroid,
         iOS: initializationSettingsIOS,
@@ -195,7 +207,23 @@ class LocalNotificationService {
   void _onDidReceiveNotificationResponse(NotificationResponse response) {
     if (kDebugMode) {
       print('Notification tapped: ${response.id}');
+      print('Action ID: ${response.actionId}');
+      print('Payload: ${response.payload}');
     }
+
+    // Handle action buttons
+    if (response.actionId == 'view_action') {
+      if (kDebugMode) {
+        print('View action button tapped');
+      }
+      // Handle view action
+    } else if (response.actionId == 'dismiss_action') {
+      if (kDebugMode) {
+        print('Dismiss action button tapped');
+      }
+      // Handle dismiss action
+    }
+
     _notificationTapController?.add(response);
   }
 
@@ -205,7 +233,23 @@ class LocalNotificationService {
   ) {
     if (kDebugMode) {
       print('Background notification tapped: ${response.id}');
+      print('Action ID: ${response.actionId}');
+      print('Payload: ${response.payload}');
     }
+
+    // Handle action buttons
+    if (response.actionId == 'view_action') {
+      if (kDebugMode) {
+        print('View action button tapped in background');
+      }
+      // Handle view action
+    } else if (response.actionId == 'dismiss_action') {
+      if (kDebugMode) {
+        print('Dismiss action button tapped in background');
+      }
+      // Handle dismiss action
+    }
+
     _notificationTapController?.add(response);
   }
 

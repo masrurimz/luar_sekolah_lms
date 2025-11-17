@@ -61,27 +61,54 @@ class NotificationLocalDataSource {
 
   /// Show an immediate notification.
   Future<void> showNotification(AppNotification notification) async {
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
-      'todo_channel',
-      'Todo Notifications',
-      channelDescription: 'Notifications for todo app',
-      importance: Importance.high,
-      priority: Priority.high,
-      showWhen: true,
-      enableVibration: true,
-      playSound: true,
-      icon: 'ic_notification',
-    );
+    // Check if this is a rich notification
+    final bool isRichNotification = notification.payload == 'rich_demo';
 
-    const DarwinNotificationDetails iOSNotificationDetails =
-        DarwinNotificationDetails(
+    final AndroidNotificationDetails androidNotificationDetails = isRichNotification
+        ? AndroidNotificationDetails(
+            'todo_channel',
+            'Todo Notifications',
+            channelDescription: 'Notifications for todo app',
+            importance: Importance.high,
+            priority: Priority.high,
+            showWhen: true,
+            enableVibration: true,
+            playSound: true,
+            icon: 'ic_notification',
+            styleInformation: BigTextStyleInformation(
+              notification.body,
+              contentTitle: notification.title,
+              summaryText: 'Rich notification with expanded content',
+            ),
+            largeIcon: const DrawableResourceAndroidBitmap('ic_notification'),
+            actions: <AndroidNotificationAction>[
+              AndroidNotificationAction('view_action', 'View'),
+              AndroidNotificationAction('dismiss_action', 'Dismiss'),
+            ],
+          )
+        : AndroidNotificationDetails(
+            'todo_channel',
+            'Todo Notifications',
+            channelDescription: 'Notifications for todo app',
+            importance: Importance.high,
+            priority: Priority.high,
+            showWhen: true,
+            enableVibration: true,
+            playSound: true,
+            icon: 'ic_notification',
+            actions: <AndroidNotificationAction>[
+              AndroidNotificationAction('view_action', 'View'),
+              AndroidNotificationAction('dismiss_action', 'Dismiss'),
+            ],
+          );
+
+    const DarwinNotificationDetails iOSNotificationDetails = const DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
     );
 
-    const NotificationDetails notificationDetails = NotificationDetails(
+    final NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
       iOS: iOSNotificationDetails,
     );

@@ -312,7 +312,24 @@ class NotificationController extends GetxController {
         .listen((response) {
           if (kDebugMode) {
             print('Local Notification Tapped: ${response.payload}');
+            print('Action ID: ${response.actionId}');
           }
+
+          // Handle action buttons
+          if (response.actionId == 'view_action') {
+            if (kDebugMode) {
+              print('View action button tapped in controller');
+            }
+            // Handle view action - could navigate to a specific screen
+            successMessage.value = 'View action selected';
+          } else if (response.actionId == 'dismiss_action') {
+            if (kDebugMode) {
+              print('Dismiss action button tapped in controller');
+            }
+            // Handle dismiss action - could cancel the notification
+            successMessage.value = 'Notification dismissed';
+          }
+
           // Handle local notification tap
           // You can navigate to a specific screen or update state here
         });
