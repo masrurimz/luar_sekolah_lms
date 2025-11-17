@@ -135,7 +135,6 @@ class NotificationLocalDataSource {
       notificationDetails,
       payload: notification.payload,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      matchDateTimeComponents: DateTimeComponents.time,
     );
   }
 
