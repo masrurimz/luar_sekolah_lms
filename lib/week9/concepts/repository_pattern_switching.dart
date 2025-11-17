@@ -215,7 +215,7 @@ class _RepositoryPatternScreenState extends State<RepositoryPatternScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${_selectedBackend} Repository Implementation:',
+            '$_selectedBackend Repository Implementation:',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),

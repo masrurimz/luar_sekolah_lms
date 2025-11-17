@@ -48,7 +48,7 @@ class SignupPage extends GetView<AuthController> {
 }
 
 class _SignupForm extends StatefulWidget {
-  const _SignupForm({super.key});
+  const _SignupForm();
 
   @override
   State<_SignupForm> createState() => _SignupFormState();
@@ -223,7 +223,7 @@ class _SignupFormState extends State<_SignupForm> {
 }
 
 class _LoginLink extends StatelessWidget {
-  const _LoginLink({super.key});
+  const _LoginLink();
 
   @override
   Widget build(BuildContext context) {

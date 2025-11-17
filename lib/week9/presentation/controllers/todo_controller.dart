@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../../domain/entities/todo.dart';
@@ -7,6 +8,7 @@ import '../../domain/usecases/delete_todo_use_case.dart';
 import '../../domain/usecases/get_todos_use_case.dart';
 import '../../domain/usecases/toggle_todo_completion_use_case.dart';
 import '../../domain/usecases/update_todo_use_case.dart';
+import '../../../../week10/presentation/services/local_notification_service.dart';
 
 enum TodoFilter { all, completed, pending }
 
@@ -20,12 +22,14 @@ class TodoController extends GetxController {
     required ToggleTodoCompletionUseCase toggleTodo,
     required UpdateTodoUseCase updateTodo,
     required DeleteTodoUseCase deleteTodo,
+    LocalNotificationService? notificationService,
     User? currentUser,
   }) : _getTodos = getTodos,
        _createTodo = createTodo,
        _toggleTodo = toggleTodo,
        _updateTodo = updateTodo,
        _deleteTodo = deleteTodo,
+       _notificationService = notificationService,
        _currentUser = currentUser;
 
   final GetTodosUseCase _getTodos;
@@ -33,6 +37,7 @@ class TodoController extends GetxController {
   final ToggleTodoCompletionUseCase _toggleTodo;
   final UpdateTodoUseCase _updateTodo;
   final DeleteTodoUseCase _deleteTodo;
+  final LocalNotificationService? _notificationService;
   final User? _currentUser;
 
   // Reactive variables
@@ -98,6 +103,9 @@ class TodoController extends GetxController {
       // Trigger refresh to ensure UI updates
       todos.refresh();
       filter.refresh();
+
+      // Send notification about new todo
+      _sendNewTodoNotification(created);
     } catch (error) {
       errorMessage.value = _humanizeError(error);
       rethrow;
@@ -230,5 +238,24 @@ class TodoController extends GetxController {
         updatedAt: now.subtract(const Duration(hours: 6)),
       ),
     ];
+  }
+
+  /// Send a local notification when a new todo is created
+  void _sendNewTodoNotification(Todo todo) {
+    if (_notificationService == null) {
+      // Notification service not available, skip
+      return;
+    }
+
+    // Only send notifications in debug mode to avoid spam
+    if (!kDebugMode) {
+      return;
+    }
+
+    _notificationService.show(
+      title: 'New Todo Added',
+      body: 'Todo: "${todo.text}"',
+      payload: 'todo:${todo.id}',
+    );
   }
 }

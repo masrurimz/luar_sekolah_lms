@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
-import '../concepts/01_firebase_authentication.dart';
-import '../concepts/02_firestore_database.dart';
-import '../concepts/03_api_vs_firebase_comparison.dart';
-import '../concepts/04_dependency_injection_getx.dart';
-import '../concepts/05_repository_pattern_switching.dart';
+import '../concepts/firebase_authentication.dart';
+import '../concepts/firestore_database.dart';
+import '../concepts/api_vs_firebase_comparison.dart';
+import '../concepts/dependency_injection_getx.dart';
+import '../concepts/repository_pattern_switching.dart';
 import '../presentation/bindings/auth_binding.dart';
 import '../presentation/bindings/todo_binding.dart';
 import '../presentation/pages/login_page.dart';

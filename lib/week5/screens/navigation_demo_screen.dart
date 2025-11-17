@@ -19,10 +19,10 @@
 // ==========================================
 
 import 'package:flutter/material.dart';
-import '../concepts/02_navigator_widget.dart';
-import '../concepts/03_named_routes.dart';
-import '../concepts/04_drawer_navigation.dart';
-import '../concepts/05_bottom_navigation.dart';
+import '../concepts/navigator_widget.dart';
+import '../concepts/named_routes.dart';
+import '../concepts/drawer_navigation.dart';
+import '../concepts/bottom_navigation.dart';
 
 class NavigationDemoScreen extends StatefulWidget {
   const NavigationDemoScreen({super.key});

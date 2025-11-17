@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../concepts/06_animation_basics.dart';
-import '../concepts/07_implicit_animations.dart';
-import '../concepts/08_explicit_animations.dart';
-import '../concepts/09_hero_page_transitions.dart';
+import '../concepts/animation_basics.dart';
+import '../concepts/implicit_animations.dart';
+import '../concepts/explicit_animations.dart';
+import '../concepts/hero_page_transitions.dart';
 
 class AnimationDemoScreen extends StatefulWidget {
   const AnimationDemoScreen({super.key});

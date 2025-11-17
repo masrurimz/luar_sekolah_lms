@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 
-import '../concepts/01_state_management_overview.dart';
-import '../concepts/02_getx_foundation.dart';
-import '../concepts/03_getx_controller_lifecycle.dart';
-import '../concepts/04_getx_navigation_dependency.dart';
-import '../concepts/05_clean_architecture_getx.dart';
-import '../concepts/06_getx_api_integration.dart';
+import '../concepts/state_management_overview.dart';
+import '../concepts/getx_foundation.dart';
+import '../concepts/getx_controller_lifecycle.dart';
+import '../concepts/getx_navigation_dependency.dart';
+import '../concepts/clean_architecture_getx.dart';
+import '../concepts/getx_api_integration.dart';
 import '../presentation/bindings/todo_binding.dart';
 import '../presentation/pages/todo_dashboard_page.dart';
 import '../presentation/pages/weekly_task_screen.dart';

@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../../data/repositories/todo_firebase_repository_impl.dart';
-import '../../data/repositories/todo_api_repository_impl.dart';
 import '../../domain/repositories/todo_repository.dart';
 import '../../domain/usecases/create_todo_use_case.dart';
 import '../../domain/usecases/delete_todo_use_case.dart';
@@ -10,6 +9,7 @@ import '../../domain/usecases/toggle_todo_completion_use_case.dart';
 import '../../domain/usecases/update_todo_use_case.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/todo_controller.dart';
+import '../../../../week10/presentation/services/local_notification_service.dart';
 import 'auth_binding.dart';
 
 class TodoBinding extends Bindings {
@@ -33,12 +33,18 @@ class TodoBinding extends Bindings {
       AuthBinding().dependencies();
     }
 
+    // Register LocalNotificationService for Week 10 integration
+    Get.lazyPut<LocalNotificationService>(
+      () => LocalNotificationService(),
+    );
+
     Get.lazyPut(() => TodoController(
       getTodos: Get.find(),
       createTodo: Get.find(),
       toggleTodo: Get.find(),
       updateTodo: Get.find(),
       deleteTodo: Get.find(),
+      notificationService: Get.find<LocalNotificationService>(),
       currentUser: AuthController.to.currentUser.value,
     ));
   }

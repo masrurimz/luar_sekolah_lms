@@ -33,15 +33,15 @@ import 'week4/utils/storage_helper.dart';
 import 'week4_simple.dart';
 
 // Week 5 imports
-import 'week5/concepts/01_navigation_basics.dart';
-import 'week5/concepts/02_navigator_widget.dart';
-import 'week5/concepts/03_named_routes.dart';
-import 'week5/concepts/04_drawer_navigation.dart';
-import 'week5/concepts/05_bottom_navigation.dart';
-import 'week5/concepts/06_animation_basics.dart';
-import 'week5/concepts/07_implicit_animations.dart';
-import 'week5/concepts/08_explicit_animations.dart';
-import 'week5/concepts/09_hero_page_transitions.dart';
+import 'week5/concepts/navigation_basics.dart';
+import 'week5/concepts/navigator_widget.dart';
+import 'week5/concepts/named_routes.dart';
+import 'week5/concepts/drawer_navigation.dart';
+import 'week5/concepts/bottom_navigation.dart';
+import 'week5/concepts/animation_basics.dart';
+import 'week5/concepts/implicit_animations.dart';
+import 'week5/concepts/explicit_animations.dart';
+import 'week5/concepts/hero_page_transitions.dart';
 import 'week5/screens/navigation_demo_screen.dart';
 import 'week5/screens/animation_demo_screen.dart';
 import 'week5/screens/weekly_task_screen.dart';
@@ -66,6 +66,9 @@ import 'week8/routes/week8_routes.dart';
 
 // Week 9 imports
 import 'week9/routes/week9_routes.dart';
+
+// Week 10 imports
+import 'week10/routes/week10_routes.dart';
 
 final List<GetPage<dynamic>> _appPages = [
   GetPage(name: '/', page: () => const MainMenuScreen()),
@@ -163,6 +166,9 @@ final List<GetPage<dynamic>> _appPages = [
 
   // Week 9
   ...Week9Routes.pages,
+
+  // Week 10
+  ...Week10Routes.pages,
 ];
 
 // ==========================================
@@ -887,6 +893,90 @@ class MainMenuScreen extends StatelessWidget {
                   icon: Icons.local_fire_department,
                   color: Colors.red,
                   route: Week9Routes.weeklyTask,
+                ),
+
+                const SizedBox(height: 24),
+
+                // ==========================================
+                // WEEK 10 SECTION
+                // ==========================================
+                const Text(
+                  '🔔 Week 10: Push Notifications',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMenuCard(
+                  context: context,
+                  title: 'Notifications Basics',
+                  subtitle: 'What, why, and types of notifications',
+                  icon: Icons.notifications_active,
+                  color: Colors.blue,
+                  route: Week10Routes.notificationsBasics,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Local Notifications',
+                  subtitle: 'Flutter local notifications package',
+                  icon: Icons.alarm,
+                  color: Colors.green,
+                  route: Week10Routes.localNotifications,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Firebase Cloud Messaging',
+                  subtitle: 'FCM setup & push notifications',
+                  icon: Icons.cloud_upload,
+                  color: Colors.orange,
+                  route: Week10Routes.firebaseCloudMessaging,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Permission Handling',
+                  subtitle: 'Request & manage permissions',
+                  icon: Icons.verified_user,
+                  color: Colors.purple,
+                  route: Week10Routes.permissionHandling,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Foreground & Background',
+                  subtitle: 'Handle notifications in all states',
+                  icon: Icons.device_unknown,
+                  color: Colors.teal,
+                  route: Week10Routes.foregroundBackgroundHandling,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Notification Channels',
+                  subtitle: 'Customize & organize notifications',
+                  icon: Icons.category,
+                  color: Colors.indigo,
+                  route: Week10Routes.notificationChannelCustomization,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Advanced Features',
+                  subtitle: 'Action buttons, icons & more',
+                  icon: Icons.star,
+                  color: Colors.amber,
+                  route: Week10Routes.advancedNotificationFeatures,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Push vs Local Comparison',
+                  subtitle: 'Choose the right notification type',
+                  icon: Icons.compare_arrows,
+                  color: Colors.blueGrey,
+                  route: Week10Routes.pushVsLocalNotifications,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: '📱 Notification Demo',
+                  subtitle: 'Test FCM & local notifications',
+                  icon: Icons.phone_android,
+                  color: Colors.red,
+                  route: Week10Routes.notificationDemo,
                 ),
 
                 // ==========================================
