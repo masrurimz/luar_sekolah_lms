@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../concepts/firebase_cloud_messaging.dart' as fcm_concept;
-import '../../concepts/local_notifications.dart' as local_concept;
-
 class NotificationsBasicsScreen extends StatelessWidget {
   const NotificationsBasicsScreen({super.key});
 
