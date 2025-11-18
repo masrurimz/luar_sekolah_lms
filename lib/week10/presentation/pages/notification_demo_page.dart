@@ -156,97 +156,101 @@ class NotificationDemoPage extends GetView<NotificationController> {
             const SizedBox(height: 16),
 
             // Device Token Section
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[50],
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey[200]!),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.vpn_key,
-                        color: Colors.blue[600],
-                        size: 20,
+            Obx(
+              () => Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[50],
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.grey[200]!),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.vpn_key,
+                          color: Colors.blue[600],
+                          size: 20,
+                        ),
+                        const SizedBox(width: 12),
+                        const Text(
+                          'Device Token',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.grey[300]!),
                       ),
-                      const SizedBox(width: 12),
-                      const Text(
-                        'Device Token',
+                      child: SelectableText(
+                        controller.deviceToken.value ??
+                            'No token available\n(Ensure notifications are enabled)',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: 12,
+                          color: Colors.grey[700],
+                          fontFamily: 'monospace',
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.grey[300]!),
                     ),
-                    child: SelectableText(
-                      controller.deviceToken.value ??
-                          'No token available\n(Ensure notifications are enabled)',
+                    const SizedBox(height: 8),
+                    Text(
+                      'This token is used to send push notifications via FCM.',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.grey[700],
-                        fontFamily: 'monospace',
+                        color: Colors.grey[600],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'This token is used to send push notifications via FCM.',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 16),
 
             // Quick Actions
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: controller.isLoading.value
-                      ? null
-                      : () => controller.requestPermission(),
-                  icon: const Icon(Icons.notifications),
-                  label: const Text('Request Permission'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: controller.isPermissionGranted.value
-                        ? Colors.grey
-                        : Theme.of(context).primaryColor,
-                    foregroundColor: controller.isPermissionGranted.value
-                        ? Colors.white
-                        : Colors.white,
+            Obx(
+              () => Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : () => controller.requestPermission(),
+                    icon: const Icon(Icons.notifications),
+                    label: const Text('Request Permission'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: controller.isPermissionGranted.value
+                          ? Colors.grey
+                          : Theme.of(context).primaryColor,
+                      foregroundColor: controller.isPermissionGranted.value
+                          ? Colors.white
+                          : Colors.white,
+                    ),
                   ),
-                ),
-                ElevatedButton.icon(
-                  onPressed: controller.isLoading.value
-                      ? null
-                  : () => controller.getToken(),
-                  icon: const Icon(Icons.vpn_key),
-                  label: const Text('Get Token'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[600],
-                    foregroundColor: Colors.white,
+                  ElevatedButton.icon(
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : () => controller.getToken(),
+                    icon: const Icon(Icons.vpn_key),
+                    label: const Text('Get Token'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[600],
+                      foregroundColor: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 24),
 
@@ -271,44 +275,46 @@ class NotificationDemoPage extends GetView<NotificationController> {
                       style: TextStyle(fontSize: 14),
                     ),
                     const SizedBox(height: 16),
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: [
-                        OutlinedButton.icon(
-                          onPressed: controller.isLoading.value
-                              ? null
-                              : () => _sendDemoNotification(
-                                    'Welcome!',
-                                    'Thanks for trying our notification demo. This is an immediate local notification.',
-                                    'welcome_demo',
-                                  ),
-                          icon: const Icon(Icons.notifications_active, size: 18),
-                          label: const Text('Welcome Notification'),
-                        ),
-                        OutlinedButton.icon(
-                          onPressed: controller.isLoading.value
-                              ? null
-                              : () => _scheduleDemoNotification(
-                                    'Scheduled Reminder',
-                                    'This is a scheduled notification that appeared 10 seconds after you requested it.',
-                                    'scheduled_demo',
-                                  ),
-                          icon: const Icon(Icons.schedule, size: 18),
-                          label: const Text('Schedule in 10s'),
-                        ),
-                        OutlinedButton.icon(
-                          onPressed: controller.isLoading.value
-                              ? null
-                              : () => _sendDemoNotification(
-                                    'Rich Notification',
-                                    'This notification has additional styling and features.',
-                                    'rich_demo',
-                                  ),
-                          icon: const Icon(Icons.star, size: 18),
-                          label: const Text('Rich Notification'),
-                        ),
-                      ],
+                    Obx(
+                      () => Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : () => _sendDemoNotification(
+                                      'Welcome!',
+                                      'Thanks for trying our notification demo. This is an immediate local notification.',
+                                      'welcome_demo',
+                                    ),
+                            icon: const Icon(Icons.notifications_active, size: 18),
+                            label: const Text('Welcome Notification'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : () => _scheduleDemoNotification(
+                                      'Scheduled Reminder',
+                                      'This is a scheduled notification that appeared 10 seconds after you requested it.',
+                                      'scheduled_demo',
+                                    ),
+                            icon: const Icon(Icons.schedule, size: 18),
+                            label: const Text('Schedule in 10s'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : () => _sendDemoNotification(
+                                      'Rich Notification',
+                                      'This notification has additional styling and features.',
+                                      'rich_demo',
+                                    ),
+                            icon: const Icon(Icons.star, size: 18),
+                            label: const Text('Rich Notification'),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -317,15 +323,17 @@ class NotificationDemoPage extends GetView<NotificationController> {
             const SizedBox(height: 24),
 
             // Notification Form
-            ElevatedButton.icon(
-              onPressed: controller.isLoading.value
-                  ? null
-                  : () => _showNotificationForm(context),
-              icon: const Icon(Icons.send),
-              label: const Text('Send Custom Notification'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[600],
-                foregroundColor: Colors.white,
+            Obx(
+              () => ElevatedButton.icon(
+                onPressed: controller.isLoading.value
+                    ? null
+                    : () => _showNotificationForm(context),
+                icon: const Icon(Icons.send),
+                label: const Text('Send Custom Notification'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[600],
+                  foregroundColor: Colors.white,
+                ),
               ),
             ),
             const SizedBox(height: 24),
@@ -474,10 +482,14 @@ class NotificationDemoPage extends GetView<NotificationController> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showNotificationForm(context),
-        child: const Icon(Icons.add),
-        tooltip: 'Send Notification',
+      floatingActionButton: Obx(
+        () => FloatingActionButton(
+          onPressed: controller.isLoading.value
+              ? null
+              : () => _showNotificationForm(context),
+          child: const Icon(Icons.add),
+          tooltip: 'Send Notification',
+        ),
       ),
     );
   }
