@@ -102,7 +102,7 @@ class NotificationLocalDataSource {
             ],
           );
 
-    const DarwinNotificationDetails iOSNotificationDetails = const DarwinNotificationDetails(
+    const DarwinNotificationDetails iOSNotificationDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,

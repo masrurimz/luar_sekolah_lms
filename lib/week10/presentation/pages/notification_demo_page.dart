@@ -484,11 +484,11 @@ class NotificationDemoPage extends GetView<NotificationController> {
       ),
       floatingActionButton: Obx(
         () => FloatingActionButton(
+          tooltip: 'Send Notification',
           onPressed: controller.isLoading.value
               ? null
               : () => _showNotificationForm(context),
           child: const Icon(Icons.add),
-          tooltip: 'Send Notification',
         ),
       ),
     );
@@ -545,7 +545,6 @@ class _PendingNotificationTile extends StatelessWidget {
   const _PendingNotificationTile({
     required this.notification,
     required this.controller,
-    super.key,
   });
 
   final PendingNotificationRequest notification;

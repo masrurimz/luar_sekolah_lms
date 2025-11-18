@@ -126,6 +126,6 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Stream<dynamic> get onInitialMessage {
     return Stream.value(_fcmRemoteDataSource.getInitialMessage())
-        .asyncExpand((message) => message != null ? Stream.value(message) : const Stream.empty());
+        .asyncExpand((message) => Stream.value(message));
   }
 }
