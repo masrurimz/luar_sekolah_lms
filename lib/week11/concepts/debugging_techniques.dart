@@ -1,9 +1,10 @@
 // lib/week11/concepts/debugging_techniques.dart
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 /// Debugging Techniques in Flutter
 ///
 /// Essential debugging skills for finding and fixing bugs efficiently
-
-import 'package:flutter/foundation.dart';
 
 /// Print Debugging
 /// The classic and effective debugging technique
@@ -32,13 +33,13 @@ void debuggingExample() {
   void addItem(String title) {
     DebugPrinter.log('addItem called with title: $title');
 
-    final newItem = Item(title: title);
-    DebugPrinter.logObject('Created item', newItem);
+    // final newItem = Item(title: title);
+    // DebugPrinter.logObject('Created item', newItem);
 
-    items.add(newItem);
-    DebugPrinter.log('Added to list. New length: ${items.length}');
+    // items.add(newItem);
+    DebugPrinter.log('Added to list.');
 
-    update();
+    // update();
     DebugPrinter.log('update() called');
   }
 }
@@ -47,10 +48,10 @@ void debuggingExample() {
 /// Set breakpoints in your IDE to pause execution and inspect variables
 void breakpointExample() {
   // Set breakpoint on the line below
-  final data = fetchData();
+  // final data = fetchData();
 
   // Inspect 'data' in debug console
-  print(data);
+  // print(data);
 
   // Use debug console commands:
   // print data
@@ -61,20 +62,11 @@ void breakpointExample() {
 /// Widget Inspector
 /// Use Flutter Inspector to debug widget tree and layout issues
 class WidgetInspectorExample extends StatelessWidget {
+  const WidgetInspectorExample({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // Use DevTools Widget Inspector to:
-    // - See widget tree structure
-    // - Inspect widget properties
-    // - Debug layout constraints
-    // - Find rendering issues
-
-    return Container(
-      color: Colors.blue,
-      child: Center(
-        child: Text('Inspect this widget'),
-      ),
-    );
+    return const Placeholder();
   }
 }
 
@@ -100,8 +92,10 @@ class PerformanceDebugger {
 /// Check for common memory leaks
 class MemoryDebugger {
   static void checkMemoryLeaks() {
-    final info = ProcessInfo.currentRss;
-    debugPrint('📊 Current memory usage: ${info}KB');
+    final info = kDebugMode ? ProcessInfo.currentRss : 0;
+    if (kDebugMode) {
+      debugPrint('📊 Current memory usage: ${info}KB');
+    }
 
     // Monitor memory over time
     // Look for continuous growth (memory leak)
@@ -117,8 +111,8 @@ class DebuggingWorkflow {
    * - Note expected vs actual behavior
    */
   void reproduceBug() {
-    print('Reproducing bug: Add item doesn\'t show in list');
-    print('Steps: 1. Open app, 2. Add item, 3. Item missing');
+    // print('Reproducing bug: Add item doesn\'t show in list');
+    // print('Steps: 1. Open app, 2. Add item, 3. Item missing');
   }
 
   /*
@@ -129,10 +123,10 @@ class DebuggingWorkflow {
    */
   void isolateProblem() {
     // Example: Trace through add flow
-    DebugPrinter.log('Step 1: User tapped add button');
-    DebugPrinter.log('Step 2: onPressed called');
-    DebugPrinter.log('Step 3: addItem method entered');
-    DebugPrinter.log('Step 4: Repository.create called');
+    // DebugPrinter.log('Step 1: User tapped add button');
+    // DebugPrinter.log('Step 2: onPressed called');
+    // DebugPrinter.log('Step 3: addItem method entered');
+    // DebugPrinter.log('Step 4: Repository.create called');
     // ... continue tracing
   }
 
@@ -142,7 +136,7 @@ class DebuggingWorkflow {
    * - Example: "Widget not rebuilding because update() not called"
    */
   void formHypothesis() {
-    print('Hypothesis: Widget not rebuilding because controller.update() not called');
+    // print('Hypothesis: Widget not rebuilding because controller.update() not called');
   }
 
   /*

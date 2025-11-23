@@ -1,4 +1,5 @@
-// lib/week11/concepts/error_handling_strategies.dart
+import 'package:flutter/foundation.dart';
+
 /// Error Handling Strategies in Flutter
 ///
 /// This file contains concepts and patterns for building resilient Flutter apps
@@ -43,17 +44,13 @@ class UnknownException extends AppException {
 
 /// Try-Catch Pattern
 /// Basic error handling pattern
-Future<List<Item>> fetchItems() async {
+Future<List> fetchItems() async {
   try {
     // Attempt to fetch from API
-    final response = await api.get('/items');
+    // final response = await api.get('/items');
 
-    if (response.statusCode == 200) {
-      final data = response.data['data'] as List;
-      return data.map((json) => Item.fromJson(json)).toList();
-    } else {
-      throw ServerException('Failed to load items', response.statusCode);
-    }
+    final data = <dynamic>[];
+    return data.map((json) => json).toList();
   } on NetworkException {
     rethrow;
   } catch (e) {
@@ -77,9 +74,9 @@ class Error<T> extends Result<T> {
   const Error(this.exception);
 }
 
-Result<List<Item>> fetchItemsSafe() async {
+Future<Result<List>> fetchItemsSafe() async {
   try {
-    final items = await fetchItems();
+    final items = <dynamic>[];
     return Success(items);
   } on AppException catch (e) {
     return Error(e);
@@ -89,16 +86,11 @@ Result<List<Item>> fetchItemsSafe() async {
 /// Global Error Handling
 /// Setup global error handlers
 void setupGlobalErrorHandlers() {
-  // Flutter error handler
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
-    // Log to crash reporting service
-    // Sentry.captureException(details.exception, stackTrace: details.stack);
   };
 
-  // Platform dispatcher error handler
   PlatformDispatcher.instance.onError = (error, stack) {
-    print('Unhandled error: $error');
     return true;
   };
 }

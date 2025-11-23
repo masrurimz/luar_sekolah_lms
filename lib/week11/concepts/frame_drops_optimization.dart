@@ -1,10 +1,10 @@
-// lib/week11/concepts/frame_drops_optimization.dart
+import 'dart:isolate';
+import 'dart:math';
+import 'package:flutter/foundation.dart';
+
 /// Frame Drops Prevention in Flutter
 ///
 /// Keeping your app smooth at 60 FPS
-
-import 'dart:math';
-import 'package:flutter/foundation.dart';
 
 /// Understanding Frame Drops
 /*

@@ -131,7 +131,7 @@ class MainPage extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.infinite_scroll, color: Colors.green),
+            leading: Icon(Icons.list, color: Colors.green),
             title: Text('Lazy Loading Demo'),
             onTap: () {
               Navigator.pop(context);

@@ -2,7 +2,7 @@
 import '../../domain/entities/item.dart';
 
 class ItemModel extends Item {
-  const ItemModel({
+  ItemModel({
     required super.id,
     required super.title,
     required super.description,
@@ -22,6 +22,7 @@ class ItemModel extends Item {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

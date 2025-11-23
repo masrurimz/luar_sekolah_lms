@@ -1,4 +1,3 @@
-// lib/week11/concepts/lazy_loading_optimization.dart
 /// Lazy Loading Optimization in Flutter
 ///
 /// Loading data efficiently for large datasets
@@ -8,12 +7,12 @@ import 'package:flutter/foundation.dart';
 /// The Problem: Loading All Data
 /// Bad example - loads everything at once
 class LoadAllBadExample {
-  List<Item> allItems = [];
+  List<dynamic> allItems = [];
   bool isLoading = true;
 
   Future<void> loadAllItems() async {
     // Load ALL 2000 items at once!
-    final items = await api.getAllItems();
+    final items = <dynamic>[];
     allItems = items; // This causes memory spike!
   }
 }
@@ -29,7 +28,7 @@ class LoadAllBadExample {
 /// The Solution: Lazy Loading
 /// Good example - load data progressively
 class LazyLoadingGoodExample {
-  List<Item> items = [];
+  List<dynamic> items = [];
   int currentPage = 0;
   final int pageSize = 20;
   bool isLoading = false;
@@ -41,7 +40,7 @@ class LazyLoadingGoodExample {
     isLoading = true;
 
     try {
-      final newItems = await api.getItems(currentPage, pageSize);
+      final newItems = <dynamic>[];
 
       if (newItems.length < pageSize) {
         hasMore = false; // Last page

@@ -39,11 +39,11 @@ class ItemController extends GetxController {
 
       final result = await getItemsUseCase(page: 0, limit: 20);
       items(result);
-    } on NetworkException catch (e) {
+    } on NetworkException catch (_) {
       error('No internet connection. Please check your network and try again.');
     } on ServerException catch (e) {
       error('Server error: ${e.message}. Please try again later.');
-    } catch (e) {
+    } catch (_) {
       error('An unexpected error occurred. Please try again.');
     } finally {
       isLoading(false);
@@ -59,9 +59,9 @@ class ItemController extends GetxController {
       items.insert(0, newItem); // Add to beginning of list
     } on ValidationException catch (e) {
       error(e.message);
-    } on NetworkException catch (e) {
+    } on NetworkException catch (_) {
       error('No internet connection. Item will be saved locally.');
-    } catch (e) {
+    } catch (_) {
       error('Failed to create item. Please try again.');
     } finally {
       isCreating(false);
@@ -75,7 +75,7 @@ class ItemController extends GetxController {
       if (index != -1) {
         items[index] = updatedItem; // Update local state immediately
       }
-    } catch (e) {
+    } catch (_) {
       error('Failed to update item. Please try again.');
     }
   }
@@ -84,9 +84,9 @@ class ItemController extends GetxController {
     try {
       await deleteItemUseCase(id);
       items.removeWhere((item) => item.id == id);
-    } on NetworkException catch (e) {
+    } on NetworkException catch (_) {
       error('Failed to delete item. Please try again.');
-    } catch (e) {
+    } catch (_) {
       error('An error occurred while deleting.');
     }
   }
