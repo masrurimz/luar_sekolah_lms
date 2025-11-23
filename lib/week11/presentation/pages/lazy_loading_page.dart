@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../../data/datasources/remote_datasource.dart';
 import '../../data/repositories/item_repository_impl.dart';
 import '../../data/pagination/pagination_controller.dart';
-import '../../domain/repositories/item_repository.dart';
 import '../../domain/usecases/get_items_usecase.dart';
 import '../../domain/entities/item.dart';
 import '../widgets/item_tile.dart';

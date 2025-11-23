@@ -1,4 +1,5 @@
 // lib/week11/concepts/debugging_techniques.dart
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -32,14 +33,8 @@ class DebugPrinter {
 void debuggingExample() {
   void addItem(String title) {
     DebugPrinter.log('addItem called with title: $title');
-
-    // final newItem = Item(title: title);
-    // DebugPrinter.logObject('Created item', newItem);
-
-    // items.add(newItem);
-    DebugPrinter.log('Added to list.');
-
-    // update();
+    // Final implementation would use actual Item class
+    // DebugPrinter.log('Added to list.');
     DebugPrinter.log('update() called');
   }
 }
@@ -94,6 +89,7 @@ class MemoryDebugger {
   static void checkMemoryLeaks() {
     final info = kDebugMode ? ProcessInfo.currentRss : 0;
     if (kDebugMode) {
+      // Use debugPrint instead for production-safe logging
       debugPrint('📊 Current memory usage: ${info}KB');
     }
 
