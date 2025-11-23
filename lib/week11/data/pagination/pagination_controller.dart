@@ -41,10 +41,9 @@ class PaginationController<T> extends ChangeNotifier {
       _items.addAll(newItems);
       _currentPage++;
 
-      print('📦 Loaded page $_currentPage, total items: ${_items.length}');
-    } catch (e) {
-      _error = e.toString();
-      print('❌ Error loading page: $_error');
+      if (kDebugMode) {
+        debugPrint('📦 Loaded page $_currentPage, total items: ${_items.length}');
+      }
     } finally {
       _isLoading = false;
       notifyListeners();

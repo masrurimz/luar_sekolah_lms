@@ -31,12 +31,7 @@ class DebugPrinter {
 
 /// Usage example:
 void debuggingExample() {
-  void addItem(String title) {
-    DebugPrinter.log('addItem called with title: $title');
-    // Final implementation would use actual Item class
-    // DebugPrinter.log('Added to list.');
-    DebugPrinter.log('update() called');
-  }
+  DebugPrinter.log('Debugging example initialized');
 }
 
 /// Breakpoint Debugging

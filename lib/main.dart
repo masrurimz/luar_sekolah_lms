@@ -72,6 +72,9 @@ import 'week9/routes/week9_routes.dart';
 // Week 10 imports
 import 'week10/routes/week10_routes.dart';
 
+// Week 11 imports
+import 'week11/routes/week11_routes.dart';
+
 final List<GetPage<dynamic>> _appPages = [
   GetPage(name: '/', page: () => const MainMenuScreen()),
 
@@ -171,6 +174,9 @@ final List<GetPage<dynamic>> _appPages = [
 
   // Week 10
   ...Week10Routes.pages,
+
+  // Week 11
+  ...Week11Routes.pages,
 ];
 
 // ==========================================
@@ -985,6 +991,42 @@ class MainMenuScreen extends StatelessWidget {
                   icon: Icons.phone_android,
                   color: Colors.red,
                   route: Week10Routes.notificationDemo,
+                ),
+
+                const SizedBox(height: 24),
+
+                // ==========================================
+                // WEEK 11 SECTION
+                // ==========================================
+                const Text(
+                  '🧪 Week 11: Unit Testing & Performance',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMenuCard(
+                  context: context,
+                  title: 'Testing & Optimization Demo',
+                  subtitle: 'Error handling, testing, lazy loading, performance',
+                  icon: Icons.test_tube,
+                  color: Colors.blue,
+                  route: Week11Routes.home,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Lazy Loading Demo',
+                  subtitle: 'Load 20 items at a time with pagination',
+                  icon: Icons.list,
+                  color: Colors.green,
+                  route: Week11Routes.lazyLoading,
+                ),
+                _buildMenuCard(
+                  context: context,
+                  title: 'Performance Demo',
+                  subtitle: 'Main thread vs isolates comparison',
+                  icon: Icons.speed,
+                  color: Colors.purple,
+                  route: Week11Routes.performanceDemo,
                 ),
 
                 // ==========================================

@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 
 import '../../data/datasources/remote_datasource.dart';
 import '../../data/repositories/item_repository_impl.dart';
-import '../../domain/repositories/item_repository.dart';
 import '../../domain/usecases/get_items_usecase.dart';
 import '../../domain/usecases/create_item_usecase.dart';
 import '../../domain/usecases/update_item_usecase.dart';
