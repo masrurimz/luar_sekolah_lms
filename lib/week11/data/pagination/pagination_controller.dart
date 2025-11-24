@@ -40,10 +40,9 @@ class PaginationController<T> extends ChangeNotifier {
 
       _items.addAll(newItems);
       _currentPage++;
-
-      if (kDebugMode) {
-        debugPrint('📦 Loaded page $_currentPage, total items: ${_items.length}');
-      }
+    } catch (e) {
+      _error = e.toString();
+      rethrow;
     } finally {
       _isLoading = false;
       notifyListeners();

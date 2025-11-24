@@ -1,7 +1,3 @@
-/// Lazy Loading Optimization in Flutter
-///
-/// Loading data efficiently for large datasets
-
 import 'package:flutter/foundation.dart';
 
 /// The Problem: Loading All Data

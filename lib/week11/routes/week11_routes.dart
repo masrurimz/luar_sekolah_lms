@@ -12,17 +12,17 @@ class Week11Routes {
   static List<GetPage<dynamic>> pages = [
     GetPage(
       name: home,
-      page: () => const MainPage(),
+      page: () => MainPage(),
       transition: Transition.fadeIn,
     ),
     GetPage(
       name: lazyLoading,
-      page: () => const LazyLoadingPage(),
+      page: () => LazyLoadingPage(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: performanceDemo,
-      page: () => const PerformanceDemoPage(),
+      page: () => PerformanceDemoPage(),
       transition: Transition.rightToLeftWithFade,
     ),
   ];

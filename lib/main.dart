@@ -1008,7 +1008,7 @@ class MainMenuScreen extends StatelessWidget {
                   context: context,
                   title: 'Testing & Optimization Demo',
                   subtitle: 'Error handling, testing, lazy loading, performance',
-                  icon: Icons.test_tube,
+                  icon: Icons.science,
                   color: Colors.blue,
                   route: Week11Routes.home,
                 ),

@@ -9,12 +9,12 @@ class ItemTile extends StatelessWidget {
   final VoidCallback? onDelete;
 
   const ItemTile({
-    Key? key,
+    super.key,
     required this.item,
     this.onTap,
     this.onToggle,
     this.onDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

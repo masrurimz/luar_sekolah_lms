@@ -27,10 +27,11 @@ class Item {
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
       id: json['id'].toString(),
-      title: json['title'] ?? json['name'] ?? '',
+      title: json['title'] ?? json['name'] ?? json['text'] ?? '',
       description: json['description'] ?? json['body'] ?? '',
       completed: json['completed'] ?? false,
-      createdAt: DateTime.tryParse(json['createdAt']) ??
+      createdAt:
+          DateTime.tryParse(json['createdAt']) ??
           DateTime.tryParse(json['created_at']) ??
           DateTime.parse('2023-01-01T00:00:00Z'),
     );
