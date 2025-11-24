@@ -20,6 +20,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
   bool isProcessing = false;
   String processTime = '';
   String currentMethod = '';
+  int counter = 0; // Simple counter to demonstrate UI freezing
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -79,6 +80,49 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                 Text(
                   'Processing 100 items with CPU-intensive calculations',
                   style: TextStyle(fontSize: 14, color: Colors.purple[600]),
+                ),
+                SizedBox(height: 8),
+                // Simple counter to demonstrate UI freezing
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[50],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.blue[300]!),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Counter: $counter',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[800],
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      IconButton(
+                        icon: Icon(Icons.remove, color: Colors.blue[800]),
+                        onPressed: isProcessing ? null : () => setState(() => counter--),
+                        tooltip: 'Decrement counter',
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add, color: Colors.blue[800]),
+                        onPressed: isProcessing ? null : () => setState(() => counter++),
+                        tooltip: 'Increment counter',
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Try using the counter buttons during processing to see UI unresponsiveness',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.blue[600],
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
                 if (processTime.isNotEmpty) ...[
                   SizedBox(height: 8),
@@ -423,6 +467,20 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
             SizedBox(height: 4),
             Text(
               '• Look for red bars in DevTools indicating frame drops (>16ms per frame)',
+              style: TextStyle(fontSize: 12),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Interactive Counter:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '• Try incrementing/decrementing the counter during processing',
+              style: TextStyle(fontSize: 12),
+            ),
+            Text(
+              '• The counter buttons will be disabled during processing, demonstrating UI unresponsiveness',
               style: TextStyle(fontSize: 12),
             ),
           ],
