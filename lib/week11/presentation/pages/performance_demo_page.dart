@@ -28,12 +28,12 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 1000), // Faster animation for better visibility
       vsync: this,
     )..repeat();
     _animation = Tween<double>(
       begin: 0,
-      end: 360,
+      end: 1, // Changed from 360 to 1 for turns property
     ).animate(_animationController);
   }
 
@@ -141,40 +141,38 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                     ),
                   ),
                 ],
-                // Add animation indicator
-                if (isProcessing) ...[
-                  SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.orange[100],
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Row(
-                      children: [
-                        RotationTransition(
-                          turns: _animation,
-                          child: Icon(
-                            Icons.android,
-                            color: Colors.orange[800],
-                            size: 16,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            'UI Animation: Watch for freezing during Main Thread processing',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange[800],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                // Always show animation indicator to demonstrate UI responsiveness
+                SizedBox(height: 8),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.orange[100],
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                ],
+                  child: Row(
+                    children: [
+                      RotationTransition(
+                        turns: _animation,
+                        child: Icon(
+                          Icons.android,
+                          color: Colors.orange[800],
+                          size: 16,
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'UI Animation: Should always run smoothly (except during Main Thread processing)',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange[800],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -231,7 +229,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'Notice how the rotating icon freezes during processing',
+                          'Notice how the rotating icon freezes ONLY during Main Thread processing',
                           style: TextStyle(
                             fontSize: 11,
                             color: Colors.orange[700],
@@ -363,6 +361,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
     try {
       final results = await compute(_processDataInBackground, 100);
 
+      stopwatch.stop(); // Stop stopwatch before setState for consistency
       if (!context.mounted) return;
       setState(() {
         processedItems = results;
@@ -394,9 +393,10 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
 
     try {
       final receivePort = ReceivePort();
-      await Isolate.spawn(_processDataInIsolate, receivePort.sendPort);
+      await Isolate.spawn(_processDataInIsolate, [receivePort.sendPort, 100]);
 
       final results = await receivePort.first as List<String>;
+      receivePort.close(); // Close immediately after getting results
 
       stopwatch.stop();
       if (!context.mounted) return;
@@ -480,7 +480,11 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
               style: TextStyle(fontSize: 12),
             ),
             Text(
-              '• The counter buttons will be disabled during processing, demonstrating UI unresponsiveness',
+              '• The counter buttons will be disabled ONLY during Main Thread processing',
+              style: TextStyle(fontSize: 12),
+            ),
+            Text(
+              '• During compute() and Isolate processing, counter and animation remain responsive',
               style: TextStyle(fontSize: 12),
             ),
           ],
@@ -518,8 +522,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
 // Background processing function for compute()
 List<String> _processDataInBackground(int count) {
   List<String> results = [];
-  // Match the same count as main thread processing
-  for (int i = 1; i <= iterations; i++) {
+  // Process the specified count of items
+  for (int i = 1; i <= count; i++) {
     final result = cpuIntensiveTask(i);
     results.add(result);
   }
@@ -527,10 +531,13 @@ List<String> _processDataInBackground(int count) {
 }
 
 // Background processing function for isolate
-void _processDataInIsolate(SendPort sendPort) {
+void _processDataInIsolate(List<dynamic> args) {
+  SendPort sendPort = args[0];
+  int count = args[1];
+
   List<String> results = [];
-  // Match the same count as main thread processing
-  for (int i = 1; i <= iterations; i++) {
+  // Process the specified count of items
+  for (int i = 1; i <= count; i++) {
     final result = cpuIntensiveTask(i);
     results.add(result);
   }
