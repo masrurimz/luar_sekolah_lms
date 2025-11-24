@@ -1,11 +1,14 @@
 // lib/week11/presentation/pages/performance_demo_page.dart
 import 'dart:math';
 import 'dart:isolate';
+import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-const iterations = 6;
+import '../../utils/compute_utils.dart';
+
+const iterations = 1000; // High enough to demonstrate blocking
 
 class PerformanceDemoPage extends StatefulWidget {
   const PerformanceDemoPage({super.key});
@@ -21,25 +24,39 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
   String processTime = '';
   String currentMethod = '';
   int counter = 0; // Simple counter to demonstrate UI freezing
+  int timerCount = 0; // Timer to show UI responsiveness
   late AnimationController _animationController;
   late Animation<double> _animation;
+  late Timer _timer; // Timer for periodic updates
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1000), // Faster animation for better visibility
+      duration: const Duration(
+        milliseconds: 1000,
+      ), // Faster animation for better visibility
       vsync: this,
     )..repeat();
     _animation = Tween<double>(
       begin: 0,
       end: 1, // Changed from 360 to 1 for turns property
     ).animate(_animationController);
+
+    // Start timer to show UI responsiveness
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!isProcessing) { // Only update timer when not processing
+        setState(() {
+          timerCount++;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _timer.cancel(); // Cancel the timer
     super.dispose();
   }
 
@@ -104,13 +121,50 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                       SizedBox(width: 12),
                       IconButton(
                         icon: Icon(Icons.remove, color: Colors.blue[800]),
-                        onPressed: isProcessing ? null : () => setState(() => counter--),
+                        onPressed: isProcessing
+                            ? null
+                            : () => setState(() => counter--),
                         tooltip: 'Decrement counter',
                       ),
                       IconButton(
                         icon: Icon(Icons.add, color: Colors.blue[800]),
-                        onPressed: isProcessing ? null : () => setState(() => counter++),
+                        onPressed: isProcessing
+                            ? null
+                            : () => setState(() => counter++),
                         tooltip: 'Increment counter',
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 8),
+                // Timer to show UI responsiveness
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.green[50],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.green[300]!),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.timer, color: Colors.green[800], size: 16),
+                      SizedBox(width: 8),
+                      Text(
+                        'Timer: $timerCount seconds',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[800],
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        '(updates every second when UI is responsive)',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.green[600],
+                        ),
                       ),
                     ],
                   ),
@@ -122,6 +176,20 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                     fontSize: 12,
                     color: Colors.blue[600],
                     fontStyle: FontStyle.italic,
+                  ),
+                ),
+                Text(
+                  '• Main Thread: Counter/TIMER will FREEZE completely',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.red[700],
+                  ),
+                ),
+                Text(
+                  '• compute()/Isolate: Counter/TIMER remain responsive',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.green[700],
                   ),
                 ),
                 if (processTime.isNotEmpty) ...[
@@ -162,7 +230,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'UI Animation: Should always run smoothly (except during Main Thread processing)',
+                          'UI Animation: FREEZES during Main Thread processing, RUNS during compute()/Isolate',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -207,6 +275,30 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                 ),
               ],
             ),
+            SizedBox(height: 16),
+            Text(
+              'Click buttons below to test different processing methods:',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[700],
+              ),
+            ),
+            Text(
+              '• Main Thread: Blocks ALL UI (Animation, Counter, Timer, Navigation)',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.red[700],
+              ),
+            ),
+            Text(
+              '• compute()/Isolate: Keeps ALL UI responsive',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.green[700],
+              ),
+            ),
+            SizedBox(height: 8),
           ),
 
           // Results
@@ -229,7 +321,17 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'Notice how the rotating icon freezes ONLY during Main Thread processing',
+                          'Notice how the rotating icon freezes during Main Thread processing',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.orange[700],
+                            fontStyle: FontStyle.italic,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Counter and Timer also freeze during Main Thread processing',
                           style: TextStyle(
                             fontSize: 11,
                             color: Colors.orange[700],
@@ -322,21 +424,13 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
 
     final stopwatch = Stopwatch()..start();
 
-    // Heavy computation on main thread (BAD!)
-    // Reduce item count but keep computation intensive
+    // Heavy computation on main thread (BAD!) - Truly blocking without yields
+    // Process all items synchronously without any UI updates or delays
     for (int i = 1; i <= iterations; i++) {
-      final result = cpuIntensiveTask(i);
+      final result = _mainThreadIntensiveTask(i); // Use intensive task for main thread
       processedItems.add(result);
-
-      // Update UI more frequently to show progress and make freezing more apparent
-      if (i % 5 == 0) {
-        setState(() {}); // Update UI periodically
-      }
-
-      // Add small delay to make UI freezing more apparent
-      if (i % 25 == 0) {
-        await Future.delayed(Duration(milliseconds: 10));
-      }
+      // NO setState() calls during processing - this would yield to event loop
+      // NO Future.delayed() calls - this would yield to event loop
     }
 
     stopwatch.stop();
@@ -344,6 +438,69 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
       isProcessing = false;
       processTime = '${stopwatch.elapsedMilliseconds}ms (Main Thread)';
     });
+  }
+
+  /// Intensive CPU task specifically for main thread processing
+  /// This version is designed to truly block the UI to demonstrate the problem
+  String _mainThreadIntensiveTask(int value) {
+    // Create a very complex, non-optimizable computation
+    // Fibonacci-like recursive calculation with high recursion depth
+    double result = _expensiveRecursiveCalculation(
+      value % 25 + 15, // High recursion depth for main thread
+    );
+
+    // Add very complex mathematical operations with many iterations
+    for (int i = 0; i < 2000; i++) { // High iteration count
+      result = sqrt(result.abs()) * sin(result) + cos(result);
+      result = result * result * 0.001 + result * 0.1;
+      result = result + sqrt(result.abs() + 1.0);
+
+      // Matrix-like operations (simulated) with many iterations
+      for (int j = 0; j < 20; j++) { // High inner loop count
+        result = result * 1.001 + sqrt(result.abs()) * 0.01;
+        result = result / (result.abs() + 0.0001);
+
+        // Add more complex operations
+        result = result * sin(result) + cos(result) * 1.01;
+        result = result + sqrt(result.abs() + 2.0) * 0.5;
+
+        // Even more operations to increase intensity
+        result = result * result * 0.0001 + result * 0.01;
+        result = result + sqrt(result.abs() + 3.0) * 0.3;
+      }
+    }
+
+    return 'Processed Item $value: ${result.toStringAsFixed(2)}';
+  }
+
+  /// Very expensive recursive calculation for main thread processing
+  double _expensiveRecursiveCalculation(int n) {
+    if (n <= 1) return 1.0;
+
+    // Create branching recursive calls with high branching factor
+    double result = 0.0;
+    for (int i = 1; i <= 4; i++) { // High branching factor
+      if (n - i >= 0) {
+        result += _expensiveRecursiveCalculation(n - i) * (i * 0.1);
+      }
+    }
+
+    // Add many irrational number calculations
+    result += sqrt(2.0) * 3.14159 * 2.71828;
+    result = result * 1.61803; // Golden ratio
+    result += sqrt(3.0) * 2.71828 * 3.14159;
+    result = result * 2.71828; // Euler's number
+
+    // Add very complex operations with many iterations
+    for (int i = 0; i < 100; i++) { // High iteration count
+      result = sqrt(result.abs()) + sin(result) * cos(result);
+      result = result * 1.0001 + result / (result.abs() + 0.001);
+      result = result + sqrt(result.abs() + 1.5) * 0.3;
+      result = result * sin(result) + cos(result) * 0.7;
+      result = result + sqrt(result.abs() + 2.5) * 0.4;
+    }
+
+    return result;
   }
 
   void _processWithCompute() async {
@@ -359,7 +516,17 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
     final stopwatch = Stopwatch()..start();
 
     try {
-      final results = await compute(_processDataInBackground, 100);
+      // Add timeout protection to prevent indefinite waiting
+      final results = await compute(processDataInBackground, iterations)
+          .timeout(
+            Duration(seconds: 30),
+            onTimeout: () {
+              throw TimeoutException(
+                'Compute processing timed out',
+                Duration(seconds: 30),
+              );
+            },
+          );
 
       stopwatch.stop(); // Stop stopwatch before setState for consistency
       if (!context.mounted) return;
@@ -393,9 +560,24 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
 
     try {
       final receivePort = ReceivePort();
-      await Isolate.spawn(_processDataInIsolate, [receivePort.sendPort, 100]);
+      await Isolate.spawn(processDataInIsolate, [
+        receivePort.sendPort,
+        iterations,
+      ]);
 
-      final results = await receivePort.first as List<String>;
+      // Add timeout protection to prevent indefinite waiting
+      final results =
+          await receivePort.first.timeout(
+                Duration(seconds: 30),
+                onTimeout: () {
+                  receivePort.close();
+                  throw TimeoutException(
+                    'Isolate processing timed out',
+                    Duration(seconds: 30),
+                  );
+                },
+              )
+              as List<String>;
       receivePort.close(); // Close immediately after getting results
 
       stopwatch.stop();
@@ -405,8 +587,6 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
         isProcessing = false;
         processTime = '${stopwatch.elapsedMilliseconds}ms (Isolate)';
       });
-
-      receivePort.close();
     } catch (e) {
       if (!context.mounted) return;
       setState(() {
@@ -484,8 +664,12 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
               style: TextStyle(fontSize: 12),
             ),
             Text(
-              '• During compute() and Isolate processing, counter and animation remain responsive',
+              '• During compute() and Isolate processing, counter, timer, and animation remain responsive',
               style: TextStyle(fontSize: 12),
+            ),
+            Text(
+              '• Main Thread processing blocks ALL UI elements completely',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -517,99 +701,4 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
       ],
     );
   }
-}
-
-// Background processing function for compute()
-List<String> _processDataInBackground(int count) {
-  List<String> results = [];
-  // Process the specified count of items
-  for (int i = 1; i <= count; i++) {
-    final result = cpuIntensiveTask(i);
-    results.add(result);
-  }
-  return results;
-}
-
-// Background processing function for isolate
-void _processDataInIsolate(List<dynamic> args) {
-  SendPort sendPort = args[0];
-  int count = args[1];
-
-  List<String> results = [];
-  // Process the specified count of items
-  for (int i = 1; i <= count; i++) {
-    final result = cpuIntensiveTask(i);
-    results.add(result);
-  }
-  sendPort.send(results);
-}
-
-String cpuIntensiveTask(int value) {
-  // Create a more complex, non-optimizable computation
-  // Fibonacci-like recursive calculation that grows exponentially
-  double result = _expensiveRecursiveCalculation(
-    value % 25 + 15,
-  ); // Increase recursion depth
-
-  // Add more complex mathematical operations
-  for (int i = 0; i < 2000; i++) {
-    // Increase iterations
-    result = sqrt(result.abs()) * sin(result) + cos(result);
-    result = result * result * 0.001 + result * 0.1;
-    result = result + sqrt(result.abs() + 1.0);
-
-    // Matrix-like operations (simulated)
-    for (int j = 0; j < 20; j++) {
-      // Increase inner loop
-      result = result * 1.001 + sqrt(result.abs()) * 0.01;
-      result = result / (result.abs() + 0.0001);
-
-      // Add prime number checking simulation
-      if (j % 7 == 0) {
-        result = result + (_isPrime(j + 100) ? 1.61803 : 0.61803);
-      }
-    }
-  }
-
-  return 'Processed Item $value: ${result.toStringAsFixed(2)}';
-}
-
-// Expensive recursive calculation that can't be optimized
-double _expensiveRecursiveCalculation(int n) {
-  if (n <= 1) return 1.0;
-
-  // Create branching recursive calls that can't be optimized
-  double result = 0.0;
-  for (int i = 1; i <= 4; i++) {
-    // Increase branching
-    if (n - i >= 0) {
-      result += _expensiveRecursiveCalculation(n - i) * (i * 0.1);
-    }
-  }
-
-  // Add some irrational number calculations
-  result += sqrt(2.0) * 3.14159 * 2.71828;
-  result = result * 1.61803; // Golden ratio
-
-  // Add more complex operations
-  for (int i = 0; i < 100; i++) {
-    result = sqrt(result.abs()) + sin(result) * cos(result);
-    result = result * 1.0001 + result / (result.abs() + 0.001);
-  }
-
-  return result;
-}
-
-// Simulate prime number checking (expensive operation)
-bool _isPrime(int n) {
-  if (n <= 1) return false;
-  if (n <= 3) return true;
-  if (n % 2 == 0 || n % 3 == 0) return false;
-
-  for (int i = 5; i * i <= n; i += 6) {
-    if (n % i == 0 || n % (i + 2) == 0) {
-      return false;
-    }
-  }
-  return true;
 }
