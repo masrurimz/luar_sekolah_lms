@@ -13,14 +13,17 @@ class Week11Routes {
     GetPage(
       name: home,
       page: () => const MainPage(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: lazyLoading,
       page: () => const LazyLoadingPage(),
+      transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: performanceDemo,
       page: () => const PerformanceDemoPage(),
+      transition: Transition.rightToLeftWithFade,
     ),
   ];
 }
