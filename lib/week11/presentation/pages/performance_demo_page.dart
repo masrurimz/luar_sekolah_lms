@@ -5,6 +5,8 @@ import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+const iterations = 6;
+
 class PerformanceDemoPage extends StatefulWidget {
   const PerformanceDemoPage({super.key});
 
@@ -12,11 +14,33 @@ class PerformanceDemoPage extends StatefulWidget {
   State<PerformanceDemoPage> createState() => _PerformanceDemoPageState();
 }
 
-class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
+class _PerformanceDemoPageState extends State<PerformanceDemoPage>
+    with SingleTickerProviderStateMixin {
   List<String> processedItems = [];
   bool isProcessing = false;
   String processTime = '';
   String currentMethod = '';
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat();
+    _animation = Tween<double>(
+      begin: 0,
+      end: 360,
+    ).animate(_animationController);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +77,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Processing 10,000 items with CPU-intensive calculations',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.purple[600],
-                  ),
+                  'Processing 100 items with CPU-intensive calculations',
+                  style: TextStyle(fontSize: 14, color: Colors.purple[600]),
                 ),
                 if (processTime.isNotEmpty) ...[
                   SizedBox(height: 8),
@@ -73,6 +94,40 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
                         fontWeight: FontWeight.bold,
                         color: Colors.green[800],
                       ),
+                    ),
+                  ),
+                ],
+                // Add animation indicator
+                if (isProcessing) ...[
+                  SizedBox(height: 8),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.orange[100],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      children: [
+                        RotationTransition(
+                          turns: _animation,
+                          child: Icon(
+                            Icons.android,
+                            color: Colors.orange[800],
+                            size: 16,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'UI Animation: Watch for freezing during Main Thread processing',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange[800],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -121,60 +176,71 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
                       children: [
                         CircularProgressIndicator(),
                         SizedBox(height: 16),
-                        Text('Processing 10,000 items...'),
+                        Text('Processing 100 items...'),
                         Text(
-                          'This may take a while',
+                          'This may take a while - Watch the animation above!',
                           style: TextStyle(
                             fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Notice how the rotating icon freezes during processing',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.orange[700],
+                            fontStyle: FontStyle.italic,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : processedItems.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.play_circle_outline,
+                          size: 80,
+                          color: Colors.grey[400],
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          'Click a button above to start processing',
+                          style: TextStyle(
+                            fontSize: 16,
                             color: Colors.grey[600],
                           ),
                         ),
                       ],
                     ),
                   )
-                : processedItems.isEmpty
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.play_circle_outline,
-                              size: 80,
-                              color: Colors.grey[400],
-                            ),
-                            SizedBox(height: 16),
-                            Text(
-                              'Click a button above to start processing',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
+                : ListView.builder(
+                    itemCount: processedItems.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 2,
                         ),
-                      )
-                    : ListView.builder(
-                        itemCount: processedItems.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 2,
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                processedItems[index],
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              leading: Icon(
-                                Icons.check_circle,
-                                color: Colors.green,
-                                size: 16,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                        child: ListTile(
+                          title: Text(
+                            processedItems[index],
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          leading: Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                            size: 16,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
@@ -215,12 +281,19 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
     final stopwatch = Stopwatch()..start();
 
     // Heavy computation on main thread (BAD!)
-    for (int i = 1; i <= 10000; i++) {
+    // Reduce item count but keep computation intensive
+    for (int i = 1; i <= iterations; i++) {
       final result = cpuIntensiveTask(i);
       processedItems.add(result);
 
-      if (i % 100 == 0) {
+      // Update UI more frequently to show progress and make freezing more apparent
+      if (i % 5 == 0) {
         setState(() {}); // Update UI periodically
+      }
+
+      // Add small delay to make UI freezing more apparent
+      if (i % 25 == 0) {
+        await Future.delayed(Duration(milliseconds: 10));
       }
     }
 
@@ -244,7 +317,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
     final stopwatch = Stopwatch()..start();
 
     try {
-      final results = await compute(_processDataInBackground, 10000);
+      final results = await compute(_processDataInBackground, 100);
 
       if (!context.mounted) return;
       setState(() {
@@ -257,9 +330,9 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
       setState(() {
         isProcessing = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
     }
   }
 
@@ -277,10 +350,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
 
     try {
       final receivePort = ReceivePort();
-      await Isolate.spawn(
-        _processDataInIsolate,
-        receivePort.sendPort,
-      );
+      await Isolate.spawn(_processDataInIsolate, receivePort.sendPort);
 
       final results = await receivePort.first as List<String>;
 
@@ -298,21 +368,10 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
       setState(() {
         isProcessing = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
     }
-  }
-
-  String cpuIntensiveTask(int value) {
-    double result = value.toDouble();
-    for (int i = 0; i < 100; i++) {
-      result = sqrt(result);
-      result = result * result;
-      result = result + 1;
-      result = result - 1;
-    }
-    return 'Processed Item $value: ${result.toStringAsFixed(2)}';
   }
 
   void _showInfoDialog() {
@@ -346,6 +405,26 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
               'Full control over isolates',
               Colors.blue,
             ),
+            SizedBox(height: 16),
+            Text(
+              'How to Observe Performance:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '• Watch the rotating icon - it will freeze during Main Thread processing',
+              style: TextStyle(fontSize: 12),
+            ),
+            SizedBox(height: 4),
+            Text(
+              '• Use Flutter DevTools to monitor FPS:\n  1. Run: flutter pub run devtools\n  2. Open: http://127.0.0.1:9100\n  3. Connect to your app\n  4. Go to Performance tab\n  5. Click "Record" and run the demo',
+              style: TextStyle(fontSize: 12),
+            ),
+            SizedBox(height: 4),
+            Text(
+              '• Look for red bars in DevTools indicating frame drops (>16ms per frame)',
+              style: TextStyle(fontSize: 12),
+            ),
           ],
         ),
         actions: [
@@ -368,14 +447,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                method,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                description,
-                style: TextStyle(fontSize: 12),
-              ),
+              Text(method, style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(description, style: TextStyle(fontSize: 12)),
             ],
           ),
         ),
@@ -387,7 +460,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
 // Background processing function for compute()
 List<String> _processDataInBackground(int count) {
   List<String> results = [];
-  for (int i = 1; i <= count; i++) {
+  // Match the same count as main thread processing
+  for (int i = 1; i <= iterations; i++) {
     final result = cpuIntensiveTask(i);
     results.add(result);
   }
@@ -397,7 +471,8 @@ List<String> _processDataInBackground(int count) {
 // Background processing function for isolate
 void _processDataInIsolate(SendPort sendPort) {
   List<String> results = [];
-  for (int i = 1; i <= 10000; i++) {
+  // Match the same count as main thread processing
+  for (int i = 1; i <= iterations; i++) {
     final result = cpuIntensiveTask(i);
     results.add(result);
   }
@@ -405,12 +480,71 @@ void _processDataInIsolate(SendPort sendPort) {
 }
 
 String cpuIntensiveTask(int value) {
-  double result = value.toDouble();
-  for (int i = 0; i < 100; i++) {
-    result = sqrt(result);
-    result = result * result;
-    result = result + 1;
-    result = result - 1;
+  // Create a more complex, non-optimizable computation
+  // Fibonacci-like recursive calculation that grows exponentially
+  double result = _expensiveRecursiveCalculation(
+    value % 25 + 15,
+  ); // Increase recursion depth
+
+  // Add more complex mathematical operations
+  for (int i = 0; i < 2000; i++) {
+    // Increase iterations
+    result = sqrt(result.abs()) * sin(result) + cos(result);
+    result = result * result * 0.001 + result * 0.1;
+    result = result + sqrt(result.abs() + 1.0);
+
+    // Matrix-like operations (simulated)
+    for (int j = 0; j < 20; j++) {
+      // Increase inner loop
+      result = result * 1.001 + sqrt(result.abs()) * 0.01;
+      result = result / (result.abs() + 0.0001);
+
+      // Add prime number checking simulation
+      if (j % 7 == 0) {
+        result = result + (_isPrime(j + 100) ? 1.61803 : 0.61803);
+      }
+    }
   }
+
   return 'Processed Item $value: ${result.toStringAsFixed(2)}';
+}
+
+// Expensive recursive calculation that can't be optimized
+double _expensiveRecursiveCalculation(int n) {
+  if (n <= 1) return 1.0;
+
+  // Create branching recursive calls that can't be optimized
+  double result = 0.0;
+  for (int i = 1; i <= 4; i++) {
+    // Increase branching
+    if (n - i >= 0) {
+      result += _expensiveRecursiveCalculation(n - i) * (i * 0.1);
+    }
+  }
+
+  // Add some irrational number calculations
+  result += sqrt(2.0) * 3.14159 * 2.71828;
+  result = result * 1.61803; // Golden ratio
+
+  // Add more complex operations
+  for (int i = 0; i < 100; i++) {
+    result = sqrt(result.abs()) + sin(result) * cos(result);
+    result = result * 1.0001 + result / (result.abs() + 0.001);
+  }
+
+  return result;
+}
+
+// Simulate prime number checking (expensive operation)
+bool _isPrime(int n) {
+  if (n <= 1) return false;
+  if (n <= 3) return true;
+  if (n % 2 == 0 || n % 3 == 0) return false;
+
+  for (int i = 5; i * i <= n; i += 6) {
+    if (n % i == 0 || n % (i + 2) == 0) {
+      return false;
+    }
+  }
+  return true;
 }
