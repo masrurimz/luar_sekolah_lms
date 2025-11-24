@@ -1,6 +1,7 @@
 // lib/week11/presentation/pages/lazy_loading_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart';
 
 import '../../data/datasources/remote_datasource.dart';
 import '../../data/repositories/item_repository_impl.dart';
@@ -10,8 +11,10 @@ import '../../domain/entities/item.dart';
 import '../widgets/item_tile.dart';
 
 class LazyLoadingPage extends StatefulWidget {
+  const LazyLoadingPage({super.key});
+
   @override
-  _LazyLoadingPageState createState() => _LazyLoadingPageState();
+  State<LazyLoadingPage> createState() => _LazyLoadingPageState();
 }
 
 class _LazyLoadingPageState extends State<LazyLoadingPage> {
@@ -23,8 +26,7 @@ class _LazyLoadingPageState extends State<LazyLoadingPage> {
     super.initState();
 
     // Initialize dependencies
-    final dio = Get.find();
-    final remoteDataSource = RemoteDataSourceImpl(dio);
+    final remoteDataSource = RemoteDataSourceImpl(null);
     final repository = ItemRepositoryImpl(remoteDataSource);
     final getItemsUseCase = GetItemsUseCase(repository);
 

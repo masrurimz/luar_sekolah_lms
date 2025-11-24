@@ -16,11 +16,12 @@ import 'lazy_loading_page.dart';
 import 'performance_demo_page.dart';
 
 class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Initialize dependencies
-    final dio = Dio();
-    final remoteDataSource = RemoteDataSourceImpl(dio);
+    final remoteDataSource = RemoteDataSourceImpl(null);
     final repository = ItemRepositoryImpl(remoteDataSource);
     final getItemsUseCase = GetItemsUseCase(repository);
     final createItemUseCase = CreateItemUseCase(repository);
@@ -81,10 +82,10 @@ class MainPage extends StatelessWidget {
         );
       }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showCreateItemDialog(context, controller),
-        child: Icon(Icons.add),
         backgroundColor: Colors.blue[600],
         foregroundColor: Colors.white,
+        onPressed: () => _showCreateItemDialog(context, controller),
+        child: Icon(Icons.add),
       ),
     );
   }
