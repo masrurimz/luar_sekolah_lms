@@ -4,13 +4,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:luar_sekolah_lms/lib/week11/data/datasources/remote_datasource.dart';
-import 'package:luar_sekolah_lms/lib/week11/data/repositories/item_repository_impl.dart';
-import 'package:luar_sekolah_lms/lib/week11/domain/entities/item.dart';
-import 'package:luar_sekolah_lms/lib/week11/domain/repositories/item_repository.dart';
-import 'package:luar_sekolah_lms/lib/week11/domain/usecases/get_items_usecase.dart';
-import 'package:luar_sekolah_lms/lib/week11/presentation/pages/main_page.dart';
-import 'package:luar_sekolah_lms/lib/week11/presentation/controllers/item_controller.dart';
+import 'package:luar_sekolah_lms/week11/data/datasources/remote_datasource.dart';
+import 'package:luar_sekolah_lms/week11/data/repositories/item_repository_impl.dart';
+import 'package:luar_sekolah_lms/week11/domain/entities/item.dart';
+import 'package:luar_sekolah_lms/week11/domain/usecases/get_items_usecase.dart';
+import 'package:luar_sekolah_lms/week11/domain/usecases/create_item_usecase.dart';
+import 'package:luar_sekolah_lms/week11/domain/usecases/update_item_usecase.dart';
+import 'package:luar_sekolah_lms/week11/domain/usecases/delete_item_usecase.dart';
+import 'package:luar_sekolah_lms/week11/presentation/controllers/item_controller.dart';
+import 'dart:async';
 
 @GenerateMocks([RemoteDataSource])
 import 'complete_workflow_test.mocks.dart';
@@ -75,7 +77,11 @@ void main() {
         ),
       );
 
-      await tester.pump();
+      // Manually trigger loading of items
+      controller.loadItems();
+
+      // Wait for the controller to load items
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.text('Item 1'), findsOneWidget);
