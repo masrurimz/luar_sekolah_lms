@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/compute_utils.dart';
 
-const iterations = 1000; // High enough to demonstrate blocking
+const iterations = 6; // High enough to demonstrate blocking
 
 class PerformanceDemoPage extends StatefulWidget {
   const PerformanceDemoPage({super.key});
@@ -45,7 +45,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
 
     // Start timer to show UI responsiveness
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (!isProcessing) { // Only update timer when not processing
+      if (!isProcessing) {
+        // Only update timer when not processing
         setState(() {
           timerCount++;
         });
@@ -121,16 +122,12 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                       SizedBox(width: 12),
                       IconButton(
                         icon: Icon(Icons.remove, color: Colors.blue[800]),
-                        onPressed: isProcessing
-                            ? null
-                            : () => setState(() => counter--),
+                        onPressed: () => setState(() => counter--),
                         tooltip: 'Decrement counter',
                       ),
                       IconButton(
                         icon: Icon(Icons.add, color: Colors.blue[800]),
-                        onPressed: isProcessing
-                            ? null
-                            : () => setState(() => counter++),
+                        onPressed: () => setState(() => counter++),
                         tooltip: 'Increment counter',
                       ),
                     ],
@@ -159,11 +156,13 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                         ),
                       ),
                       SizedBox(width: 8),
-                      Text(
-                        '(updates every second when UI is responsive)',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.green[600],
+                      Expanded(
+                        child: Text(
+                          '(updates every second when UI is responsive)',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.green[600],
+                          ),
                         ),
                       ),
                     ],
@@ -180,17 +179,11 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                 ),
                 Text(
                   '• Main Thread: Counter/TIMER will FREEZE completely',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.red[700],
-                  ),
+                  style: TextStyle(fontSize: 11, color: Colors.red[700]),
                 ),
                 Text(
                   '• compute()/Isolate: Counter/TIMER remain responsive',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.green[700],
-                  ),
+                  style: TextStyle(fontSize: 11, color: Colors.green[700]),
                 ),
                 if (processTime.isNotEmpty) ...[
                   SizedBox(height: 8),
@@ -275,31 +268,25 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
                 ),
               ],
             ),
-            SizedBox(height: 16),
-            Text(
-              'Click buttons below to test different processing methods:',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[700],
-              ),
-            ),
-            Text(
-              '• Main Thread: Blocks ALL UI (Animation, Counter, Timer, Navigation)',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.red[700],
-              ),
-            ),
-            Text(
-              '• compute()/Isolate: Keeps ALL UI responsive',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.green[700],
-              ),
-            ),
-            SizedBox(height: 8),
           ),
+          SizedBox(height: 16),
+          Text(
+            'Click buttons below to test different processing methods:',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[700],
+            ),
+          ),
+          Text(
+            '• Main Thread: Blocks ALL UI (Animation, Counter, Timer, Navigation)',
+            style: TextStyle(fontSize: 12, color: Colors.red[700]),
+          ),
+          Text(
+            '• compute()/Isolate: Keeps ALL UI responsive',
+            style: TextStyle(fontSize: 12, color: Colors.green[700]),
+          ),
+          SizedBox(height: 8),
 
           // Results
           Expanded(
@@ -427,7 +414,9 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
     // Heavy computation on main thread (BAD!) - Truly blocking without yields
     // Process all items synchronously without any UI updates or delays
     for (int i = 1; i <= iterations; i++) {
-      final result = _mainThreadIntensiveTask(i); // Use intensive task for main thread
+      final result = _mainThreadIntensiveTask(
+        i,
+      ); // Use intensive task for main thread
       processedItems.add(result);
       // NO setState() calls during processing - this would yield to event loop
       // NO Future.delayed() calls - this would yield to event loop
@@ -450,13 +439,15 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
     );
 
     // Add very complex mathematical operations with many iterations
-    for (int i = 0; i < 2000; i++) { // High iteration count
+    for (int i = 0; i < 2000; i++) {
+      // High iteration count
       result = sqrt(result.abs()) * sin(result) + cos(result);
       result = result * result * 0.001 + result * 0.1;
       result = result + sqrt(result.abs() + 1.0);
 
       // Matrix-like operations (simulated) with many iterations
-      for (int j = 0; j < 20; j++) { // High inner loop count
+      for (int j = 0; j < 20; j++) {
+        // High inner loop count
         result = result * 1.001 + sqrt(result.abs()) * 0.01;
         result = result / (result.abs() + 0.0001);
 
@@ -479,7 +470,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
 
     // Create branching recursive calls with high branching factor
     double result = 0.0;
-    for (int i = 1; i <= 4; i++) { // High branching factor
+    for (int i = 1; i <= 4; i++) {
+      // High branching factor
       if (n - i >= 0) {
         result += _expensiveRecursiveCalculation(n - i) * (i * 0.1);
       }
@@ -492,7 +484,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
     result = result * 2.71828; // Euler's number
 
     // Add very complex operations with many iterations
-    for (int i = 0; i < 100; i++) { // High iteration count
+    for (int i = 0; i < 100; i++) {
+      // High iteration count
       result = sqrt(result.abs()) + sin(result) * cos(result);
       result = result * 1.0001 + result / (result.abs() + 0.001);
       result = result + sqrt(result.abs() + 1.5) * 0.3;
@@ -517,7 +510,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
 
     try {
       // Add timeout protection to prevent indefinite waiting
-      final results = await compute(processDataInBackground, iterations)
+      final results = await compute(processDataInBackground, iterations * 1000)
           .timeout(
             Duration(seconds: 30),
             onTimeout: () {
@@ -562,7 +555,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage>
       final receivePort = ReceivePort();
       await Isolate.spawn(processDataInIsolate, [
         receivePort.sendPort,
-        iterations,
+        iterations * 1000,
       ]);
 
       // Add timeout protection to prevent indefinite waiting
