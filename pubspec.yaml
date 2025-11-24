@@ -73,6 +73,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
+  # Mockito for creating mock objects in tests
+  mockito: ^5.6.1
+  build_runner: ^2.10.4
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
