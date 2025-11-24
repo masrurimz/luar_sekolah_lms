@@ -12,9 +12,21 @@ abstract class RemoteDataSource {
 
 class RemoteDataSourceImpl implements RemoteDataSource {
   final Dio dio;
-  static const String baseUrl = 'https://ls-lms.zoidify.my.id/api/todos';
+  static const String baseUrl = 'https://ls-lms.zoidify.my.id/api';
 
-  RemoteDataSourceImpl(this.dio);
+  RemoteDataSourceImpl(Dio? client)
+    : dio = client ??
+          Dio(
+            BaseOptions(
+              baseUrl: baseUrl,
+              connectTimeout: const Duration(seconds: 10),
+              receiveTimeout: const Duration(seconds: 10),
+              headers: const {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept': 'application/json',
+              },
+            ),
+          );
 
   @override
   Future<List<Item>> getItems({int page = 0, int limit = 20}) async {
@@ -25,8 +37,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        final List data = response.data['data'] ?? response.data;
-        return data.map((json) => Item.fromJson(json)).toList();
+        final data = response.data;
+        if (data == null || data['todos'] is! List<dynamic>) {
+          throw ServerException('Invalid response format when fetching items');
+        }
+        final items = (data['todos'] as List<dynamic>)
+            .whereType<Map<String, dynamic>>()
+            .map((json) => Item.fromJson(json))
+            .toList();
+        return items;
       } else {
         throw ServerException('Failed to load items', response.statusCode);
       }
@@ -60,8 +79,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       );
 
       if (response.statusCode == 201) {
-        final data = response.data['data'] ?? response.data;
-        return Item.fromJson(data);
+        final data = response.data;
+        if (data == null) {
+          throw ServerException('Empty response when creating item');
+        }
+        // Handle both direct object and wrapped object responses
+        final itemData = data is Map<String, dynamic> ? data : response.data;
+        return Item.fromJson(itemData);
       } else {
         throw ServerException('Failed to create item', response.statusCode);
       }
@@ -92,8 +116,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        final data = response.data['data'] ?? response.data;
-        return Item.fromJson(data);
+        final data = response.data;
+        if (data == null) {
+          throw ServerException('Empty response when updating item');
+        }
+        // Handle both direct object and wrapped object responses
+        final itemData = data is Map<String, dynamic> ? data : response.data;
+        return Item.fromJson(itemData);
       } else {
         throw ServerException('Failed to update item', response.statusCode);
       }
