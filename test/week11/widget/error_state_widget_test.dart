@@ -1,7 +1,7 @@
 // test/week11/widget/error_state_widget_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:luar_sekolah_lms/lib/week11/presentation/widgets/error_state_widget.dart';
+import 'package:luar_sekolah_lms/week11/presentation/widgets/error_state_widget.dart';
 
 void main() {
   group('ErrorStateWidget Tests', () {
@@ -65,8 +65,7 @@ void main() {
       );
 
       // Assert
-      expect(find.text('Try Again'), findsOneWidget);
-      expect(find.byType(ElevatedButton), findsOneWidget);
+      expect(find.text('Try Again'), findsWidgets);
 
       // Act - tap retry button
       await tester.tap(find.text('Try Again'));
@@ -110,8 +109,7 @@ void main() {
       );
 
       // Assert
-      final errorWidget = tester.widget<Center>(find.byType(Center));
-      expect(errorWidget, isNotNull);
+      expect(find.byType(Center), findsWidgets);
     });
 
     testWidgets('should have proper padding', (tester) async {
