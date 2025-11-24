@@ -6,8 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class PerformanceDemoPage extends StatefulWidget {
+  const PerformanceDemoPage({super.key});
+
   @override
-  _PerformanceDemoPageState createState() => _PerformanceDemoPageState();
+  State<PerformanceDemoPage> createState() => _PerformanceDemoPageState();
 }
 
 class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
@@ -230,6 +232,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
   }
 
   void _processWithCompute() async {
+    final BuildContext context = this.context;
+
     setState(() {
       isProcessing = true;
       processedItems.clear();
@@ -242,12 +246,14 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
     try {
       final results = await compute(_processDataInBackground, 10000);
 
+      if (!context.mounted) return;
       setState(() {
         processedItems = results;
         isProcessing = false;
         processTime = '${stopwatch.elapsedMilliseconds}ms (compute)';
       });
     } catch (e) {
+      if (!context.mounted) return;
       setState(() {
         isProcessing = false;
       });
@@ -258,6 +264,8 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
   }
 
   void _processWithIsolate() async {
+    final BuildContext context = this.context;
+
     setState(() {
       isProcessing = true;
       processedItems.clear();
@@ -277,6 +285,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
       final results = await receivePort.first as List<String>;
 
       stopwatch.stop();
+      if (!context.mounted) return;
       setState(() {
         processedItems = results;
         isProcessing = false;
@@ -285,6 +294,7 @@ class _PerformanceDemoPageState extends State<PerformanceDemoPage> {
 
       receivePort.close();
     } catch (e) {
+      if (!context.mounted) return;
       setState(() {
         isProcessing = false;
       });
